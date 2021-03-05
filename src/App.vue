@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ darkmode: darkmode }">
     <header>
       <main-header />
       <nav>
@@ -8,6 +8,12 @@
     </header>
 
     <article>
+      <font-awesome-icon
+        icon="lightbulb"
+        class="dm-button"
+        size="2x"
+        @click="darkmode = !darkmode"
+      />
       <router-view />
     </article>
 
@@ -27,6 +33,11 @@ export default {
     MainHeader,
     MainMenu,
     MainFooter
+  },
+  data() {
+    return {
+      darkmode: true
+    }
   }
 }
 </script>
@@ -88,9 +99,30 @@ footer {
   grid-area: footer;
 }
 
+a {
+  color: var(--primary);
+}
+
 @media only screen and (max-width: 480px) {
   #app {
     grid-template-rows: 30vh 1fr 15vh;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .darkmode {
+    --dark: #ffffff;
+    --light: #2c3e50;
+  }
+}
+
+.darkmode {
+  --dark: #ffffff;
+  --light: #2c3e50;
+}
+
+.dm-button {
+  float: right;
+  opacity: 0.9;
 }
 </style>
