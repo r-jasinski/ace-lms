@@ -97,7 +97,7 @@ export default {
 }
 
 .cn-button:hover {
-  box-shadow: #81bfe2 0px 0px 0px 10px;
+  box-shadow: var(--primary) 0px 0px 0px 10px;
 }
 .component .cn-wrapper {
   position: absolute;
@@ -182,7 +182,7 @@ export default {
   width: 14.5em;
   height: 14.5em;
   border-radius: 50%;
-  background: #81bfe2;
+  background: var(--primary);
   background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
   background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
   background: radial-gradient(transparent 35%, var(--primary) 35%);
@@ -215,9 +215,9 @@ export default {
 .component .cn-wrapper li a:hover,
 .component .cn-wrapper li a:active,
 .component .cn-wrapper li a:focus {
-  background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
-  background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
-  background: radial-gradient(transparent 35%, var(--primary) 35%);
+  background: -webkit-radial-gradient(transparent 35%, var(--primary-plus) 35%);
+  background: -moz-radial-gradient(transparent 35%, var(--primary-plus) 35%);
+  background: radial-gradient(transparent 35%, var(--primary-plus) 35%);
 }
 .component .cn-wrapper li a:focus {
   position: fixed;

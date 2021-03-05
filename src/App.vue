@@ -47,6 +47,7 @@ export default {
 
 :root {
   --primary: #81bfe2;
+  --primary-plus: #3c83ac;
   --secondary: #aaa70f;
   --dark: #2c3e50;
   --light: #ffffff;
