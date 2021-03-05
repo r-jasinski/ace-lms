@@ -45,6 +45,12 @@ export default {
     menuHandler() {
       this.opened = !this.opened
     }
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.opened = true
+    }, 100)
   }
 }
 </script>
@@ -60,9 +66,10 @@ export default {
 }
 
 .component {
-  position: relative;
-  top: -150px;
+  position: absolute;
   height: 15em;
+  top: 30%;
+  left: 50%;
 }
 
 .cn-button {
@@ -176,9 +183,9 @@ export default {
   height: 14.5em;
   border-radius: 50%;
   background: #81bfe2;
-  background: -webkit-radial-gradient(transparent 35%, #81bfe2 35%);
-  background: -moz-radial-gradient(transparent 35%, #81bfe2 35%);
-  background: radial-gradient(transparent 35%, #81bfe2 35%);
+  background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
+  background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
+  background: radial-gradient(transparent 35%, var(--primary) 35%);
   color: #fff;
   text-align: center;
   text-decoration: none;
@@ -208,9 +215,9 @@ export default {
 .component .cn-wrapper li a:hover,
 .component .cn-wrapper li a:active,
 .component .cn-wrapper li a:focus {
-  background: -webkit-radial-gradient(transparent 35%, #4a8db4 35%);
-  background: -moz-radial-gradient(transparent 35%, #4a8db4 35%);
-  background: radial-gradient(transparent 35%, #4a8db4 35%);
+  background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
+  background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
+  background: radial-gradient(transparent 35%, var(--primary) 35%);
 }
 .component .cn-wrapper li a:focus {
   position: fixed;
@@ -269,14 +276,6 @@ export default {
   -moz-transform: rotate(172deg) skew(60deg);
   -ms-transform: rotate(172deg) skew(60deg);
   transform: rotate(172deg) skew(60deg);
-}
-
-@media only screen and (max-width: 620px) {
-  li {
-    width: 4em;
-    height: 4em;
-    line-height: 4em;
-  }
 }
 
 @media only screen and (max-width: 480px) {
