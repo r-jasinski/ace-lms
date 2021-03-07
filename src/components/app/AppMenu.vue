@@ -1,7 +1,15 @@
 <template>
-  <div class="component">
-    <button class="cn-button" id="cn-button" @click="menuHandler" />
-    <div class="cn-wrapper" :class="{ 'opened-nav': opened }" id="cn-wrapper">
+  <div class="app-menu">
+    <button
+      class="app-menu__button"
+      id="app-menu__button"
+      @click="menuHandler"
+    />
+    <div
+      class="app-menu__wrapper"
+      :class="{ 'app-menu__wrapper--opened': opened }"
+      id="app-menu__wrapper"
+    >
       <ul>
         <li>
           <router-link :to="{ name: 'HomePage' }"
@@ -33,7 +41,7 @@
 
 <script>
 export default {
-  name: 'MainMenu',
+  name: 'AppMenu',
 
   data() {
     return {
@@ -65,14 +73,14 @@ export default {
   list-style: none;
 }
 
-.component {
+.app-menu {
   position: absolute;
   height: 15em;
-  top: 30%;
+  top: 100px;
   left: 50%;
 }
 
-.cn-button {
+.app-menu__button {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -96,10 +104,10 @@ export default {
   -webkit-backface-visibility: hidden;
 }
 
-.cn-button:hover {
-  box-shadow: #81bfe2 0px 0px 0px 10px;
+.app-menu__button:hover {
+  box-shadow: var(--primary) 0px 0px 0px 10px;
 }
-.component .cn-wrapper {
+.app-menu .app-menu__wrapper {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -122,7 +130,7 @@ export default {
   overflow: hidden;
 }
 
-.component .cn-wrapper:after {
+.app-menu .app-menu__wrapper:after {
   content: '.';
   display: block;
   font-size: 2em;
@@ -138,7 +146,7 @@ export default {
   color: transparent;
 }
 
-.component .opened-nav {
+.app-menu .app-menu__wrapper--opened {
   border-radius: 50%;
   opacity: 1;
   -webkit-transition: all 0.3s ease;
@@ -151,7 +159,7 @@ export default {
   pointer-events: auto;
 }
 
-.component .cn-wrapper li {
+.app-menu .app-menu__wrapper li {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -174,7 +182,7 @@ export default {
   pointer-events: none;
 }
 
-.component .cn-wrapper li a {
+.app-menu .app-menu__wrapper li a {
   position: absolute;
   right: -7.25em;
   bottom: -7.25em;
@@ -182,7 +190,7 @@ export default {
   width: 14.5em;
   height: 14.5em;
   border-radius: 50%;
-  background: #81bfe2;
+  background: var(--primary);
   background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
   background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
   background: radial-gradient(transparent 35%, var(--primary) 35%);
@@ -203,7 +211,7 @@ export default {
   padding-left: 5px;
 }
 
-.component .cn-wrapper li a span {
+.app-menu .app-menu__wrapper li a span {
   position: relative;
   top: 1.8em;
   display: block;
@@ -212,66 +220,66 @@ export default {
   text-transform: uppercase;
 }
 
-.component .cn-wrapper li a:hover,
-.component .cn-wrapper li a:active,
-.component .cn-wrapper li a:focus {
-  background: -webkit-radial-gradient(transparent 35%, var(--primary) 35%);
-  background: -moz-radial-gradient(transparent 35%, var(--primary) 35%);
-  background: radial-gradient(transparent 35%, var(--primary) 35%);
+.app-menu .app-menu__wrapper li a:hover,
+.app-menu .app-menu__wrapper li a:active,
+.app-menu .app-menu__wrapper li a:focus {
+  background: -webkit-radial-gradient(transparent 35%, var(--primary-plus) 35%);
+  background: -moz-radial-gradient(transparent 35%, var(--primary-plus) 35%);
+  background: radial-gradient(transparent 35%, var(--primary-plus) 35%);
 }
-.component .cn-wrapper li a:focus {
+.app-menu .app-menu__wrapper li a:focus {
   position: fixed;
 }
 
-.component .opened-nav li {
+.app-menu .app-menu__wrapper--opened li {
   -webkit-transition: all 0.3s ease 0.3s;
   -moz-transition: all 0.3s ease 0.3s;
   transition: all 0.3s ease 0.3s;
 }
 
-.component .opened-nav li:first-child {
+.app-menu .app-menu__wrapper--opened li:first-child {
   -webkit-transform: rotate(-20deg) skew(60deg);
   -moz-transform: rotate(-20deg) skew(60deg);
   -ms-transform: rotate(-20deg) skew(60deg);
   transform: rotate(-20deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(2) {
+.app-menu .app-menu__wrapper--opened li:nth-child(2) {
   -webkit-transform: rotate(12deg) skew(60deg);
   -moz-transform: rotate(12deg) skew(60deg);
   -ms-transform: rotate(12deg) skew(60deg);
   transform: rotate(12deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(3) {
+.app-menu .app-menu__wrapper--opened li:nth-child(3) {
   -webkit-transform: rotate(44deg) skew(60deg);
   -moz-transform: rotate(44deg) skew(60deg);
   -ms-transform: rotate(44deg) skew(60deg);
   transform: rotate(44deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(4) {
+.app-menu .app-menu__wrapper--opened li:nth-child(4) {
   -webkit-transform: rotate(76deg) skew(60deg);
   -moz-transform: rotate(76deg) skew(60deg);
   -ms-transform: rotate(76deg) skew(60deg);
   transform: rotate(76deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(5) {
+.app-menu .app-menu__wrapper--opened li:nth-child(5) {
   -webkit-transform: rotate(108deg) skew(60deg);
   -moz-transform: rotate(108deg) skew(60deg);
   -ms-transform: rotate(108deg) skew(60deg);
   transform: rotate(108deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(6) {
+.app-menu .app-menu__wrapper--opened li:nth-child(6) {
   -webkit-transform: rotate(140deg) skew(60deg);
   -moz-transform: rotate(140deg) skew(60deg);
   -ms-transform: rotate(140deg) skew(60deg);
   transform: rotate(140deg) skew(60deg);
 }
 
-.component .opened-nav li:nth-child(7) {
+.app-menu .app-menu__wrapper--opened li:nth-child(7) {
   -webkit-transform: rotate(172deg) skew(60deg);
   -moz-transform: rotate(172deg) skew(60deg);
   -ms-transform: rotate(172deg) skew(60deg);
@@ -279,10 +287,13 @@ export default {
 }
 
 @media only screen and (max-width: 480px) {
-  .component .cn-wrapper {
+  .app-menu {
+    top: 25px;
+  }
+  .app-menu .app-menu__wrapper {
     font-size: 0.68em;
   }
-  .cn-button {
+  .app-menu__button {
     font-size: 1em;
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="app-footer">
     <small>© {{ new Date().getFullYear() }} Copyright: Roberto Jasinski</small>
     <small>roberto.jasinski@gmail.com</small>
   </div>
@@ -7,12 +7,12 @@
 
 <script>
 export default {
-  name: 'MainFooter'
+  name: 'AppFooter'
 }
 </script>
 
 <style scoped>
-.footer {
+.app-footer {
   display: flex;
   flex-direction: column;
   justify-content: center;

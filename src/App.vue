@@ -1,9 +1,9 @@
 <template>
   <div id="app" :class="{ darkmode: darkmode }">
     <header>
-      <main-header />
+      <app-header />
       <nav>
-        <main-menu />
+        <app-menu />
       </nav>
     </header>
 
@@ -18,21 +18,21 @@
     </article>
 
     <footer>
-      <main-footer />
+      <app-footer />
     </footer>
   </div>
 </template>
 
 <script>
-import MainHeader from '@/components/layout/MainHeader.vue'
-import MainMenu from '@/components/MainMenu.vue'
-import MainFooter from '@/components/layout/MainFooter.vue'
+import AppHeader from '@/components/app/AppHeader.vue'
+import AppMenu from '@/components/app/AppMenu.vue'
+import AppFooter from '@/components/app/AppFooter.vue'
 
 export default {
   components: {
-    MainHeader,
-    MainMenu,
-    MainFooter
+    AppHeader,
+    AppMenu,
+    AppFooter
   },
   data() {
     return {
@@ -47,6 +47,7 @@ export default {
 
 :root {
   --primary: #81bfe2;
+  --primary-plus: #3c83ac;
   --secondary: #aaa70f;
   --dark: #2c3e50;
   --light: #ffffff;
@@ -62,12 +63,13 @@ export default {
 
 body {
   margin: 0;
+  min-width: 320px;
 }
 
 #app {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 40vh 1fr 15vh;
+  grid-template-rows: 47vh 1fr 15vh;
   grid-template-areas:
     'header'
     'article'
@@ -77,6 +79,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: var(--dark);
   background-color: var(--light);
+  width: 100%;
 }
 
 html {
@@ -87,16 +90,21 @@ html {
 header {
   grid-area: header;
   position: relative;
+  /* border: 1px solid red; */
 }
 
 article {
   grid-area: article;
-  min-height: 45vh;
-  padding: 0 10%;
+  min-height: 38vh;
+  /* padding: 0 10%; */
+  display: flex;
+  justify-content: center;
+  /* border: 1px solid red; */
 }
 
 footer {
   grid-area: footer;
+  /* border: 1px solid red; */
 }
 
 a {
@@ -105,7 +113,10 @@ a {
 
 @media only screen and (max-width: 480px) {
   #app {
-    grid-template-rows: 30vh 1fr 15vh;
+    grid-template-rows: 325px 1fr 15vh;
+  }
+  article {
+    min-height: 38vh;
   }
 }
 
@@ -122,7 +133,10 @@ a {
 }
 
 .dm-button {
-  float: right;
   opacity: 0.9;
+  cursor: pointer;
+  position: fixed;
+  right: 45px;
+  top: 400px;
 }
 </style>

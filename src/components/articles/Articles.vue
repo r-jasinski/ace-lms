@@ -1,5 +1,5 @@
 <template>
-  <div class="articles">
+  <div class="app-articles">
     <h1>Articles</h1>
     <router-link to="/ranking">Novo artigo</router-link>
     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto, corporis.
@@ -104,4 +104,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.app-articles {
+  padding: 0 10%;
+}
+</style>
