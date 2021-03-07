@@ -1,15 +1,15 @@
 <template>
-  <div class="header" />
+  <div class="app-header" />
 </template>
 
 <script>
 export default {
-  name: 'MainHeader'
+  name: 'AppHeader'
 }
 </script>
 
 <style scoped>
-.header {
+.app-header {
   height: 40vh;
   background-image: url('../../assets/bg-header.svg');
   background-position: center top;
