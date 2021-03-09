@@ -1,5 +1,5 @@
 <template>
-  <div class="ranking">
+  <div class="ranking-page">
     <ranking />
   </div>
 </template>
@@ -14,3 +14,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.ranking-page {
+  width: 100vw;
+  padding: 0 10%;
+}
+</style>
