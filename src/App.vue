@@ -10,7 +10,7 @@
     <article>
       <font-awesome-icon
         icon="lightbulb"
-        class="dm-button"
+        class="dark-mode-button"
         size="2x"
         @click="darkmode = !darkmode"
       />
@@ -61,9 +61,14 @@ export default {
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  margin-right: calc(-1 * (100vw - 100%));
+}
+
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 350px;
 }
 
 #app {
@@ -90,7 +95,7 @@ html {
 header {
   grid-area: header;
   position: relative;
-  /* border: 1px solid red; */
+  min-height: 400px;
 }
 
 article {
@@ -98,25 +103,34 @@ article {
   min-height: 38vh;
   /* padding: 0 10%; */
   display: flex;
-  justify-content: center;
-  /* border: 1px solid red; */
+  padding-top: 50px;
+  min-height: 45vh;
 }
 
 footer {
-  grid-area: footer;
-  /* border: 1px solid red; */
+  margin-top: 10%;
 }
 
 a {
   color: var(--primary);
 }
 
+.darkmode {
+  --dark: #ffffff;
+  --light: #2c3e50;
+}
+
+.dark-mode-button {
+  opacity: 0.9;
+  cursor: pointer;
+  position: fixed;
+  right: 45px;
+  top: 400px;
+}
+
 @media only screen and (max-width: 480px) {
-  #app {
-    grid-template-rows: 325px 1fr 15vh;
-  }
-  article {
-    min-height: 38vh;
+  header {
+    min-height: 300px;
   }
 }
 
@@ -125,12 +139,6 @@ a {
     --dark: #ffffff;
     --light: #2c3e50;
   }
-}
-
-.darkmode {
-  --dark: #ffffff;
-  --light: #2c3e50;
-}
 
 .dm-button {
   opacity: 0.9;
