@@ -61,7 +61,6 @@ export default {
   position: relative;
   height: 400px;
   width: 200px;
-  justify-content: center;
 }
 
 .home-menu__bg {
@@ -75,6 +74,7 @@ export default {
 }
 
 .home-menu__man-in-chair {
+  width: 200px;
   left: 30px;
 }
 
@@ -90,10 +90,10 @@ export default {
 
 .home-menu__title {
   display: flex;
-  position: absolute;
-  bottom: 0%;
-  width: 100%;
   justify-content: center;
+  position: absolute;
+  bottom: 4%;
+  width: 100%;
   font-size: 2em;
   font-weight: 900;
   text-decoration: none;
@@ -101,7 +101,7 @@ export default {
 
 @media only screen and (max-width: 768px) {
   .home-menu {
-    display: block;
+    flex-direction: column;
   }
 }
 </style>
