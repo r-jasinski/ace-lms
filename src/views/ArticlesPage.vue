@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Articles from '@/components/articles/Articles.vue'
+import Articles from '@/components/articles/Articles'
 
 export default {
   name: 'ArticlesPage',

@@ -1,11 +1,11 @@
 <template>
-  <div class="home">
+  <div class="home-page">
     <home />
   </div>
 </template>
 
 <script>
-import Home from '@/components/home/Home.vue'
+import Home from '@/components/home/Home'
 
 export default {
   name: 'HomePage',
@@ -14,4 +14,10 @@ export default {
   }
 }
 </script>
-<style scoped></style>
+
+<style scoped>
+.home-page {
+  width: 100vw;
+  padding: 0 10%;
+}
+</style>

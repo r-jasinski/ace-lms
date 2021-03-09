@@ -1,11 +1,11 @@
 <template>
-  <div class="ranking">
+  <div class="ranking-page">
     <ranking />
   </div>
 </template>
 
 <script>
-import Ranking from '@/components/ranking/Ranking.vue'
+import Ranking from '@/components/ranking/Ranking'
 
 export default {
   name: 'RankingPage',
@@ -14,3 +14,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.ranking-page {
+  width: 100vw;
+  padding: 0 10%;
+}
+</style>
