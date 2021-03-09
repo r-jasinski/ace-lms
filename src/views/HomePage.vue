@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home-page">
     <home />
   </div>
 </template>
@@ -14,4 +14,10 @@ export default {
   }
 }
 </script>
-<style scoped></style>
+
+<style scoped>
+.home-page {
+  width: 100vw;
+  padding: 0 10%;
+}
+</style>
