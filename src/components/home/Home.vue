@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home">
     <home-menu />
     <h4>
       Você sabia que é possível construir um sistema web utilizando apenas
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import HomeMenu from './HomeMenu.vue'
+import HomeMenu from './HomeMenu'
 
 export default {
   name: 'Home',
@@ -20,9 +20,11 @@ export default {
 </script>
 
 <style scoped>
+.home {
+  min-width: 315px;
+}
 h4 {
   padding: 0 5%;
   text-align: center;
-  /* border: 1px solid red; */
 }
 </style>

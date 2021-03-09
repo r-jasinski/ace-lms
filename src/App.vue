@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import AppHeader from '@/components/app/AppHeader.vue'
-import AppMenu from '@/components/app/AppMenu.vue'
-import AppFooter from '@/components/app/AppFooter.vue'
+import AppHeader from '@/components/app/AppHeader'
+import AppMenu from '@/components/app/AppMenu'
+import AppFooter from '@/components/app/AppFooter'
 
 export default {
   components: {
@@ -72,13 +72,6 @@ body {
 }
 
 #app {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 47vh 1fr 15vh;
-  grid-template-areas:
-    'header'
-    'article'
-    'footer';
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -87,21 +80,12 @@ body {
   width: 100%;
 }
 
-html {
-  overflow-x: hidden;
-  margin-right: calc(-1 * (100vw - 100%));
-}
-
 header {
-  grid-area: header;
   position: relative;
   min-height: 400px;
 }
 
 article {
-  grid-area: article;
-  min-height: 38vh;
-  /* padding: 0 10%; */
   display: flex;
   padding-top: 50px;
   min-height: 45vh;
@@ -139,12 +123,5 @@ a {
     --dark: #ffffff;
     --light: #2c3e50;
   }
-
-.dm-button {
-  opacity: 0.9;
-  cursor: pointer;
-  position: fixed;
-  right: 45px;
-  top: 400px;
 }
 </style>

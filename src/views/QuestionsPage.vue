@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Questions from '@/components/questions/Questions.vue'
+import Questions from '@/components/questions/Questions'
 
 export default {
   name: 'QuestionsPage',

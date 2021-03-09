@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Ranking from '@/components/ranking/Ranking.vue'
+import Ranking from '@/components/ranking/Ranking'
 
 export default {
   name: 'RankingPage',
