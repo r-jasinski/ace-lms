@@ -30,7 +30,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 2%;
+  margin-top: 1%;
   padding: 5px 15px;
 }
 
@@ -51,7 +51,7 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
   background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
-  background-ranking-user__position: center;
+  background-position: center;
   background-size: cover;
 }
 

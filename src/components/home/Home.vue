@@ -21,7 +21,7 @@ export default {
 
 <style scoped>
 .home {
-  min-width: 315px;
+  padding: 0 5%;
 }
 h4 {
   padding: 0 5%;

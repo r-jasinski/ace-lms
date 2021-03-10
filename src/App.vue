@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ darkmode: darkmode }">
+  <div id="app" :class="{ darkMode: darkMode }">
     <header>
       <app-header />
       <nav>
@@ -12,7 +12,7 @@
         icon="lightbulb"
         class="dark-mode-button"
         size="2x"
-        @click="darkmode = !darkmode"
+        @click="darkMode = !darkMode"
       />
       <router-view />
     </article>
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      darkmode: true
+      darkMode: true
     }
   }
 }
@@ -68,7 +68,7 @@ html {
 
 body {
   margin: 0;
-  min-width: 350px;
+  min-width: 320px;
 }
 
 #app {
@@ -87,7 +87,7 @@ header {
 
 article {
   display: flex;
-  padding-top: 50px;
+  margin-top: 50px;
   min-height: 45vh;
 }
 
@@ -99,29 +99,29 @@ a {
   color: var(--primary);
 }
 
-.darkmode {
+.darkMode {
   --dark: #ffffff;
   --light: #2c3e50;
 }
 
 .dark-mode-button {
+  position: absolute;
+  right: 1%;
+  top: 40%;
   opacity: 0.9;
   cursor: pointer;
-  position: fixed;
-  right: 45px;
-  top: 400px;
-}
-
-@media only screen and (max-width: 480px) {
-  header {
-    min-height: 300px;
-  }
 }
 
 @media (prefers-color-scheme: dark) {
-  .darkmode {
+  .darkMode {
     --dark: #ffffff;
     --light: #2c3e50;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  article {
+    margin-top: 0;
   }
 }
 </style>
