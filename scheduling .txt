@@ -1,0 +1,27 @@
+==Done==
+Review Vue
+Create a repo
+Start Vue project
+Set up ESLint
+Set up semantic commits
+Create a main menu
+Create the routes
+Create a main layout
+Set up dark mode
+Create the home page
+Create the ranking page
+Deploy homolog
+Add a dynamic title
+
+==Doing==
+Create the articles page
+
+==To Do==
+Create the questions page
+Create the profile page
+Create the about page
+Add authentication
+Make the app works with Firebase
+Add animations
+Cover app with tests
+Deploy production
