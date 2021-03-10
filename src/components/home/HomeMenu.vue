@@ -47,9 +47,10 @@ export default {
 <style scoped>
 .home-menu {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10px;
-  gap: 32px;
+  margin-top: 1%;
+  gap: 5%;
 }
 
 .home-menu__item {
@@ -85,14 +86,14 @@ export default {
 
 .home-menu__man-with-laptop {
   width: 250px;
-  left: -15px;
+  left: -25px;
 }
 
 .home-menu__title {
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 4%;
+  bottom: 0;
   width: 100%;
   font-size: 2em;
   font-weight: 900;

@@ -18,6 +18,6 @@ export default {
 <style scoped>
 .ranking-page {
   width: 100vw;
-  padding: 0 10%;
+  min-width: 320px;
 }
 </style>

@@ -17,7 +17,9 @@ export default {
 
 <style scoped>
 .home-page {
+  /* display: flex;
+  justify-content: center; */
   width: 100vw;
-  padding: 0 10%;
+  min-width: 320px;
 }
 </style>

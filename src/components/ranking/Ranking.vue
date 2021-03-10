@@ -42,20 +42,17 @@ export default {
 
 <style scoped>
 .ranking {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  padding: 0 5%;
 }
 
 .ranking__filters {
   display: flex;
-  align-self: flex-end;
   align-items: center;
-  /* gap: 25px; */
-  /* border: 2px solid red; */
+  justify-content: flex-end;
 }
 
 input {
+  width: 150px;
   min-height: 36px;
   border-radius: 18px;
   background-color: var(--light);
