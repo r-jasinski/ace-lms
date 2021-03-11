@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ darkMode: darkMode }">
+  <div id="app" :class="{ 'app--dark-mode': darkMode }">
     <header>
       <app-header />
       <nav>
@@ -10,7 +10,7 @@
     <article>
       <font-awesome-icon
         icon="lightbulb"
-        class="dark-mode-button"
+        class="app__dark-mode-button"
         size="2x"
         @click="darkMode = !darkMode"
       />
@@ -48,7 +48,8 @@ export default {
 :root {
   --primary: #81bfe2;
   --primary-plus: #3c83ac;
-  --secondary: #aaa70f;
+  --secondary: #85752e;
+  --secondary-light: #d1ccb7;
   --dark: #2c3e50;
   --light: #ffffff;
   --success: #67f667;
@@ -64,6 +65,10 @@ export default {
 html {
   overflow-x: hidden;
   margin-right: calc(-1 * (100vw - 100%));
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 body {
@@ -99,12 +104,14 @@ a {
   color: var(--primary);
 }
 
-.darkMode {
+.app--dark-mode {
   --dark: #ffffff;
   --light: #2c3e50;
+  --secondary-light: #85752e;
+  --secondary: #d1ccb7;
 }
 
-.dark-mode-button {
+.app__dark-mode-button {
   position: absolute;
   right: 1%;
   top: 40%;
@@ -113,15 +120,17 @@ a {
 }
 
 @media (prefers-color-scheme: dark) {
-  .darkMode {
+  .app--dark-mode {
     --dark: #ffffff;
     --light: #2c3e50;
+    --secondary-light: #85752e;
+    --secondary: #d1ccb7;
   }
 }
 
 @media only screen and (max-width: 480px) {
   article {
-    margin-top: 0;
+    margin-top: -60px;
   }
 }
 </style>

@@ -49,7 +49,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 1%;
+  margin-top: 20px;
   gap: 5%;
 }
 
