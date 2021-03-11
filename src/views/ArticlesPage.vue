@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="articles-page">
     <articles />
   </div>
 </template>
@@ -15,4 +15,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.articles-page {
+  width: 100vw;
+  min-width: 320px;
+}
+</style>

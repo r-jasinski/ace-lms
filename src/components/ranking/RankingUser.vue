@@ -6,7 +6,7 @@
     <div class="ranking-user__avatar" />
     <ul>
       <li class="ranking-user__name">
-        jan_kowalski
+        {{ user.name }}
         <span class="ranking-user__indicator">
           <slot name="ranking-user-indicator" />
         </span>
@@ -30,7 +30,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 1%;
+  margin-top: 20px;
   padding: 5px 15px;
 }
 
@@ -56,13 +56,13 @@ export default {
 }
 
 .ranking-user__name {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 900;
   margin-right: 40px;
 }
 
 .ranking-user__indicator {
-  font-size: 1.5em;
+  font-size: 1em;
   opacity: 0.4;
   padding-left: 5px;
   color: var(--light);
