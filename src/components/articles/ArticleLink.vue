@@ -4,12 +4,12 @@
     <p class="article-link__title">{{ article.title }}</p>
     <div class="article-link__autor" />
     <ul>
-      <li>jan_kowalski</li>
-      <li>postado 05 minutos atrás</li>
+      <li>{{ article.autor }}</li>
+      <li>{{ article.postDate }}</li>
     </ul>
-    <span class="article-link__summary">
+    <p class="article-link__summary">
       {{ article.summary }}
-    </span>
+    </p>
     <hr />
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 }
 
 .article-link:hover {
-  border-left: 5px solid var(--dark);
+  border-left: 5px solid var(--primary);
   border-radius: 9px;
 }
 
@@ -58,6 +58,8 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 ul {

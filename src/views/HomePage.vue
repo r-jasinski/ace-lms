@@ -17,8 +17,6 @@ export default {
 
 <style scoped>
 .home-page {
-  /* display: flex;
-  justify-content: center; */
   width: 100vw;
   min-width: 320px;
 }
