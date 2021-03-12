@@ -37,12 +37,6 @@ const routes = [
         name: 'ArticleView',
         component: () => import('@/components/articles/ArticleView'),
         meta: { title: 'Visualizar Artigo' }
-      },
-      {
-        path: 'create',
-        name: 'ArticleCreate',
-        component: () => import('@/components/articles/ArticleCreate'),
-        meta: { title: 'Criar Artigo' }
       }
     ]
   },
