@@ -7,8 +7,7 @@ const routes = [
   {
     path: '/home',
     name: 'HomePage',
-    component: () =>
-      import(/* webpackChunkName: "home" */ '../views/HomePage.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '@/views/HomePage'),
     meta: {
       title: 'Home'
     }
@@ -17,25 +16,41 @@ const routes = [
     path: '/ranking',
     name: 'RankingPage',
     component: () =>
-      import(/* webpackChunkName: "ranking" */ '../views/RankingPage.vue'),
+      import(/* webpackChunkName: "ranking" */ '@/views/RankingPage'),
     meta: {
       title: 'Ranking'
     }
   },
   {
     path: '/articles',
-    name: 'ArticlesPage',
     component: () =>
-      import(/* webpackChunkName: "articles" */ '../views/ArticlesPage.vue'),
-    meta: {
-      title: 'Artigos'
-    }
+      import(/* webpackChunkName: "articles" */ '@/views/ArticlesPage'),
+    children: [
+      {
+        path: '',
+        name: 'ArticlesList',
+        component: () => import('@/components/articles/Articles'),
+        meta: { title: 'Artigos' }
+      },
+      {
+        path: 'view',
+        name: 'ArticleView',
+        component: () => import('@/components/articles/ArticleView'),
+        meta: { title: 'Visualizar Artigo' }
+      },
+      {
+        path: 'create',
+        name: 'ArticleCreate',
+        component: () => import('@/components/articles/ArticleCreate'),
+        meta: { title: 'Criar Artigo' }
+      }
+    ]
   },
   {
     path: '/questions',
     name: 'QuestionsPage',
     component: () =>
-      import(/* webpackChunkName: "questions" */ '../views/QuestionsPage.vue'),
+      import(/* webpackChunkName: "questions" */ '@/views/QuestionsPage'),
     meta: {
       title: 'Perguntas'
     }
@@ -44,7 +59,7 @@ const routes = [
     path: '/profile',
     name: 'ProfilePage',
     component: () =>
-      import(/* webpackChunkName: "profile" */ '../views/ProfilePage.vue'),
+      import(/* webpackChunkName: "profile" */ '@/views/ProfilePage'),
     meta: {
       title: 'Perfil'
     }
@@ -53,7 +68,7 @@ const routes = [
     path: '/about',
     name: 'AboutPage',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/AboutPage.vue'),
+      import(/* webpackChunkName: "about" */ '@/views/AboutPage'),
     meta: {
       title: 'Sobre'
     }
@@ -62,6 +77,15 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else if (to.hash) {
+      return { selector: to.hash }
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   base: process.env.BASE_URL,
   routes
 })

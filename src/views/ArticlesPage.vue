@@ -1,17 +1,12 @@
 <template>
   <div class="articles-page">
-    <articles />
+    <router-view />
   </div>
 </template>
 
 <script>
-import Articles from '@/components/articles/Articles'
-
 export default {
-  name: 'ArticlesPage',
-  components: {
-    Articles
-  }
+  name: 'ArticlesPage'
 }
 </script>
 
