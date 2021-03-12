@@ -1,7 +1,15 @@
 <template>
   <div class="app-footer">
-    <small>© {{ new Date().getFullYear() }} Copyright: Roberto Jasinski</small>
-    <small>roberto.jasinski@gmail.com</small>
+    <div class="app-footer__logo">
+      <span />
+      ACE - LMS
+    </div>
+    <small
+      >© {{ new Date().getFullYear() }} Copyright:
+      <a href="https://github.com/r-jasinski" target="__blank"
+        >Roberto Jasinski</a
+      ></small
+    >
   </div>
 </template>
 
@@ -24,7 +32,16 @@ export default {
   opacity: 0.8;
 }
 
-small {
-  align-self: center;
+span {
+  width: 15px;
+  height: 15px;
+  mask-image: url('../../assets/logo.svg');
+  background-color: var(--dark);
+}
+
+.app-footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 </style>
