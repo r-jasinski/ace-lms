@@ -50,7 +50,7 @@ export default {
   --primary-plus: #3c83ac;
   --secondary: #85752e;
   --secondary-light: #d1ccb7;
-  --dark: #2c3e50;
+  --dark: #495868;
   --light: #ffffff;
   --success: #67f667;
   --danger: #e96262;

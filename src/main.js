@@ -1,5 +1,22 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBold,
+  faCode,
+  faHeading,
+  faImage,
+  faItalic,
+  faLightbulb,
+  faListOl,
+  faListUl,
+  faParagraph,
+  faQuoteRight,
+  faRedo,
+  faStrikethrough,
+  faTerminal,
+  faUnderline,
+  faUndo,
+  faWindowMinimize
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vue from 'vue'
 import App from './App.vue'
@@ -8,7 +25,24 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-library.add(faLightbulb)
+library.add(
+  faBold,
+  faCode,
+  faHeading,
+  faImage,
+  faItalic,
+  faLightbulb,
+  faListOl,
+  faListUl,
+  faParagraph,
+  faQuoteRight,
+  faRedo,
+  faStrikethrough,
+  faTerminal,
+  faUnderline,
+  faUndo,
+  faWindowMinimize
+)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 new Vue({
