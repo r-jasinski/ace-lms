@@ -32,11 +32,15 @@ export default {
   opacity: 0.8;
 }
 
-span {
+.app-footer span {
   width: 15px;
   height: 15px;
   mask-image: url('../../assets/logo.svg');
   background-color: var(--dark);
+}
+
+.app-footer small {
+  margin-bottom: 10%;
 }
 
 .app-footer__logo {
