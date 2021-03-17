@@ -2,6 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBold,
   faCode,
+  faEdit,
   faHeading,
   faImage,
   faItalic,
@@ -9,10 +10,13 @@ import {
   faListOl,
   faListUl,
   faParagraph,
+  faPlus,
   faQuoteRight,
   faRedo,
+  faSearch,
   faStrikethrough,
   faTerminal,
+  faTrash,
   faUnderline,
   faUndo,
   faWindowMinimize
@@ -28,6 +32,7 @@ Vue.config.productionTip = false
 library.add(
   faBold,
   faCode,
+  faEdit,
   faHeading,
   faImage,
   faItalic,
@@ -35,10 +40,13 @@ library.add(
   faListOl,
   faListUl,
   faParagraph,
+  faPlus,
   faQuoteRight,
+  faSearch,
   faRedo,
   faStrikethrough,
   faTerminal,
+  faTrash,
   faUnderline,
   faUndo,
   faWindowMinimize
