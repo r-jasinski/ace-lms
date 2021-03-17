@@ -29,13 +29,13 @@ const routes = [
       {
         path: '',
         name: 'ArticlesList',
-        component: () => import('@/components/articles/Articles'),
+        component: () => import('@/components/articles/ArticlesList'),
         meta: { title: 'Artigos' }
       },
       {
         path: 'view',
-        name: 'ArticleView',
-        component: () => import('@/components/articles/ArticleView'),
+        name: 'ArticleViewEdit',
+        component: () => import('@/components/articles/ArticleViewEdit'),
         meta: { title: 'Visualizar Artigo' }
       },
       {
