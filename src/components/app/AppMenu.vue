@@ -49,16 +49,16 @@ export default {
     }
   },
 
-  methods: {
-    menuHandler() {
-      this.opened = !this.opened
-    }
-  },
-
   mounted() {
     setTimeout(() => {
       this.opened = true
     }, 100)
+  },
+
+  methods: {
+    menuHandler() {
+      this.opened = !this.opened
+    }
   }
 }
 </script>

@@ -1,16 +1,18 @@
 <template>
-  <div class="questions">
-    <questions />
+  <div class="questions-page">
+    <router-view />
   </div>
 </template>
 
 <script>
-import Questions from '@/components/questions/Questions'
-
 export default {
-  name: 'QuestionsPage',
-  components: {
-    Questions
-  }
+  name: 'QuestionsPage'
 }
 </script>
+
+<style scoped>
+.questions-page {
+  width: 100vw;
+  min-width: 320px;
+}
+</style>

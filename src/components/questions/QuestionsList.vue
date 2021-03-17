@@ -1,43 +1,45 @@
 <template>
-  <div class="articles">
-    <div class="articles__filters">
+  <div class="questions-list">
+    <div class="questions-list__filters">
       <a href="#">data de postagem</a>
-      <input type="text" placeholder="Pesquisar" />
-      <add-button :add="addArticle" />
+      <a href="#">respostas</a>
+      <filter-input />
+      <add-button :add="addQuestion" />
     </div>
     <router-link
-      :to="{ name: 'ArticleView' }"
-      v-for="article in articles"
-      :key="article.id"
+      :to="{ name: 'QuestionViewEdit' }"
+      v-for="question in questions"
+      :key="question.id"
     >
-      <article-link :article="article" />
+      <questions-list-link :question="question" />
     </router-link>
   </div>
 </template>
 
 <script>
 import AddButton from '@/components/shared/AddButton'
-import ArticleLink from './ArticleLink.vue'
+import FilterInput from '@/components/shared/FilterInput'
+import QuestionsListLink from './QuestionsListLink.vue'
 
 export default {
-  name: 'Articles',
+  name: 'QuestionsList',
 
-  components: { AddButton, ArticleLink },
+  components: { AddButton, FilterInput, QuestionsListLink },
 
   data() {
     return {
-      articles: [
+      questions: [
         {
           title:
-            'O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos',
+            '<h2>Vue JS - Como exibir uma lista intercalada entre propriedade e valor?</h2>',
           summary:
-            'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi',
+            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
           autor: 'anna_nowak',
           postDate: '05 horas atrás'
         },
         {
           title:
-            'Em SQL, existe uma variação da instrução SELECT permite que uma outra subconsulta do tipo SELECT seja utilizada como uma coluna da consulta principal',
+            'Qual a melhor forma de salvar vários tipos de dados de uma struct {} em um arquivo de texto em C?',
           summary:
             'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi',
           autor: 'jan_kowalski',
@@ -45,7 +47,7 @@ export default {
         },
         {
           title:
-            'JUnit é uma API de código aberto para a criação de testes unitários em Java, bem como outras linguagem compatíveis com a JVM',
+            'É possível obter a geolocalização do usuário usando o Leaflet Js?',
           summary:
             'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi',
           autor: 'sam_smith',
@@ -53,7 +55,7 @@ export default {
         },
         {
           title:
-            'O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos',
+            'Como mudar o separador ponto para vírgula no eixo dos xx em Python no seguinte código usando Jupyter Notebook do Anaconda?',
           summary:
             'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi',
           autor: 'john_doe',
@@ -80,47 +82,44 @@ export default {
   },
 
   methods: {
-    addArticle() {
-      this.$router.push({ name: 'ArticleCreate' })
+    addQuestion() {
+      this.$router.push({ name: 'QuestionCreate' })
     }
   }
 }
 </script>
 
 <style scoped>
-.articles {
+.questions-list {
   padding: 0 5%;
-  border: 1px solid red;
 }
 
-.articles__filters {
+.questions-list__filters {
   display: flex;
-  align-items: baseline;
-  justify-items: center;
+  align-items: center;
   justify-content: flex-end;
-  /* margin-top: 40px; */
-  gap: 10px;
+  gap: 20px;
 }
 
-input {
-  color: var(--dark);
-  background-color: var(--light);
-  width: 150px;
+.questions-list__add-button {
+  min-width: 39px;
   min-height: 36px;
-  border-radius: 18px;
-  border: 1px solid var(--dark-75);
   padding: 10px;
+  color: var(--light);
+  background-color: var(--primary);
+  opacity: 0.75;
+  border: none;
+  border-radius: 100vh;
   outline: none;
+  font-weight: 900;
 }
 
-input:focus {
-  border: 1px solid var(--dark);
+.questions-list__add-button:hover {
+  opacity: 1;
 }
 
-a {
+.questions-list a {
   color: var(--dark);
-  margin-right: 20px;
-  margin-left: 20px;
   text-decoration: none;
 }
 </style>

@@ -14,7 +14,6 @@ export default {
         { active: 'code', command: 'code', icon: 'code' },
         { active: 'paragraph', command: 'paragraph', icon: 'paragraph' },
         { active: 'heading', command: 'heading', icon: 'heading', level: 1 },
-        { active: 'heading', command: 'heading', icon: 'heading', level: 4 },
         { active: 'bullet_list', command: 'bullet_list', icon: 'list-ul' },
         { active: 'ordered_list', command: 'ordered_list', icon: 'list-ol' },
         { active: 'blockquote', command: 'blockquote', icon: 'quote-right' },

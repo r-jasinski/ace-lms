@@ -52,8 +52,13 @@ export default {
   --secondary-light: #d1ccb7;
   --dark: #495868;
   --light: #ffffff;
+  --dark-50: #49586850;
+  --light-50: #ffffff50;
+  --dark-75: #49586875;
+  --light-75: #ffffffad;
   --success: #67f667;
-  --danger: #e96262;
+  --danger: #ec7a7a;
+  --danger-plus: #d85e5e;
 }
 
 * {
@@ -105,8 +110,12 @@ a {
 }
 
 .app--dark-mode {
+  --light: #495868;
   --dark: #ffffff;
-  --light: #2c3e50;
+  --light-50: #49586850;
+  --dark-50: #ffffff50;
+  --light-75: #49586875;
+  --dark-75: #ffffffad;
   --secondary-light: #85752e;
   --secondary: #d1ccb7;
 }
@@ -115,14 +124,22 @@ a {
   position: absolute;
   right: 1%;
   top: 40%;
-  opacity: 0.9;
+  opacity: 0.75;
   cursor: pointer;
+}
+
+.app__dark-mode-button:hover {
+  opacity: 1;
 }
 
 @media (prefers-color-scheme: dark) {
   .app--dark-mode {
+    --light: #495868;
     --dark: #ffffff;
-    --light: #2c3e50;
+    --light-50: #49586850;
+    --dark-50: #ffffff50;
+    --light-75: #49586875;
+    --dark-75: #ffffffad;
     --secondary-light: #85752e;
     --secondary: #d1ccb7;
   }

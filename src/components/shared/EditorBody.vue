@@ -1,6 +1,10 @@
 <template>
-  <div class="editor">
-    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+  <div class="editor" :class="{ 'editor--editable': editable }">
+    <editor-menu-bar
+      v-if="editable"
+      :editor="editor"
+      v-slot="{ commands, isActive }"
+    >
       <div class="editor__menubar">
         <button
           class="editor__button"
@@ -14,7 +18,7 @@
           :key="`${index}-${icon}`"
           class="editor__button"
           :class="{
-            'is-active': active && isActive[active]({ level })
+            'is-active': active && isActive[active]()
           }"
           @click="commands[command]({ level })"
         >
@@ -33,62 +37,80 @@ import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import menuBarButtonsMixin from '@/mixins/editor/menuBarButtonsMixin'
 import {
   Blockquote,
+  Bold,
   BulletList,
+  Code,
   CodeBlock,
+  Focus,
   HardBreak,
   Heading,
+  History,
   HorizontalRule,
   Image,
-  ListItem,
-  OrderedList,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
   Italic,
   Link,
+  ListItem,
+  OrderedList,
+  Placeholder,
   Strike,
-  Underline,
-  History,
-  Focus
+  TodoItem,
+  TodoList,
+  Underline
 } from 'tiptap-extensions'
+
 export default {
-  name: 'Editor',
-  mixins: [menuBarButtonsMixin],
+  name: 'EditorBody',
+
   components: {
     EditorContent,
     EditorMenuBar
   },
+
+  mixins: [menuBarButtonsMixin],
+
+  props: {
+    content: { type: String, default: '' },
+    editable: { type: Boolean, default: true },
+    placeholder: { type: String, default: '' }
+  },
+
   data() {
     return {
       html: '',
-      content: '',
       editor: new Editor({
+        editable: true,
         extensions: [
           new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({ levels: [1, 4] }),
-          new HorizontalRule(),
-          new Image(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
           new Bold(),
+          new BulletList(),
           new Code(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History(),
+          new CodeBlock(),
           new Focus({
             className: 'has-focus',
             nested: true
-          })
+          }),
+          new HardBreak(),
+          new Heading({ levels: [1] }),
+          new History(),
+          new HorizontalRule(),
+          new Image(),
+          new Italic(),
+          new Link(),
+          new ListItem(),
+          new OrderedList(),
+          new Placeholder({
+            emptyEditorClass: 'is-editor-empty',
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: '',
+            showOnlyWhenEditable: true,
+            showOnlyCurrent: true
+          }),
+          new Strike(),
+          new TodoItem(),
+          new TodoList(),
+          new Underline()
         ],
-        autoFocus: true,
+        autoFocus: false,
         content: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
@@ -97,27 +119,47 @@ export default {
       })
     }
   },
+
+  watch: {
+    editable() {
+      this.editor.setOptions({ editable: this.editable })
+    }
+  },
+
+  mounted() {
+    this.editor.extensions.options.placeholder.emptyNodeText = this.placeholder
+    this.editor.setContent(this.content)
+    this.editor.setOptions({ editable: this.editable })
+  },
+
+  beforeDestroy() {
+    this.editor.destroy()
+  },
+
   methods: {
     showImagePrompt() {
       const src = prompt('Enter the url of your image here')
-      if (src !== null) {
-        this.editor.commands.image({ src })
-      }
+      src && this.editor.commands.image({ src })
     }
-  },
-  beforeDestroy() {
-    this.editor.destroy()
   }
 }
 </script>
 
 <style>
 .editor {
-  min-height: 10vh;
   border-radius: 18px;
-  border: 1px solid var(--dark);
+  border: none;
   margin-top: 25px;
+  min-height: 10vh;
   padding: 10px;
+}
+
+.editor--editable {
+  border: 1px solid var(--dark-50);
+}
+
+.editor--editable:focus-within {
+  border: 1px solid var(--dark);
 }
 
 .editor__menubar {
@@ -127,13 +169,13 @@ export default {
 }
 
 .editor__button {
-  color: var(--dark);
   background-color: rgba(77, 221, 240, 0);
-  width: 35px;
-  height: 35px;
   border: none;
-  outline: none;
+  color: var(--dark);
+  height: 35px;
   opacity: 0.7;
+  outline: none;
+  width: 35px;
 }
 
 .is-active {
@@ -143,24 +185,33 @@ export default {
 
 .editor__button:hover {
   background-color: rgba(0, 225, 255, 0.082);
-  opacity: 1;
   border-radius: 5px;
+  opacity: 1;
 }
 
 .editor__content blockquote {
   border-left: 3px solid var(--primary);
+  font-style: italic;
   opacity: 0.8;
   padding-left: 0.8rem;
-  font-style: italic;
 }
 
 .editor__content pre {
   background-color: var(--primary);
-  padding: 1%;
   border-radius: 5px;
+  padding: 1%;
 }
 
 .ProseMirror-focused {
   outline: none;
+}
+
+.editor__content p.is-editor-empty:first-child::before {
+  color: #aaa;
+  content: attr(data-empty-text);
+  float: left;
+  font-style: italic;
+  height: 0;
+  pointer-events: none;
 }
 </style>
