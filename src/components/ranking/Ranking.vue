@@ -3,7 +3,7 @@
     <div class="ranking__filters">
       <a href="#">mensal</a>
       <a href="#">anual</a>
-      <input type="text" placeholder="Pesquisar" />
+      <filter-input />
     </div>
     <div v-for="user in users" :key="user.id">
       <ranking-user :user="user">
@@ -18,17 +18,17 @@
 
 <script>
 import RankingUser from './RankingUser'
+import FilterInput from '@/components/shared/FilterInput'
+
 export default {
   name: 'Ranking',
 
-  components: {
-    RankingUser
-  },
+  components: { FilterInput, RankingUser },
 
   data() {
     return {
       users: [
-        { id: 1, name: 'jan_kowalski', current: false },
+        { id: 1, name: 'anna_nowak', current: false },
         { id: 2, name: 'jan_kowalski', current: true },
         { id: 3, name: 'jan_kowalski', current: false },
         { id: 4, name: 'jan_kowalski', current: false },
@@ -51,18 +51,7 @@ export default {
   justify-content: flex-end;
 }
 
-input {
-  width: 150px;
-  min-height: 36px;
-  border-radius: 18px;
-  background-color: var(--light);
-  color: var(--dark);
-  border: 2px solid var(--dark);
-  padding: 10px;
-  outline: none;
-}
-
-a {
+.ranking__filters a {
   text-decoration: none;
   color: var(--dark);
   margin-right: 20px;

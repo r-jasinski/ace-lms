@@ -1,17 +1,9 @@
 <template>
   <div class="articles">
-    <div class="articles__header">
-      Compartilhe seu conhecimento.
-    </div>
     <div class="articles__filters">
       <a href="#">data de postagem</a>
       <input type="text" placeholder="Pesquisar" />
-      <button
-        class="articles__add-button"
-        @click="$router.push({ name: 'ArticleCreate' })"
-      >
-        +
-      </button>
+      <add-button :add="addArticle" />
     </div>
     <router-link
       :to="{ name: 'ArticleView' }"
@@ -24,13 +16,13 @@
 </template>
 
 <script>
+import AddButton from '@/components/shared/AddButton'
 import ArticleLink from './ArticleLink.vue'
+
 export default {
   name: 'Articles',
 
-  components: {
-    ArticleLink
-  },
+  components: { AddButton, ArticleLink },
 
   data() {
     return {
@@ -85,6 +77,12 @@ export default {
         }
       ]
     }
+  },
+
+  methods: {
+    addArticle() {
+      this.$router.push({ name: 'ArticleCreate' })
+    }
   }
 }
 </script>
@@ -92,38 +90,16 @@ export default {
 <style scoped>
 .articles {
   padding: 0 5%;
-}
-
-.articles__header {
-  color: var(--secondary);
-  padding: 0 20%;
-  margin-bottom: 5%;
-  font-size: 1.5em;
-  text-align: center;
+  border: 1px solid red;
 }
 
 .articles__filters {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  justify-items: center;
   justify-content: flex-end;
-  margin-top: 40px;
-}
-
-.articles__add-button {
-  color: var(--light);
-  background-color: var(--primary);
-  min-width: 39px;
-  min-height: 36px;
-  padding: 10px;
-  margin-left: 25px;
-  border: none;
-  border-radius: 100vh;
-  outline: none;
-  font-weight: 900;
-}
-
-.articles__add-button:hover {
-  background-color: var(--primary-plus);
+  /* margin-top: 40px; */
+  gap: 10px;
 }
 
 input {
@@ -132,9 +108,13 @@ input {
   width: 150px;
   min-height: 36px;
   border-radius: 18px;
-  border: 2px solid var(--dark);
+  border: 1px solid var(--dark-75);
   padding: 10px;
   outline: none;
+}
+
+input:focus {
+  border: 1px solid var(--dark);
 }
 
 a {

@@ -9,7 +9,7 @@
       >O título aparecerá na página inicial, portanto inclua um texto que possa
       ser utilizado logo após a sentença "Você sabia que..."</small
     >
-    <editor />
+    <editor-body />
     <small class="article-create__label">
       Ao clicar em “Publicar”, você concorda com os termos de serviço, política
       de privacidade e política de Cookies</small
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import Editor from '@/components/shared/Editor'
+import EditorBody from '@/components/shared/EditorBody'
 
 export default {
   components: {
-    Editor
+    EditorBody
   },
   data() {
     return {}
@@ -58,7 +58,7 @@ export default {
 }
 
 .article-create__publish-button {
-  color: var(--light);
+  color: white;
   background-color: var(--primary);
   margin-top: 25px;
   padding: 10px;
@@ -66,5 +66,10 @@ export default {
   border-radius: 100vh;
   outline: none;
   font-weight: 900;
+  opacity: 0.75;
+}
+
+.article-create__publish-button:hover {
+  opacity: 1;
 }
 </style>

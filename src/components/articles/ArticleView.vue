@@ -105,5 +105,6 @@ hr {
   border: none;
   border-top: 1px dotted var(--dark);
   opacity: 0.2;
+  margin-bottom: 50px;
 }
 </style>
