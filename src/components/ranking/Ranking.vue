@@ -42,7 +42,7 @@ export default {
 
 <style scoped>
 .ranking {
-  padding: 0 5%;
+  padding: 0 6%;
 }
 
 .ranking__filters {

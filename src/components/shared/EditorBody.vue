@@ -150,8 +150,8 @@ export default {
   border-radius: 18px;
   border: none;
   margin-top: 25px;
-  min-height: 10vh;
   padding: 10px;
+  user-select: text;
 }
 
 .editor--editable {
