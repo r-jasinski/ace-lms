@@ -12,6 +12,10 @@ export default {
 </script>
 
 <style scoped>
+.filter-input {
+  display: flex;
+  align-items: center;
+}
 .filter-input__field {
   width: 150px;
   min-height: 36px;

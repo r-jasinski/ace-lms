@@ -120,4 +120,11 @@ export default {
   color: var(--dark);
   text-decoration: none;
 }
+
+.articles-list__filters a {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
 </style>

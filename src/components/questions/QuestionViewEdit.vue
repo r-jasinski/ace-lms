@@ -107,8 +107,8 @@ export default {
 .question-view-edit hr {
   width: 50%;
   border: none;
-  border-top: 1px dotted var(--dark);
-  opacity: 0.2;
+  border-top: 1px dotted var(--primary);
+  opacity: 0.5;
   margin-bottom: 50px;
 }
 </style>

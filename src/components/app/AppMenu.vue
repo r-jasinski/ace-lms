@@ -286,15 +286,12 @@ export default {
   transform: rotate(172deg) skew(60deg);
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 550px) {
   .app-menu {
     top: 25px;
   }
   .app-menu .app-menu__wrapper {
     font-size: 0.68em;
-  }
-  .app-menu__button {
-    font-size: 1em;
   }
 }
 </style>
