@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile-page">
     <profile />
   </div>
 </template>
@@ -9,8 +9,13 @@ import Profile from '@/components/profile/Profile'
 
 export default {
   name: 'ProfilePage',
-  components: {
-    Profile
-  }
+  components: { Profile }
 }
 </script>
+
+<style scoped>
+.profile-page {
+  width: 100vw;
+  min-width: 320px;
+}
+</style>

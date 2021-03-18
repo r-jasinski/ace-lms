@@ -148,6 +148,7 @@ a {
 @media only screen and (max-width: 550px) {
   header {
     min-height: 375px;
+    height: 375px;
   }
 }
 </style>
