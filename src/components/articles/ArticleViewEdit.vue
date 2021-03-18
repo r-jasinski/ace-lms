@@ -1,37 +1,37 @@
 <template>
-  <div class="question-view-edit">
+  <div class="article-view-edit">
     <hr />
-    <div class="question-view-edit__title">
+    <div class="article-view-edit__title">
       <editor-title
         :placeholder="editorTitlePlaceholder"
-        :content="question.title"
+        :content="article.title"
         :editable="editable"
       />
-      <small v-if="editable" class="question-view-edit__label"
+      <small v-if="editable" class="article-view-edit__label"
         >O título aparecerá na listagem inicial, portanto seja claro e
         objetivo</small
       >
     </div>
-    <post-info :post-info="question" />
+    <post-info :post-info="article" />
     <editor-body
       :placeholder="editorBodyPlaceholder"
-      :content="question.text"
+      :content="article.text"
       :editable="editable"
     />
-    <div v-if="!editable" class="question-view-edit__buttons">
-      <edit-button :edit="editQuestion" />
-      <remove-button :remove="removeQuestion" />
+    <div v-if="!editable" class="article-view-edit__buttons">
+      <edit-button :edit="editArticle" />
+      <remove-button :remove="removeArticle" />
     </div>
     <div v-else>
-      <small class="question-view-edit__label">
+      <small class="article-view-edit__label">
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
       <publish-button :label="'Publicar'" />
     </div>
     <hr />
-    Respostas:
-    <editor-body :placeholder="editorAnswerPlaceholder" />
+    Comentários:
+    <editor-body :placeholder="editorCommentPlaceholder" />
   </div>
 </template>
 
@@ -44,7 +44,7 @@ import RemoveButton from '@/components/shared/RemoveButton'
 import EditButton from '@/components/shared/EditButton'
 
 export default {
-  name: 'QuestionViewEdit',
+  name: 'ArticleViewEdit',
 
   components: {
     RemoveButton,
@@ -58,10 +58,10 @@ export default {
   data() {
     return {
       editable: false,
-      editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
-      editorBodyPlaceholder: 'Escreva aqui o conteúdo da sua pergunta...',
-      editorAnswerPlaceholder: 'Escreva aqui a sua resposta...',
-      question: {
+      editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
+      editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
+      editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
+      article: {
         autor: 'anna_nowak',
         postDate: '5 horas atrás',
         title:
@@ -73,10 +73,10 @@ export default {
   },
 
   methods: {
-    removeQuestion() {
-      this.question = {}
+    removeArticle() {
+      this.article = {}
     },
-    editQuestion() {
+    editArticle() {
       this.editable = true
     }
   }
@@ -84,27 +84,27 @@ export default {
 </script>
 
 <style scoped>
-.question-view-edit {
+.article-view-edit {
   padding: 0 5%;
 }
 
-.question-view-edit__title {
+.article-view-edit__title {
   margin-bottom: 10px;
 }
 
-.question-view-edit__label {
+.article-view-edit__label {
   font-size: 0.75em;
   opacity: 0.7;
 }
 
-.question-view-edit__buttons {
+.article-view-edit__buttons {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.question-view-edit hr {
+.article-view-edit hr {
   width: 50%;
   border: none;
   border-top: 1px dotted var(--primary);

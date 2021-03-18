@@ -5,15 +5,15 @@
       <nav>
         <app-menu />
       </nav>
-    </header>
-
-    <article>
       <font-awesome-icon
         icon="lightbulb"
         class="app__dark-mode-button"
         size="2x"
         @click="darkMode = !darkMode"
       />
+    </header>
+
+    <article>
       <router-view />
     </article>
 
@@ -92,7 +92,7 @@ body {
 
 header {
   position: relative;
-  min-height: 400px;
+  min-height: 425px;
 }
 
 article {
@@ -122,9 +122,9 @@ a {
 
 .app__dark-mode-button {
   position: absolute;
-  right: 1%;
-  top: 40%;
-  opacity: 0.75;
+  right: 6%;
+  top: 90%;
+  opacity: 0.5;
   cursor: pointer;
 }
 
@@ -145,9 +145,10 @@ a {
   }
 }
 
-@media only screen and (max-width: 480px) {
-  article {
-    margin-top: -60px;
+@media only screen and (max-width: 550px) {
+  header {
+    min-height: 375px;
+    height: 375px;
   }
 }
 </style>

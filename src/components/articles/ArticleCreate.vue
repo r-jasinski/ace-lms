@@ -1,75 +1,61 @@
 <template>
   <div class="article-create">
-    <input
-      class="article-create__title-input"
-      type="text"
-      placeholder="Título"
-    />
-    <small class="article-create__label"
-      >O título aparecerá na página inicial, portanto inclua um texto que possa
-      ser utilizado logo após a sentença "Você sabia que..."</small
-    >
-    <editor-body />
-    <small class="article-create__label">
-      Ao clicar em “Publicar”, você concorda com os termos de serviço, política
-      de privacidade e política de Cookies</small
-    >
-    <p>
-      <button
-        class="article-create__publish-button"
-        @click="$router.push('/articles')"
+    <div>
+      <editor-title
+        :placeholder="editorTitlePlaceholder"
+        :editable="editable"
+      />
+      <small class="article-create__label"
+        >O título aparecerá na página inicial, portanto inclua um texto que
+        possa ser utilizado logo após a sentença "Você sabia que..."</small
       >
-        Publicar
-      </button>
-    </p>
+    </div>
+    <editor-body
+      class="article-create__editor-body"
+      :placeholder="editorBodyPlaceholder"
+      :editable="editable"
+    />
+    <div>
+      <small class="article-create__label">
+        Ao clicar em “Publicar”, você concorda com os termos de serviço,
+        política de privacidade e política de Cookies</small
+      >
+      <publish-button />
+    </div>
   </div>
 </template>
 
 <script>
 import EditorBody from '@/components/shared/EditorBody'
+import EditorTitle from '../shared/EditorTitle.vue'
+import PublishButton from '@/components/shared/PublishButton'
 
 export default {
-  components: {
-    EditorBody
-  },
+  name: 'ArticleCreate',
+
+  components: { EditorBody, EditorTitle, PublishButton },
+
   data() {
-    return {}
+    return {
+      editable: true,
+      editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
+      editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...'
+    }
   }
 }
 </script>
 
 <style scoped>
 .article-create {
-  padding: 0 5%;
+  padding: 0 6%;
 }
 
-.article-create__title-input {
-  color: var(--dark);
-  background-color: var(--light);
-  width: 100%;
-  border-radius: 18px;
-  border: 1px solid var(--dark);
-  padding: 10px;
-  outline: none;
+.article-create__editor-body {
+  min-height: 40vh;
 }
 
 .article-create__label {
   font-size: 0.75em;
-}
-
-.article-create__publish-button {
-  color: white;
-  background-color: var(--primary);
-  margin-top: 25px;
-  padding: 10px;
-  border: none;
-  border-radius: 100vh;
-  outline: none;
-  font-weight: 900;
-  opacity: 0.75;
-}
-
-.article-create__publish-button:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 </style>

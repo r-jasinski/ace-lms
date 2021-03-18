@@ -1,12 +1,16 @@
 <template>
   <button class="publish-button" @click="$router.push('/questions')">
-    Publicar
+    {{ label }}
   </button>
 </template>
 
 <script>
 export default {
-  name: 'PublishButton'
+  name: 'PublishButton',
+
+  props: {
+    label: { type: String, default: '' }
+  }
 }
 </script>
 
@@ -15,6 +19,7 @@ export default {
 }
 
 .publish-button {
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center;

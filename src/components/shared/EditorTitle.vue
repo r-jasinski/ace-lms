@@ -78,6 +78,7 @@ export default {
   border-radius: 18px;
   border: none;
   padding: 10px;
+  user-select: text;
 }
 
 .editor-title--editable {

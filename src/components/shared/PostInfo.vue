@@ -35,7 +35,8 @@ export default {
 
 .post-info__text {
   margin-top: 0;
-  list-style: none;
   margin-bottom: 25px;
+  opacity: 0.75;
+  list-style: none;
 }
 </style>

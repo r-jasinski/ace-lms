@@ -10,7 +10,11 @@
         objetivo</small
       >
     </div>
-    <editor-body :placeholder="editorBodyPlaceholder" :editable="editable" />
+    <editor-body
+      class="question-create__editor-body"
+      :placeholder="editorBodyPlaceholder"
+      :editable="editable"
+    />
     <div>
       <small class="question-create__label">
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
@@ -43,7 +47,11 @@ export default {
 
 <style scoped>
 .question-create {
-  padding: 0 5%;
+  padding: 0 6%;
+}
+
+.question-create__editor-body {
+  min-height: 40vh;
 }
 
 .question-create__label {

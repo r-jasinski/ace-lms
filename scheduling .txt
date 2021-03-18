@@ -12,14 +12,21 @@ Create the home page
 Create the ranking page
 Deploy homolog
 Add a dynamic title
+Create the articles page
+Create the articles view
+Create the articles new
+Create the questions page
+Create the questions view
+Create the questions edit
+Create the questions new
+Create the articles edit
 
 ==Doing==
-Create the articles page
 
 ==To Do==
-Create the questions page
 Create the profile page
 Create the about page
+Improve StyleGuide
 Add authentication
 Make the app works with Firebase
 Add animations

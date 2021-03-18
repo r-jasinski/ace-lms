@@ -1,13 +1,58 @@
 <template>
   <div class="profile">
-    <h1>Profile</h1>
+    <div class="profile__avatar" />
+    <form class="profile__form">
+      <form-input
+        v-for="({ type, placeholder, icon, value }, index) in inputs"
+        :key="index"
+        :type="type"
+        :placeholder="placeholder"
+        :icon="icon"
+        :value="value"
+      />
+      <publish-button :label="'Salvar'" />
+    </form>
   </div>
 </template>
 
 <script>
+import PublishButton from '@/components/shared/PublishButton'
+import FormInput from '@/components/shared/FormInput'
+import profileFormInputsMixin from '@/mixins/editor/profileFormInputsMixin'
+
 export default {
-  name: 'Profile'
+  name: 'Profile',
+
+  components: { PublishButton, FormInput },
+
+  mixins: [profileFormInputsMixin],
+
+  data() {
+    return {}
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.profile {
+  margin: 0 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile__avatar {
+  min-height: 275px;
+  min-width: 275px;
+  background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
+  background-position: center;
+  background-size: cover;
+  border-radius: 100vh;
+  box-shadow: #24292e2a 0px 0px 2px 2px;
+}
+
+.profile__form {
+  min-width: 275px;
+}
+</style>
