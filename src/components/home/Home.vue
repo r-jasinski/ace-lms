@@ -21,10 +21,8 @@ export default {
 
 <style scoped>
 .home {
-  padding: 0 6%;
 }
 h4 {
-  padding: 0 6%;
   text-align: center;
 }
 </style>

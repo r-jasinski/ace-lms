@@ -14,6 +14,7 @@
     </div>
     <post-info :post-info="article" />
     <editor-body
+      class="editor-body"
       :placeholder="editorBodyPlaceholder"
       :content="article.text"
       :editable="editable"
@@ -83,9 +84,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .article-view-edit {
-  padding: 0 5%;
+  /* padding: 0 5%; */
 }
 
 .article-view-edit__title {
@@ -95,6 +96,16 @@ export default {
 .article-view-edit__label {
   font-size: 0.75em;
   opacity: 0.7;
+}
+
+.editor p:first-child:first-letter {
+  color: var(--primary);
+  float: left;
+  font-size: 75px;
+  line-height: 60px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
 }
 
 .article-view-edit__buttons {

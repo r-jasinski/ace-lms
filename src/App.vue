@@ -99,6 +99,7 @@ article {
   display: flex;
   margin-top: 50px;
   min-height: 45vh;
+  padding: 0 20%;
 }
 
 footer {
@@ -145,10 +146,22 @@ a {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  article {
+    padding: 0 5%;
+  }
+}
+
 @media only screen and (max-width: 550px) {
   header {
     min-height: 375px;
     height: 375px;
+  }
+}
+
+@media only screen and (max-width: 340px) {
+  article {
+    padding: 0;
   }
 }
 </style>

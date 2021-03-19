@@ -91,7 +91,6 @@ export default {
 
 <style scoped>
 .questions-list {
-  padding: 0 6%;
 }
 
 .questions-list__filters {

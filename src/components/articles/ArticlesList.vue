@@ -89,7 +89,6 @@ export default {
 
 <style scoped>
 .articles-list {
-  padding: 0 6%;
 }
 
 .articles-list__filters {

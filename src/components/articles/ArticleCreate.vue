@@ -20,7 +20,7 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button />
+      <publish-button :label="'Publicar'" />
     </div>
   </div>
 </template>
@@ -47,7 +47,6 @@ export default {
 
 <style scoped>
 .article-create {
-  padding: 0 6%;
 }
 
 .article-create__editor-body {
