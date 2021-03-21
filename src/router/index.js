@@ -82,9 +82,9 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'AboutPage',
+    name: 'AboutUsersPage',
     component: () =>
-      import(/* webpackChunkName: "about" */ '@/views/AboutPage'),
+      import(/* webpackChunkName: "about" */ '@/views/AboutUsersPage'),
     meta: {
       title: 'Sobre'
     }
