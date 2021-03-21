@@ -21,7 +21,10 @@
         política de privacidade e política de Cookies</small
       >
 
-      <publish-button :label="'Publicar'" />
+      <publish-button
+        class="question-create__publish-button"
+        :label="'Publicar'"
+      />
     </div>
   </div>
 </template>
@@ -57,5 +60,9 @@ export default {
 .question-create__label {
   font-size: 0.75em;
   opacity: 0.7;
+}
+
+.question-create__publish-button {
+  margin-top: 25px;
 }
 </style>

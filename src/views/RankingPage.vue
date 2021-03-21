@@ -19,5 +19,6 @@ export default {
 .ranking-page {
   width: 100vw;
   min-width: 320px;
+  margin-top: 80px;
 }
 </style>

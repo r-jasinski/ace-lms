@@ -27,7 +27,10 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button :label="'Publicar'" />
+      <publish-button
+        class="question-view-edit__publish-button"
+        :label="'Publicar'"
+      />
     </div>
     <hr />
     Respostas:
@@ -99,9 +102,13 @@ export default {
 
 .question-view-edit__buttons {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.question-view-edit__publish-button {
+  margin-top: 25px;
 }
 
 .question-view-edit hr {

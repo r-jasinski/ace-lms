@@ -22,9 +22,7 @@
           }"
           @click="commands[command]({ level })"
         >
-          <div class="button__icon">
-            <font-awesome-icon :icon="icon" />
-          </div>
+          <font-awesome-icon :icon="icon" />
         </button>
       </div>
     </editor-menu-bar>

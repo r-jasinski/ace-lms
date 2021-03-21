@@ -14,7 +14,7 @@
     </div>
     <post-info :post-info="article" />
     <editor-body
-      class="editor-body"
+      class="article-view-edit__body"
       :placeholder="editorBodyPlaceholder"
       :content="article.text"
       :editable="editable"
@@ -28,7 +28,10 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button :label="'Publicar'" />
+      <publish-button
+        class="article-view-edit__publish-button"
+        :label="'Publicar'"
+      />
     </div>
     <hr />
     Comentários:
@@ -98,7 +101,7 @@ export default {
   opacity: 0.7;
 }
 
-.editor p:first-child:first-letter {
+.article-view-edit__body p:first-child:first-letter {
   color: var(--primary);
   float: left;
   font-size: 75px;
@@ -106,13 +109,18 @@ export default {
   padding-top: 4px;
   padding-right: 8px;
   padding-left: 3px;
+  font-weight: 600;
 }
 
 .article-view-edit__buttons {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.article-view-edit__publish-button {
+  margin-top: 25px;
 }
 
 .article-view-edit hr {

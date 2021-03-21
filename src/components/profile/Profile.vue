@@ -10,7 +10,7 @@
         :icon="icon"
         :value="value"
       />
-      <publish-button class="profile__button" :label="'Salvar'" />
+      <publish-button class="profile__save-button" :label="'Salvar'" />
     </form>
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
   gap: 5px;
 }
 
-.profile__button {
-  margin-left: 20px;
+.profile__save-button {
+  margin: 25px 0 0 20px;
 }
 </style>

@@ -47,7 +47,6 @@ export default {
 <style scoped>
 .home-menu {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 5%;
 }
@@ -97,9 +96,26 @@ export default {
   font-size: 2em;
   font-weight: 900;
   text-decoration: none;
+  background: -webkit-linear-gradient(
+    to right,
+    var(--dark) 0%,
+    var(--primary-plus) 100%
+  );
+  background: -moz-linear-gradient(
+    to right,
+    var(--dark) 0%,
+    var(--primary-plus) 100%
+  );
+  background: linear-gradient(
+    to right,
+    var(--dark) 0%,
+    var(--primary-plus) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 800px) {
   .home-menu {
     flex-direction: column;
   }

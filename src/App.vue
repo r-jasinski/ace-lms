@@ -50,11 +50,11 @@ export default {
   --primary-plus: #3c83ac;
   --secondary: #85752e;
   --secondary-light: #d1ccb7;
-  --dark: #495868;
+  --dark: #2c3e50;
   --light: #ffffff;
-  --dark-50: #49586850;
+  --dark-50: #2c3e5050;
   --light-50: #ffffff50;
-  --dark-75: #49586875;
+  --dark-75: #2c3e5075;
   --light-75: #ffffffad;
   --success: #67f667;
   --danger: #ec7a7a;
@@ -111,11 +111,11 @@ a {
 }
 
 .app--dark-mode {
-  --light: #495868;
+  --light: #2c3e50;
   --dark: #ffffff;
-  --light-50: #49586850;
+  --light-50: #2c3e5050;
   --dark-50: #ffffff50;
-  --light-75: #49586875;
+  --light-75: #2c3e5075;
   --dark-75: #ffffffad;
   --secondary-light: #85752e;
   --secondary: #d1ccb7;
@@ -135,11 +135,11 @@ a {
 
 @media (prefers-color-scheme: dark) {
   .app--dark-mode {
-    --light: #495868;
+    --light: #2c3e50;
     --dark: #ffffff;
-    --light-50: #49586850;
+    --light-50: #2c3e5050;
     --dark-50: #ffffff50;
-    --light-75: #49586875;
+    --light-75: #2c3e5075;
     --dark-75: #ffffffad;
     --secondary-light: #85752e;
     --secondary: #d1ccb7;

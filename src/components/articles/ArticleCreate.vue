@@ -20,7 +20,10 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button :label="'Publicar'" />
+      <publish-button
+        class="article-create__publish-button"
+        :label="'Publicar'"
+      />
     </div>
   </div>
 </template>
@@ -56,5 +59,9 @@ export default {
 .article-create__label {
   font-size: 0.75em;
   opacity: 0.7;
+}
+
+.article-create__publish-button {
+  margin-top: 25px;
 }
 </style>
