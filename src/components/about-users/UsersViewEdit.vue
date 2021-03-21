@@ -1,29 +1,31 @@
 <template>
-  <div class="ranking">
-    <div class="ranking__filters">
-      <a href="#">mensal</a>
-      <a href="#">anual</a>
+  <div class="admin-user">
+    <div class="admin-user__filters">
       <filter-input />
+      <form-input :placeholder="'E-mail do usuário'" :icon="'at'" />
+      <add-button :add="addUser" />
     </div>
     <div v-for="user in users" :key="user.id">
-      <ranking-user :user="user">
-        <template slot="ranking-user-position">#{{ user.id }}</template>
-        <template v-if="user.current" slot="ranking-user-indicator">{{
-          '(você)'
-        }}</template>
-      </ranking-user>
+      <user :user="user">
+        <template v-if="user.current" slot="user-indicator">
+          <remove-button :remove="removeUser" />
+        </template>
+      </user>
     </div>
   </div>
 </template>
 
 <script>
-import RankingUser from './RankingUser'
+import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
+import FormInput from '@/components/shared/FormInput'
+import RemoveButton from '@/components/shared/RemoveButton'
+import User from '@/components/about-users/User'
 
 export default {
-  name: 'Ranking',
+  name: 'UsersViewEdit',
 
-  components: { FilterInput, RankingUser },
+  components: { AddButton, FilterInput, FormInput, RemoveButton, User },
 
   data() {
     return {
@@ -36,21 +38,27 @@ export default {
         { id: 6, name: 'jan_kowalski', current: false }
       ]
     }
+  },
+
+  methods: {
+    removeUser() {},
+    addUser() {}
   }
 }
 </script>
 
 <style scoped>
-.ranking {
+.admin-user {
 }
 
-.ranking__filters {
+.admin-user__filters {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 5px;
 }
 
-.ranking__filters a {
+.admin-user__filters a {
   text-decoration: none;
   color: var(--dark);
   margin-right: 20px;

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'EditButton',
+  name: 'RemoveButton',
 
   props: {
     remove: { type: Function, required: true }
@@ -22,7 +22,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 25px 0 50px 0;
   min-height: 40px;
   min-width: 40px;
   color: #fff;

@@ -20,7 +20,11 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button />
+
+      <publish-button
+        class="question-create__publish-button"
+        :label="'Publicar'"
+      />
     </div>
   </div>
 </template>
@@ -47,7 +51,6 @@ export default {
 
 <style scoped>
 .question-create {
-  padding: 0 6%;
 }
 
 .question-create__editor-body {
@@ -57,5 +60,9 @@ export default {
 .question-create__label {
   font-size: 0.75em;
   opacity: 0.7;
+}
+
+.question-create__publish-button {
+  margin-top: 25px;
 }
 </style>

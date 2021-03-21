@@ -1,63 +1,41 @@
 <template>
-  <div class="article-view-edit">
-    <hr />
-    <div class="article-view-edit__title">
-      <editor-title
-        :placeholder="editorTitlePlaceholder"
-        :content="article.title"
+  <div>
+    <div class="admin-about">
+      <hr />
+      <post-info :post-info="about" />
+      <editor-body
+        :placeholder="editorBodyPlaceholder"
+        :content="about.text"
         :editable="editable"
       />
-      <small v-if="editable" class="article-view-edit__label"
-        >O título aparecerá na listagem inicial, portanto seja claro e
-        objetivo</small
-      >
+      <div v-if="!editable" class="admin-about__edit-button">
+        <edit-button :edit="editAbout" />
+      </div>
+      <div v-else>
+        <small class="admin-about__label">
+          Ao clicar em “Publicar”, você concorda com os termos de serviço,
+          política de privacidade e política de Cookies</small
+        >
+        <publish-button
+          class="admin-about__publish-button"
+          :label="'Publicar'"
+        />
+      </div>
+      <hr />
     </div>
-    <post-info :post-info="article" />
-    <editor-body
-      class="article-view-edit__body"
-      :placeholder="editorBodyPlaceholder"
-      :content="article.text"
-      :editable="editable"
-    />
-    <div v-if="!editable" class="article-view-edit__buttons">
-      <edit-button :edit="editArticle" />
-      <remove-button :remove="removeArticle" />
-    </div>
-    <div v-else>
-      <small class="article-view-edit__label">
-        Ao clicar em “Publicar”, você concorda com os termos de serviço,
-        política de privacidade e política de Cookies</small
-      >
-      <publish-button
-        class="article-view-edit__publish-button"
-        :label="'Publicar'"
-      />
-    </div>
-    <hr />
-    Comentários:
-    <editor-body :placeholder="editorCommentPlaceholder" />
   </div>
 </template>
 
 <script>
+import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
-import EditorTitle from '../shared/EditorTitle.vue'
 import PostInfo from '@/components/shared/PostInfo'
 import PublishButton from '@/components/shared/PublishButton'
-import RemoveButton from '@/components/shared/RemoveButton'
-import EditButton from '@/components/shared/EditButton'
 
 export default {
-  name: 'ArticleViewEdit',
+  name: 'AboutViewEdit',
 
-  components: {
-    RemoveButton,
-    EditButton,
-    EditorBody,
-    EditorTitle,
-    PostInfo,
-    PublishButton
-  },
+  components: { EditButton, EditorBody, PostInfo, PublishButton },
 
   data() {
     return {
@@ -65,7 +43,7 @@ export default {
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
-      article: {
+      about: {
         autor: 'anna_nowak',
         postDate: '5 horas atrás',
         title:
@@ -77,10 +55,10 @@ export default {
   },
 
   methods: {
-    removeArticle() {
-      this.article = {}
+    removeAbout() {
+      this.about = {}
     },
-    editArticle() {
+    editAbout() {
       this.editable = true
     }
   }
@@ -88,20 +66,19 @@ export default {
 </script>
 
 <style>
-.article-view-edit {
-  /* padding: 0 5%; */
+.admin-about {
 }
 
-.article-view-edit__title {
+.admin-about__title {
   margin-bottom: 10px;
 }
 
-.article-view-edit__label {
+.admin-about__label {
   font-size: 0.75em;
   opacity: 0.7;
 }
 
-.article-view-edit__body p:first-child:first-letter {
+.editor p:first-child:first-letter {
   color: var(--primary);
   float: left;
   font-size: 75px;
@@ -109,21 +86,20 @@ export default {
   padding-top: 4px;
   padding-right: 8px;
   padding-left: 3px;
-  font-weight: 600;
 }
 
-.article-view-edit__buttons {
+.admin-about__edit-button {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.article-view-edit__publish-button {
-  margin-top: 25px;
+.admin-about__publish-button {
+  margin: 25px 0 25px 0;
 }
 
-.article-view-edit hr {
+.admin-about hr {
   width: 50%;
   border: none;
   border-top: 1px dotted var(--primary);

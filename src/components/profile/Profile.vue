@@ -10,7 +10,7 @@
         :icon="icon"
         :value="value"
       />
-      <publish-button :label="'Salvar'" />
+      <publish-button class="profile__save-button" :label="'Salvar'" />
     </form>
   </div>
 </template>
@@ -43,8 +43,8 @@ export default {
 }
 
 .profile__avatar {
-  min-height: 275px;
-  min-width: 275px;
+  height: 275px;
+  width: 275px;
   background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
   background-position: center;
   background-size: cover;
@@ -53,6 +53,13 @@ export default {
 }
 
 .profile__form {
-  min-width: 275px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  gap: 5px;
+}
+
+.profile__save-button {
+  margin: 25px 0 0 20px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="form-input">
-    <input :type="type" :placeholder="placeholder" :value="value" />
     <font-awesome-icon class="filter-input__icon" :icon="icon" />
+    <input :type="type" :placeholder="placeholder" :value="value" />
   </div>
 </template>
 
@@ -26,6 +26,9 @@ export default {
 
 <style scoped>
 .form-input {
+  display: flex;
+  align-items: center;
+  padding-right: 15px;
 }
 
 input {
@@ -45,8 +48,7 @@ input:focus {
 
 .filter-input__icon {
   position: relative;
-  left: 15px;
+  left: 30px;
   opacity: 0.5;
-  top: -27px;
 }
 </style>
