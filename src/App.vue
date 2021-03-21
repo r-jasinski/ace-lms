@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="{ 'app--dark-mode': darkMode }">
-    <header>
+    <header v-once>
       <app-header />
       <nav>
         <app-menu />
@@ -17,7 +17,7 @@
       <router-view />
     </article>
 
-    <footer>
+    <footer v-once>
       <app-footer />
     </footer>
   </div>

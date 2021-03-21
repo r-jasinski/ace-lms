@@ -2,12 +2,12 @@
   <div class="about-users-page">
     <div class="about-users-page__header-buttons">
       <publish-button
-        :label="'Administrar Sobre'"
+        :label="'Sobre'"
         @clicked="switchComponentTo('about-view-edit')"
         :active="component === 'about-view-edit'"
       />
       <publish-button
-        :label="'Administrar Usuários'"
+        :label="'Usuários'"
         @clicked="switchComponentTo('users-view-edit')"
         :active="component === 'users-view-edit'"
       />
@@ -49,12 +49,10 @@ export default {
 .about-users-page {
   width: 100vw;
   min-width: 320px;
-  margin-top: 80px;
 }
 
 .about-users-page__header-buttons {
   display: flex;
-  justify-content: center;
   gap: 10px;
   margin-bottom: 50px;
 }
