@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
+    path: '',
     name: 'HomePage',
     component: () => import(/* webpackChunkName: "home" */ '@/views/HomePage'),
     meta: {
@@ -88,6 +88,15 @@ const routes = [
     meta: {
       title: 'Sobre'
     }
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '@/views/LoginPage'),
+    meta: {
+      title: 'Login'
+    }
   }
 ]
 
@@ -106,11 +115,9 @@ const router = new VueRouter({
   routes
 })
 
-const DEFAULT_TITLE = 'LMS'
-
 router.afterEach(to => {
   Vue.nextTick(() => {
-    document.title = `ACE: ${to.meta.title || DEFAULT_TITLE}`
+    document.title = `${process.env.VUE_APP_TITLE} ${to.meta.title || ''}`
   })
 })
 

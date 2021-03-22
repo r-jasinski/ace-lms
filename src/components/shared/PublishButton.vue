@@ -32,7 +32,6 @@ export default {
   border-radius: 100vh;
   border: none;
   outline: none;
-  font-weight: 900;
 }
 
 .publish-button:hover {
@@ -43,5 +42,6 @@ export default {
 .publish-button--active {
   background-color: var(--primary-plus);
   box-shadow: var(--primary-plus) 0px 0px 0px 2px;
+  font-weight: 900;
 }
 </style>
