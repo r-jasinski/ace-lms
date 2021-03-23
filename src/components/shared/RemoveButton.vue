@@ -22,8 +22,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 40px;
-  min-width: 40px;
+  min-width: 50px;
+  min-height: 50px;
   color: #fff;
   background-color: var(--danger);
   border-radius: 100vh;

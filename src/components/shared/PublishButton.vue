@@ -1,7 +1,7 @@
 <template>
   <button
     :class="{ 'publish-button': true, 'publish-button--active': active }"
-    @click="$emit('clicked')"
+    @click.prevent="$emit('clicked')"
   >
     <div>
       {{ label }}
@@ -26,6 +26,7 @@ export default {
   justify-content: center;
   align-items: center;
   width: 150px;
+  min-height: 50px;
   padding: 10px;
   color: #fff;
   background-color: var(--primary);

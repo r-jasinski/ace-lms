@@ -23,8 +23,8 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 25px 0 50px 0;
-  min-height: 40px;
-  min-width: 40px;
+  min-width: 50px;
+  min-height: 50px;
   color: #fff;
   background-color: var(--primary);
   border-radius: 100vh;
