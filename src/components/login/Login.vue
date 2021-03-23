@@ -40,7 +40,10 @@
           @clicked="onSubmit"
         />
       </div>
-      <a href="" @click.prevent="swithToForgetPasswordMode"
+      <a
+        v-if="!forgetPasswordMode"
+        href=""
+        @click.prevent="swithToForgetPasswordMode"
         ><small>Esqueci a senha</small></a
       >
     </form>
@@ -69,9 +72,11 @@ export default {
       this.buttonLabel = 'RESTART'
     },
     onSubmit() {
+      if (!this.forgetPasswordMode) {
+        this.$router.push({ name: 'HomePage' })
+      }
       this.forgetPasswordMode = false
       this.buttonLabel = 'START'
-      this.$router.push({ name: 'HomePage' })
     }
   }
 }
@@ -85,6 +90,12 @@ export default {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 'image form';
+  --dark: #2c3e50;
+  --light: #ffffff;
+  --dark-50: #2c3e5050;
+  --light-50: #ffffff50;
+  --dark-75: #2c3e5075;
+  --light-75: #ffffffad;
   color: var(--dark);
   background-color: var(--light);
 }
