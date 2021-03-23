@@ -104,6 +104,10 @@ const routes = [
     meta: {
       title: 'Login'
     }
+  },
+  {
+    path: '*',
+    redirect: '/login'
   }
 ]
 
@@ -124,7 +128,8 @@ const router = new VueRouter({
 
 router.afterEach(to => {
   Vue.nextTick(() => {
-    document.title = `${process.env.VUE_APP_TITLE} ${to.meta.title || ''}`
+    document.title = `${process.env.VUE_APP_TITLE || 'ace:'} ${to.meta.title ||
+      ''}`
   })
 })
 
