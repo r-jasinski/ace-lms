@@ -12,27 +12,41 @@
     >
       <ul>
         <li>
-          <router-link :to="{ name: 'HomePage' }"
+          <router-link
+            exact-active-class="app-menu__link--active"
+            :to="{ name: 'HomePage' }"
             ><span>Home</span></router-link
           >
         </li>
         <li>
-          <router-link to="/ranking"><span>Ranking</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/ranking"
+            ><span>Ranking</span></router-link
+          >
         </li>
         <li>
-          <router-link to="/articles"><span>Artigos</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/articles"
+            ><span>Artigos</span></router-link
+          >
         </li>
         <li>
-          <router-link to="/questions"><span>Perguntas</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/questions"
+            ><span>Perguntas</span></router-link
+          >
         </li>
         <li>
-          <router-link to="/profile"><span>Perfil</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/profile"
+            ><span>Perfil</span></router-link
+          >
         </li>
         <li>
-          <router-link to="/about"><span>Sobre</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/about"
+            ><span>Sobre</span></router-link
+          >
         </li>
         <li>
-          <router-link to="/exit"><span>Sair</span></router-link>
+          <router-link active-class="app-menu__link--active" to="/login"
+            ><span>Sair</span></router-link
+          >
         </li>
       </ul>
     </div>
@@ -62,12 +76,12 @@ export default {
   }
 }
 </script>
-
+k
 <style scoped>
 * {
   position: relative;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  /* -moz-box-sizing: border-box;
+  box-sizing: border-box; */
   margin: 0;
   padding: 0;
   list-style: none;
@@ -95,7 +109,6 @@ export default {
   background-position: center;
   background-size: cover;
   text-align: center;
-  font-weight: 700;
   font-size: 1.5em;
   text-transform: uppercase;
   cursor: pointer;
@@ -104,10 +117,26 @@ export default {
   -webkit-backface-visibility: hidden;
 }
 
-.app-menu__button:hover {
+.app-menu__button::before {
+  width: 4.5em;
+  height: 4.5em;
+  border-radius: 50%;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   box-shadow: var(--primary) 0px 0px 0px 10px;
+  opacity: 0;
+  transition: opacity 200ms;
 }
-.app-menu .app-menu__wrapper {
+
+.app-menu__button:hover::before {
+  opacity: 1;
+}
+
+.app-menu__wrapper {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -130,7 +159,7 @@ export default {
   overflow: hidden;
 }
 
-.app-menu .app-menu__wrapper:after {
+.app-menu__wrapper:after {
   content: '.';
   display: block;
   font-size: 2em;
@@ -146,7 +175,7 @@ export default {
   color: transparent;
 }
 
-.app-menu .app-menu__wrapper--opened {
+.app-menu__wrapper--opened {
   border-radius: 50%;
   opacity: 1;
   -webkit-transition: all 0.3s ease;
@@ -159,7 +188,7 @@ export default {
   pointer-events: auto;
 }
 
-.app-menu .app-menu__wrapper li {
+.app-menu__wrapper li {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -182,7 +211,7 @@ export default {
   pointer-events: none;
 }
 
-.app-menu .app-menu__wrapper li a {
+.app-menu__wrapper li a {
   position: absolute;
   right: -7.25em;
   bottom: -7.25em;
@@ -211,86 +240,101 @@ export default {
   padding-left: 5px;
 }
 
-.app-menu .app-menu__wrapper li a span {
+.app-menu__wrapper li a span {
   position: relative;
   top: 1.8em;
   display: block;
   font-size: 0.5em;
-  font-weight: 700;
   text-transform: uppercase;
 }
 
-.app-menu .app-menu__wrapper li a:hover,
-.app-menu .app-menu__wrapper li a:active,
-.app-menu .app-menu__wrapper li a:focus {
+.app-menu__wrapper li a:hover,
+.app-menu__wrapper li a:active,
+.app-menu__wrapper li a:focus {
   background: -webkit-radial-gradient(transparent 35%, var(--primary-plus) 35%);
   background: -moz-radial-gradient(transparent 35%, var(--primary-plus) 35%);
   background: radial-gradient(transparent 35%, var(--primary-plus) 35%);
 }
-.app-menu .app-menu__wrapper li a:focus {
+.app-menu__wrapper li a:focus {
   position: fixed;
 }
 
-.app-menu .app-menu__wrapper--opened li {
+.app-menu__wrapper--opened li {
   -webkit-transition: all 0.3s ease 0.3s;
   -moz-transition: all 0.3s ease 0.3s;
   transition: all 0.3s ease 0.3s;
 }
 
-.app-menu .app-menu__wrapper--opened li:first-child {
+.app-menu__wrapper--opened li:first-child {
   -webkit-transform: rotate(-20deg) skew(60deg);
   -moz-transform: rotate(-20deg) skew(60deg);
   -ms-transform: rotate(-20deg) skew(60deg);
   transform: rotate(-20deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(2) {
+.app-menu__wrapper--opened li:nth-child(2) {
   -webkit-transform: rotate(12deg) skew(60deg);
   -moz-transform: rotate(12deg) skew(60deg);
   -ms-transform: rotate(12deg) skew(60deg);
   transform: rotate(12deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(3) {
+.app-menu__wrapper--opened li:nth-child(3) {
   -webkit-transform: rotate(44deg) skew(60deg);
   -moz-transform: rotate(44deg) skew(60deg);
   -ms-transform: rotate(44deg) skew(60deg);
   transform: rotate(44deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(4) {
+.app-menu__wrapper--opened li:nth-child(4) {
   -webkit-transform: rotate(76deg) skew(60deg);
   -moz-transform: rotate(76deg) skew(60deg);
   -ms-transform: rotate(76deg) skew(60deg);
   transform: rotate(76deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(5) {
+.app-menu__wrapper--opened li:nth-child(5) {
   -webkit-transform: rotate(108deg) skew(60deg);
   -moz-transform: rotate(108deg) skew(60deg);
   -ms-transform: rotate(108deg) skew(60deg);
   transform: rotate(108deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(6) {
+.app-menu__wrapper--opened li:nth-child(6) {
   -webkit-transform: rotate(140deg) skew(60deg);
   -moz-transform: rotate(140deg) skew(60deg);
   -ms-transform: rotate(140deg) skew(60deg);
   transform: rotate(140deg) skew(60deg);
 }
 
-.app-menu .app-menu__wrapper--opened li:nth-child(7) {
+.app-menu__wrapper--opened li:nth-child(7) {
   -webkit-transform: rotate(172deg) skew(60deg);
   -moz-transform: rotate(172deg) skew(60deg);
   -ms-transform: rotate(172deg) skew(60deg);
   transform: rotate(172deg) skew(60deg);
 }
 
+.app-menu__link--active {
+  background: -webkit-radial-gradient(
+    transparent 35%,
+    var(--primary-plus) 35
+  ) !important;
+  background: -moz-radial-gradient(
+    transparent 35%,
+    var(--primary-plus) 35%
+  ) !important;
+  background: radial-gradient(
+    transparent 35%,
+    var(--primary-plus) 35%
+  ) !important;
+  font-weight: 900;
+}
+
 @media only screen and (max-width: 550px) {
   .app-menu {
     top: 25px;
   }
-  .app-menu .app-menu__wrapper {
+  .app-menu__wrapper {
     font-size: 0.68em;
   }
 }

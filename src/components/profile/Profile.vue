@@ -55,11 +55,11 @@ export default {
 .profile__form {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
   gap: 5px;
 }
 
 .profile__save-button {
-  margin: 25px 0 0 20px;
+  min-width: 300px;
+  margin-top: 20px;
 }
 </style>

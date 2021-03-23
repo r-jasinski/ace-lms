@@ -20,12 +20,13 @@ Create the questions view
 Create the questions edit
 Create the questions new
 Create the articles edit
+Create the profile page
+Create the about page
+Create the login page
 
 ==Doing==
 
 ==To Do==
-Create the profile page
-Create the about page
 Improve StyleGuide
 Add authentication
 Make the app works with Firebase

@@ -18,11 +18,11 @@ export default {
 }
 .filter-input__field {
   width: 150px;
-  min-height: 36px;
+  min-height: 50px;
   padding-left: 30px;
   color: var(--dark);
   background-color: var(--light);
-  border-radius: 18px;
+  border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
 }
