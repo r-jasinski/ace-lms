@@ -28,16 +28,16 @@ export default {
 .form-input {
   display: flex;
   align-items: center;
-  padding-right: 15px;
 }
 
 input {
   width: 100%;
-  min-height: 36px;
+  min-height: 50px;
   padding-left: 40px;
+  margin-left: -15px;
   color: var(--dark);
-  background-color: var(--light);
-  border-radius: 18px;
+  background-color: rgba(39, 195, 243, 0);
+  border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
 }
@@ -48,7 +48,7 @@ input:focus {
 
 .filter-input__icon {
   position: relative;
-  left: 30px;
+  left: 18px;
   opacity: 0.5;
 }
 </style>
