@@ -44,7 +44,7 @@
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/exit"
+          <router-link active-class="app-menu__link--active" to="/login"
             ><span>Sair</span></router-link
           >
         </li>
@@ -76,12 +76,12 @@ export default {
   }
 }
 </script>
-
+k
 <style scoped>
 * {
   position: relative;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  /* -moz-box-sizing: border-box;
+  box-sizing: border-box; */
   margin: 0;
   padding: 0;
   list-style: none;
@@ -117,9 +117,25 @@ export default {
   -webkit-backface-visibility: hidden;
 }
 
-.app-menu__button:hover {
+.app-menu__button::before {
+  width: 4.5em;
+  height: 4.5em;
+  border-radius: 50%;
+  content: ' ';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   box-shadow: var(--primary) 0px 0px 0px 10px;
+  opacity: 0;
+  transition: opacity 200ms;
 }
+
+.app-menu__button:hover::before {
+  opacity: 1;
+}
+
 .app-menu__wrapper {
   position: absolute;
   top: 100%;
