@@ -167,7 +167,7 @@ export default {
 }
 
 .editor__button {
-  background-color: rgba(77, 221, 240, 0);
+  background-color: transparent;
   border: none;
   color: var(--dark);
   height: 35px;

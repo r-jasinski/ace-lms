@@ -36,7 +36,7 @@ input {
   padding-left: 40px;
   margin-left: -15px;
   color: var(--dark);
-  background-color: rgba(39, 195, 243, 0);
+  background-color: transparent;
   border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;

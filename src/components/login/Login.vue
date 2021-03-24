@@ -90,18 +90,10 @@ export default {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 'image form';
-  --dark: #2c3e50;
-  --light: #ffffff;
-  --dark-50: #2c3e5050;
-  --light-50: #ffffff50;
-  --dark-75: #2c3e5075;
-  --light-75: #ffffffad;
-  color: var(--dark);
-  background-color: var(--light);
 }
 
 .login__image {
-  max-width: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -162,17 +154,6 @@ export default {
 .login a {
   color: var(--primary);
   margin-bottom: 25px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .login {
-    --light: #2c3e50;
-    --dark: #ffffff;
-    --light-50: #2c3e5050;
-    --dark-50: #ffffff50;
-    --light-75: #2c3e5075;
-    --dark-75: #ffffffad;
-  }
 }
 
 @media only screen and (max-width: 768px) {

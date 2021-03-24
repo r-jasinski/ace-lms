@@ -21,7 +21,7 @@ export default {
   min-height: 50px;
   padding-left: 30px;
   color: var(--dark);
-  background-color: var(--light);
+  background-color: transparent;
   border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
