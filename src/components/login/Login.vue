@@ -165,6 +165,8 @@ export default {
   .login__image {
     align-items: flex-start;
     background-image: url('../../assets/bg-login-form.svg');
+    background-position: right bottom;
+    background-size: cover;
   }
   .login__form {
     justify-content: start;
