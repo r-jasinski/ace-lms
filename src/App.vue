@@ -1,10 +1,30 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'app--dark-mode': getDarkMode }">
     <router-view />
   </div>
 </template>
 
-<script></script>
+<script>
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  data() {
+    return {}
+  },
+
+  computed: {
+    ...mapGetters('darkMode', ['getDarkMode'])
+  },
+
+  mounted() {
+    this.initDarkMode()
+  },
+
+  methods: {
+    ...mapActions('darkMode', ['initDarkMode'])
+  }
+}
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
@@ -47,5 +67,19 @@ body {
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+.app--dark-mode {
+  --light: #2c3e50;
+  --dark: #ffffff;
+  --light-50: #2c3e5050;
+  --dark-50: #ffffff50;
+  --light-75: #2c3e5075;
+  --dark-75: #ffffffad;
 }
 </style>

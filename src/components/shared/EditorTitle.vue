@@ -89,46 +89,6 @@ export default {
   border: 1px solid var(--dark);
 }
 
-.editor-title__menubar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1%;
-}
-
-.editor-title__button {
-  color: var(--dark);
-  background-color: rgba(77, 221, 240, 0);
-  width: 35px;
-  height: 35px;
-  border: none;
-  outline: none;
-  opacity: 0.7;
-}
-
-.is-active {
-  color: var(--primary);
-  opacity: 0.9;
-}
-
-.editor-title__button:hover {
-  background-color: rgba(0, 225, 255, 0.082);
-  opacity: 1;
-  border-radius: 5px;
-}
-
-.editor-title__content blockquote {
-  border-left: 3px solid var(--primary);
-  opacity: 0.8;
-  padding-left: 0.8rem;
-  font-style: italic;
-}
-
-.editor-title__content pre {
-  background-color: var(--primary);
-  padding: 1%;
-  border-radius: 5px;
-}
-
 .ProseMirror-focused {
   outline: none;
 }
