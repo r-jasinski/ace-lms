@@ -32,17 +32,18 @@ export default {
 :root {
   --primary: #81bfe2;
   --primary-plus: #3c83ac;
-  --secondary: #85752e;
-  --secondary-light: #d1ccb7;
   --dark: #2c3e50;
-  --light: #ffffff;
+  --light: #f4f7fe;
   --dark-50: #2c3e5050;
   --light-50: #ffffff50;
   --dark-75: #2c3e5075;
   --light-75: #ffffffad;
-  --success: #67f667;
-  --danger: #ec7a7a;
-  --danger-plus: #d85e5e;
+  --success: #90c916;
+  --success-plus: #75ac10;
+  --warning: #fca52a;
+  --warning-plus: #d8831e;
+  --danger: #ff7088;
+  --danger-plus: #db5175;
 }
 
 * {
