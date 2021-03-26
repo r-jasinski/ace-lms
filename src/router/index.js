@@ -113,14 +113,15 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
+  hashbag: true,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else if (to.hash) {
-      return { selector: to.hash }
-    } else {
-      return { x: 0, y: 0 }
+    if (savedPosition) return savedPosition
+    if (to.params.savedPosition) return {}
+    if (to.hash) {
+      let position = { selector: to.hash }
+      return position
     }
+    return { x: 0, y: 0 }
   },
   base: process.env.BASE_URL,
   routes

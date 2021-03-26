@@ -23,8 +23,13 @@ Create the articles edit
 Create the profile page
 Create the about page
 Create the login page
+Create top/back navigation
+Create lateral dynamic menu
 
 ==Doing==
+Change way to use svg
+Improve svg
+
 
 ==To Do==
 Improve StyleGuide

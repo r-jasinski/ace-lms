@@ -18,6 +18,6 @@ export default {
 <style scoped>
 .login-page {
   width: 100vw;
-  min-width: 320px;
+  min-width: 355px;
 }
 </style>

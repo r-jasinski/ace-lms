@@ -48,7 +48,7 @@ export default {
 <style scoped>
 .about-users-page {
   width: 100vw;
-  min-width: 320px;
+  min-width: 355px;
 }
 
 .about-users-page__header-buttons {

@@ -14,37 +14,49 @@
         <li>
           <router-link
             exact-active-class="app-menu__link--active"
-            :to="{ name: 'HomePage' }"
+            :to="{ name: 'HomePage', params: { savedPosition: true } }"
             ><span>Home</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/ranking"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'RankingPage', params: { savedPosition: true } }"
             ><span>Ranking</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/articles"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'ArticlesList', params: { savedPosition: true } }"
             ><span>Artigos</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/questions"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'QuestionsList', params: { savedPosition: true } }"
             ><span>Perguntas</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/profile"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'ProfilePage', params: { savedPosition: true } }"
             ><span>Perfil</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/about"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'AboutUsersPage', params: { savedPosition: true } }"
             ><span>Sobre</span></router-link
           >
         </li>
         <li>
-          <router-link active-class="app-menu__link--active" to="/login"
+          <router-link
+            active-class="app-menu__link--active"
+            :to="{ name: 'LoginPage', params: { savedPosition: true } }"
             ><span>Sair</span></router-link
           >
         </li>
