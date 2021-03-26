@@ -89,7 +89,6 @@ export default {
 
 <style>
 .article-view-edit {
-  /* padding: 0 5%; */
 }
 
 .article-view-edit__title {

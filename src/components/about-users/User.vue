@@ -7,7 +7,9 @@
         <li>email: jan_kowalski@email.com</li>
         <li>data de cadastro: 01/03/2021</li>
       </ul>
-      <slot name="user-indicator" />
+    </div>
+    <div class="user--selected">
+      <slot name="selected-user" />
     </div>
   </div>
 </template>
@@ -28,7 +30,7 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   margin-top: 20px;
-  padding: 5px 15px;
+  padding: 5px;
 }
 
 .user--current {
@@ -58,6 +60,10 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.user--selected {
+  margin: 10px;
 }
 
 ul {

@@ -65,7 +65,8 @@ html {
 
 body {
   margin: 0;
-  min-width: 355px;
+  padding: 0;
+  min-width: 320px;
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

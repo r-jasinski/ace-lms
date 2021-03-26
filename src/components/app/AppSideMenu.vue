@@ -62,15 +62,10 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: var(--light);
-  box-shadow: var(--light) 0px 0px 15px 15px;
   border-radius: 100vh;
 }
 
 .app-side-menu__dark-mode-button {
-  /* position: fixed;
-  right: 5%;
-  top: 65%; */
   opacity: 0.5;
   cursor: pointer;
 }
