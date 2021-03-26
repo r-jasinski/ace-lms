@@ -17,7 +17,6 @@ export default {
 
 <style scoped>
 .home-page {
-  width: 100vw;
-  min-width: 355px;
+  width: 100%;
 }
 </style>

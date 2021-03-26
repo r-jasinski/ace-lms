@@ -7,7 +7,7 @@
     </div>
     <div v-for="user in users" :key="user.id">
       <user :user="user">
-        <template v-if="user.current" slot="user-indicator">
+        <template v-if="user.current" slot="selected-user">
           <remove-button :remove="removeUser" />
         </template>
       </user>

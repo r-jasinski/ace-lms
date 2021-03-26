@@ -12,7 +12,6 @@ export default {
 
 <style scoped>
 .questions-page {
-  width: 100vw;
-  min-width: 355px;
+  width: 100%;
 }
 </style>

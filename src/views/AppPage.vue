@@ -49,7 +49,7 @@ article {
   display: flex;
   margin-top: 145px;
   min-height: 45vh;
-  padding: 0 calc(20% - 35px) 0 20%;
+  padding: 0 20%;
 }
 
 footer {
@@ -83,11 +83,6 @@ textarea {
   position: fixed;
   right: 5%;
   top: 72%;
-  /* position: fixed;
-  left: 5%; */
-  /* stroke: var(--light);
-  stroke-width: 5;
-  stroke-linecap: round; */
 }
 
 .app-page__scroll-top-button:hover {
@@ -104,7 +99,7 @@ a {
 
 @media only screen and (max-width: 768px) {
   article {
-    padding: 0 5%;
+    padding: 0 10%;
   }
 }
 
@@ -112,10 +107,10 @@ a {
   header {
     min-height: 375px;
     height: 375px;
-    padding: 0 30px 0 0;
   }
   article {
     margin-top: 50px;
+    padding: 0 30px 0 0;
   }
 }
 

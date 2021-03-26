@@ -47,12 +47,13 @@ export default {
 
 <style scoped>
 .about-users-page {
-  width: 100vw;
-  min-width: 355px;
+  width: 100%;
 }
 
 .about-users-page__header-buttons {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
   margin-bottom: 50px;
 }
