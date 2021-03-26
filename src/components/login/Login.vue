@@ -73,7 +73,7 @@ export default {
     },
     onSubmit() {
       if (!this.forgetPasswordMode) {
-        this.$router.push({ name: 'HomePage' })
+        this.$router.push({ name: 'HomePage', params: { savedPosition: true } })
       }
       this.forgetPasswordMode = false
       this.buttonLabel = 'START'
@@ -119,7 +119,7 @@ export default {
 
 .login__fg {
   max-height: 100vh;
-  min-width: 320px;
+  min-width: 355px;
   position: relative;
   top: 0;
 }

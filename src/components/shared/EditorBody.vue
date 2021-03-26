@@ -176,6 +176,10 @@ export default {
   width: 35px;
 }
 
+.editor__content {
+  min-height: 75px;
+}
+
 .is-active {
   color: var(--primary);
   opacity: 0.9;

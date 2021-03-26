@@ -75,7 +75,7 @@ export default {
   }
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: min-width: 355px;) {
   .article-list-link__summary {
     -webkit-line-clamp: 10;
   }
