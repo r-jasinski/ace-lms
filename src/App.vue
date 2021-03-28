@@ -33,7 +33,7 @@ export default {
   --primary: #81bfe2;
   --primary-plus: #3c83ac;
   --dark: #2c3e50;
-  --light: #f4f7fe;
+  --light: #ffffff;
   --dark-50: #2c3e5050;
   --light-50: #ffffff50;
   --dark-75: #2c3e5075;
@@ -49,7 +49,6 @@ export default {
 * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
 

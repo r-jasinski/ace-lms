@@ -51,13 +51,13 @@
 </template>
 
 <script>
-import PublishButton from '@/components/shared/PublishButton'
 import FormInput from '@/components/shared/FormInput'
+import PublishButton from '@/components/shared/PublishButton'
 
 export default {
   name: 'Login',
 
-  components: { PublishButton, FormInput },
+  components: { FormInput, PublishButton },
 
   data() {
     return {
@@ -113,7 +113,6 @@ export default {
   grid-area: form;
   background-image: url('../../assets/clouds.svg');
   background-repeat: no-repeat;
-  opacity: 0.8;
   padding: 0 20px;
 }
 
@@ -131,7 +130,10 @@ export default {
   font-weight: 900;
   font-size: 3.5em;
 }
-
+span,
+p {
+  text-shadow: 0px 0px 20px var(--light);
+}
 .login__quote {
   display: flex;
   flex-direction: column;
