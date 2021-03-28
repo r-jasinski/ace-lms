@@ -1,16 +1,26 @@
 <template>
   <div class="app-side-menu">
-    <font-awesome-icon
-      icon="lightbulb"
-      class="app-side-menu__dark-mode-button box"
-      size="2x"
-      @click="toggleDarkMode"
-    />
-    <arrow-icon
+    <div
+      class="app-side-menu__wrapper"
       v-if="showScrollToTopButton"
-      class="app-side-menu__scroll-top-button box"
       @click="scrollToTop"
-    />
+    >
+      <arrow-icon class="app-side-menu__scroll-top-button box" />
+    </div>
+    <div class="app-side-menu__wrapper" @click="toggleDarkMode">
+      <font-awesome-icon
+        icon="lightbulb"
+        class="app-side-menu__dark-mode-button box"
+        size="2x"
+      />
+    </div>
+    <div class="app-side-menu__wrapper">
+      <font-awesome-icon
+        icon="bell"
+        class="app-side-menu__dark-mode-button box"
+        size="2x"
+      />
+    </div>
   </div>
 </template>
 
@@ -52,22 +62,34 @@ export default {
 <style scoped>
 .app-side-menu {
   width: 30px;
+  height: 300px;
   margin: 0;
-  padding: 15px 0;
+  padding: 0;
   position: fixed;
-  right: 10px;
-  top: 60%;
+  right: 20px;
+  top: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 10px;
+}
+
+.app-side-menu__wrapper {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 100vh;
+  opacity: 0.9;
+  background-color: var(--light);
 }
 
 .app-side-menu__dark-mode-button {
   opacity: 0.5;
   cursor: pointer;
+  padding: 3px;
 }
 
 .app-side-menu__dark-mode-button:hover {
@@ -75,9 +97,10 @@ export default {
 }
 .app-side-menu__scroll-top-button {
   fill: var(--dark);
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 36px;
   opacity: 0.5;
+  padding: 3px;
 }
 
 .app-side-menu__scroll-top-button:hover {
