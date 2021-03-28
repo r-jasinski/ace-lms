@@ -1,6 +1,8 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import {
   faAt,
+  faBell,
   faBold,
   faCode,
   faEdit,
@@ -35,14 +37,17 @@ Vue.config.productionTip = false
 
 library.add(
   faAt,
+  faBell,
   faBold,
   faCode,
   faEdit,
+  faGithub,
   faHeading,
   faImage,
   faItalic,
   faKey,
   faLightbulb,
+  faLinkedin,
   faListOl,
   faListUl,
   faMehBlank,
