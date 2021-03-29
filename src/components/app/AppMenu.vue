@@ -53,12 +53,8 @@
             ><span>Sobre</span></router-link
           >
         </li>
-        <li>
-          <router-link
-            active-class="app-menu__link--active"
-            :to="{ name: 'LoginPage', params: { savedPosition: true } }"
-            ><span>Sair</span></router-link
-          >
+        <li @click="signOut">
+          <router-link to="exit"><span>Sair</span></router-link>
         </li>
       </ul>
     </div>
@@ -66,6 +62,9 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 export default {
   name: 'AppMenu',
 
@@ -84,11 +83,14 @@ export default {
   methods: {
     menuHandler() {
       this.opened = !this.opened
+    },
+    async signOut() {
+      await firebase.auth().signOut()
+      this.$router.replace({ name: 'LoginPage' })
     }
   }
 }
 </script>
-k
 <style scoped>
 * {
   position: relative;
