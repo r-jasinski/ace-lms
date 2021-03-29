@@ -24,7 +24,7 @@
           :type="'email'"
           :placeholder="'E-mail'"
           :icon="'at'"
-          :value="'jan_kowalski@email.com'"
+          v-model="user.email"
         />
         <form-input
           v-if="!forgetPasswordMode"
@@ -32,7 +32,7 @@
           :type="'password'"
           :placeholder="'Senha'"
           :icon="'key'"
-          :value="'kurwa'"
+          v-model="user.password"
         />
         <publish-button
           class="login__submit-button"
@@ -43,7 +43,7 @@
       <a
         v-if="!forgetPasswordMode"
         href=""
-        @click.prevent="swithToForgetPasswordMode"
+        @click.prevent="switchToForgetPasswordMode"
         ><small>Esqueci a senha</small></a
       >
     </form>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
 import PublishButton from '@/components/shared/PublishButton'
 
@@ -62,18 +64,24 @@ export default {
   data() {
     return {
       forgetPasswordMode: false,
-      buttonLabel: 'START'
+      buttonLabel: 'START',
+      user: {
+        email: 'jan_kowalski@gmail.com',
+        password: 'kurwamac'
+      }
     }
   },
 
   methods: {
-    swithToForgetPasswordMode() {
+    switchToForgetPasswordMode() {
       this.forgetPasswordMode = true
       this.buttonLabel = 'RESTART'
     },
-    onSubmit() {
+    async onSubmit() {
       if (!this.forgetPasswordMode) {
-        this.$router.push({ name: 'HomePage', params: { savedPosition: true } })
+        let { email, password } = this.user
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+        this.$router.replace({ name: 'HomePage' })
       }
       this.forgetPasswordMode = false
       this.buttonLabel = 'START'
