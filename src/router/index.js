@@ -1,3 +1,5 @@
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -14,7 +16,8 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "home" */ '@/views/HomePage'),
         meta: {
-          title: 'Home'
+          title: 'Home',
+          requiresAuth: true
         }
       },
       {
@@ -23,13 +26,15 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "ranking" */ '@/views/RankingPage'),
         meta: {
-          title: 'Ranking'
+          title: 'Ranking',
+          requiresAuth: true
         }
       },
       {
         path: '/articles',
         component: () =>
           import(/* webpackChunkName: "articles" */ '@/views/ArticlesPage'),
+        meta: { requiresAuth: true },
         children: [
           {
             path: '',
@@ -55,6 +60,7 @@ const routes = [
         path: '/questions',
         component: () =>
           import(/* webpackChunkName: "questions" */ '@/views/QuestionsPage'),
+        meta: { requiresAuth: true },
         children: [
           {
             path: '',
@@ -82,7 +88,8 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "profile" */ '@/views/ProfilePage'),
         meta: {
-          title: 'Perfil'
+          title: 'Perfil',
+          requiresAuth: true
         }
       },
       {
@@ -91,7 +98,8 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "about" */ '@/views/AboutUsersPage'),
         meta: {
-          title: 'Sobre'
+          title: 'Sobre',
+          requiresAuth: true
         }
       }
     ]
@@ -107,7 +115,7 @@ const routes = [
   },
   {
     path: '*',
-    redirect: '/login'
+    redirect: '/'
   }
 ]
 
@@ -132,6 +140,20 @@ router.afterEach(to => {
     document.title = `${process.env.VUE_APP_TITLE || 'ace:'} ${to.meta.title ||
       ''}`
   })
+})
+
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const isAuthenticated = firebase.auth().currentUser
+  if (requiresAuth && !isAuthenticated) {
+    next('/login')
+    return
+  }
+  if (!requiresAuth && isAuthenticated) {
+    next('')
+    return
+  }
+  next()
 })
 
 export default router
