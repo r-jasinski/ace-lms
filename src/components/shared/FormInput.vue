@@ -1,7 +1,12 @@
 <template>
   <div class="form-input">
     <font-awesome-icon class="filter-input__icon" :icon="icon" />
-    <input :type="type" :placeholder="placeholder" :value="value" />
+    <input
+      :type="type"
+      :placeholder="placeholder"
+      :value="value"
+      @input="updateValue($event.target.value)"
+    />
   </div>
 </template>
 
@@ -13,12 +18,18 @@ export default {
     icon: { type: String, default: 'meh-blank' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },
-    value: { type: String, default: '' }
+    value: { type: [String, Number, Date], default: '' }
   },
 
   data() {
     return {
       inputModel: ''
+    }
+  },
+
+  methods: {
+    updateValue(value) {
+      this.$emit('input', value)
     }
   }
 }
