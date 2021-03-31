@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="{ 'publish-button': true, 'publish-button--active': active }"
+    :class="['publish-button', { 'publish-button--active': active }]"
     @click.prevent="$emit('clicked')"
   >
     <div>
