@@ -105,12 +105,12 @@ const routes = [
     ]
   },
   {
-    path: '/login',
-    name: 'LoginPage',
+    path: '/sign-in',
+    name: 'SignInPage',
     component: () =>
-      import(/* webpackChunkName: "login" */ '@/views/LoginPage'),
+      import(/* webpackChunkName: "sign-in" */ '@/views/SignInPage'),
     meta: {
-      title: 'Login'
+      title: 'Sign In'
     }
   },
   {
@@ -137,7 +137,11 @@ const router = new VueRouter({
 
 router.afterEach(to => {
   Vue.nextTick(() => {
-    document.title = `${process.env.VUE_APP_TITLE || 'ace:'} ${to.meta.title ||
+    const signInWithLink = firebase.auth().isSignInWithEmailLink(location.href)
+      ? 'Finalizar Cadastro'
+      : null
+    document.title = `${process.env.VUE_APP_TITLE || ''} ${signInWithLink ||
+      to.meta.title ||
       ''}`
   })
 })
@@ -146,7 +150,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const isAuthenticated = firebase.auth().currentUser
   if (requiresAuth && !isAuthenticated) {
-    next('/login')
+    next('/sign-in')
     return
   }
   if (!requiresAuth && isAuthenticated) {
