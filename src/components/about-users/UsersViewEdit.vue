@@ -2,8 +2,13 @@
   <div class="admin-user">
     <div class="admin-user__filters">
       <filter-input />
-      <form-input :placeholder="'E-mail do usuário'" :icon="'at'" />
-      <add-button :add="addUser" />
+      <form-input
+        :type="'email'"
+        :placeholder="'E-mail do usuário'"
+        :icon="'at'"
+        v-model="user.email"
+      />
+      <add-button @clicked="addUser" icon="plus" />
     </div>
     <div v-for="user in users" :key="user.id">
       <user :user="user">
@@ -18,6 +23,8 @@
 <script>
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
 import User from '@/components/about-users/User'
@@ -29,6 +36,7 @@ export default {
 
   data() {
     return {
+      user: {},
       users: [
         { id: 1, name: 'anna_nowak', current: false },
         { id: 2, name: 'jan_kowalski', current: true },
@@ -42,7 +50,16 @@ export default {
 
   methods: {
     removeUser() {},
-    addUser() {}
+    async addUser() {
+      const actionCodeSettings = {
+        url: `${location.origin}/sign-in`,
+        handleCodeInApp: true
+      }
+      await firebase
+        .auth()
+        .sendSignInLinkToEmail(this.user.email, actionCodeSettings)
+      this.user.email = ''
+    }
   }
 }
 </script>
