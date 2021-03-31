@@ -86,7 +86,7 @@ export default {
     },
     async signOut() {
       await firebase.auth().signOut()
-      this.$router.replace({ name: 'LoginPage' })
+      this.$router.replace({ name: 'SignInPage' })
     }
   }
 }
