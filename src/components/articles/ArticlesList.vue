@@ -3,7 +3,7 @@
     <div class="articles-list__filters">
       <a href="#">data de postagem</a>
       <filter-input />
-      <add-button :add="addArticle" />
+      <add-button @clicked="addArticle" icon="plus" />
     </div>
     <router-link
       :to="{ name: 'ArticleViewEdit' }"

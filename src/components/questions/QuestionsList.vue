@@ -4,7 +4,7 @@
       <a href="#">data de postagem</a>
       <a href="#">respostas</a>
       <filter-input />
-      <add-button :add="addQuestion" />
+      <add-button @clicked="addQuestion" icon="plus" />
     </div>
     <router-link
       :to="{ name: 'QuestionViewEdit' }"
