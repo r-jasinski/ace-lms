@@ -13,7 +13,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('darkMode', ['getDarkMode'])
+    ...mapGetters({ getDarkMode: 'darkMode/getDarkMode' })
   },
 
   mounted() {
@@ -21,7 +21,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('darkMode', ['initDarkMode'])
+    ...mapActions({ initDarkMode: 'darkMode/initDarkMode' })
   }
 }
 </script>

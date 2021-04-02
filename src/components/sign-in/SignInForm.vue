@@ -19,7 +19,7 @@
         v-model="user.email"
       />
       <form-input
-        v-if="!forgetPasswordMode"
+        v-if="!forgotPasswordMode"
         class="sign-in-form__input"
         :type="'password'"
         :placeholder="'Senha'"
@@ -28,15 +28,14 @@
       />
       <publish-button
         class="sign-in-form__submit-button"
-        :label="buttonLabel"
+        :label="!forgotPasswordMode ? 'START' : 'RESTART'"
         @clicked="onSubmit"
       />
     </div>
-    <a
-      v-if="!forgetPasswordMode"
-      href=""
-      @click.prevent="switchToForgetPasswordMode"
-      ><small>Esqueci a senha</small></a
+    <a href="" @click.prevent="forgotPasswordModeToggle"
+      ><small>{{
+        !forgotPasswordMode ? 'Esqueci a senha' : 'Voltar para login'
+      }}</small></a
     >
   </form>
 </template>
@@ -46,6 +45,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
 import PublishButton from '@/components/shared/PublishButton'
+import store from '@/store/index.js'
 
 export default {
   name: 'SignInForm',
@@ -54,8 +54,7 @@ export default {
 
   data() {
     return {
-      forgetPasswordMode: false,
-      buttonLabel: 'START',
+      forgotPasswordMode: false,
       user: {
         email: 'jan_kowalski@gmail.com',
         password: 'kurwamac'
@@ -63,23 +62,26 @@ export default {
     }
   },
 
-  created() {
-    document.title = 'ACE Login'
-  },
+  computed: {},
 
   methods: {
-    switchToForgetPasswordMode() {
-      this.forgetPasswordMode = true
-      this.buttonLabel = 'RESTART'
+    forgotPasswordModeToggle() {
+      store.dispatch(
+        'documentTitle/setDocumentHeadTitle',
+        !this.forgotPasswordMode ? 'Recuperar Senha' : 'ACE LMS'
+      )
+      this.forgotPasswordMode = !this.forgotPasswordMode
     },
     async onSubmit() {
-      if (!this.forgetPasswordMode) {
-        let { email, password } = this.user
+      let { email, password } = this.user
+      if (!this.forgotPasswordMode) {
         await firebase.auth().signInWithEmailAndPassword(email, password)
         this.$router.replace({ name: 'HomePage' })
+        return
       }
-      this.forgetPasswordMode = false
-      this.buttonLabel = 'START'
+      firebase.auth().sendPasswordResetEmail(email)
+      this.forgotPasswordMode = false
+      store.dispatch('documentTitle/setDocumentHeadTitle', 'ACE LMS')
     }
   }
 }

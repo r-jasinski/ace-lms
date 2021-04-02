@@ -8,16 +8,23 @@
       <form-input
         class="sign-in-with-link-form__input"
         :type="'email'"
-        :placeholder="'E-mail'"
+        :placeholder="'Informe seu email'"
         :icon="'at'"
         v-model="user.email"
       />
       <form-input
         class="sign-in-with-link-form__input"
         :type="'password'"
-        :placeholder="'Senha'"
+        :placeholder="'Informe a senha'"
         :icon="'key'"
         v-model="user.password"
+      />
+      <form-input
+        class="sign-in-with-link-form__input"
+        :type="'password'"
+        :placeholder="'Confirme a senha'"
+        :icon="'key'"
+        v-model="user.passwordConfirm"
       />
       <publish-button
         class="sign-in-with-link-form__submit-button"
@@ -33,6 +40,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
 import PublishButton from '@/components/shared/PublishButton'
+import store from '@/store/index.js'
 
 export default {
   name: 'SignInWithLinkForm',
@@ -45,17 +53,21 @@ export default {
     }
   },
 
-  created() {
-    document.title = 'ACE Finalizar Cadastro'
+  activated() {
+    store.dispatch('documentTitle/setDocumentHeadTitle', 'Finalizar Cadastro')
   },
 
   methods: {
     async onSubmit() {
-      const { email, password } = this.user
-      await firebase.auth().signInWithEmailLink(email, location.href)
+      const { email, password, passwordConfirm } = this.user
+      if (password !== passwordConfirm) {
+        return
+      }
+      await firebase.auth().signInWithEmailLink(email, this.$route.fullPath)
       const user = firebase.auth().currentUser
       user.updatePassword(password)
       this.$router.replace({ name: 'HomePage' })
+      this.$emit('submited')
     }
   }
 }
