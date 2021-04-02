@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index.js'
 
 Vue.use(VueRouter)
 
@@ -110,12 +111,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "sign-in" */ '@/views/SignInPage'),
     meta: {
-      title: 'Sign In'
+      title: 'ACE LMS'
     }
   },
   {
     path: '*',
-    redirect: '/'
+    redirect: { name: 'SignInPage' }
   }
 ]
 
@@ -136,14 +137,9 @@ const router = new VueRouter({
 })
 
 router.afterEach(to => {
-  Vue.nextTick(() => {
-    const signInWithLink = firebase.auth().isSignInWithEmailLink(location.href)
-      ? 'Finalizar Cadastro'
-      : null
-    document.title = `${process.env.VUE_APP_TITLE || ''} ${signInWithLink ||
-      to.meta.title ||
-      ''}`
-  })
+  // Vue.nextTick(() => {
+  store.dispatch('documentTitle/setDocumentHeadTitle', to.meta.title)
+  // })
 })
 
 router.beforeEach((to, from, next) => {

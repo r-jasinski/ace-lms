@@ -1,21 +1,30 @@
 <template>
   <div class="sign-in-page">
     <sign-in-header />
-    <component :is="component" />
+    <keep-alive>
+      <component :is="component" @submited="component = 'sign-in-form'" />
+    </keep-alive>
   </div>
 </template>
 
 <script>
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import SignInHeader from '@/components/sign-in/SignInHeader'
 import SignInForm from '@/components/sign-in/SignInForm'
+import SignInHeader from '@/components/sign-in/SignInHeader'
+import SignInPasswordReset from '@/components/sign-in/SignInPasswordReset'
 import SignInWithLinkForm from '@/components/sign-in/SignInWithLinkForm'
+// import store from '@/store/index.js'
 
 export default {
   name: 'SignInPage',
 
-  components: { SignInHeader, SignInForm, SignInWithLinkForm },
+  components: {
+    SignInHeader,
+    SignInForm,
+    SignInWithLinkForm,
+    SignInPasswordReset
+  },
 
   data() {
     return {
@@ -24,8 +33,18 @@ export default {
   },
 
   async mounted() {
-    if (firebase.auth().isSignInWithEmailLink(location.href)) {
+    // if (this.$route.fullPath === '/sign-in') {
+    //   this.component = 'sign-in-form'
+    //   return
+    // }
+    if (firebase.auth().isSignInWithEmailLink(this.$route.fullPath)) {
       this.component = 'sign-in-with-link-form'
+      // store.dispatch('documentTitle/setDocumentHeadTitle', 'Finalizar Cadastro')
+      return
+    }
+    if (this.$route.query.oobCode) {
+      this.component = 'sign-in-password-reset'
+      // store.dispatch('documentTitle/setDocumentHeadTitle', 'Alterar Senha')
     }
   }
 }

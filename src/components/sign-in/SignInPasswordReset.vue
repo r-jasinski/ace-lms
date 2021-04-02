@@ -1,17 +1,10 @@
 <template>
   <form class="sign-in-with-link-form">
     <div class="sign-in-with-link-form__title">
-      <span>FINALIZE SEU CADASTRO </span>
+      <span>ATUALIZE SUA SENHA</span>
     </div>
     <p class="sign-in-with-link-form__quote"></p>
     <div>
-      <form-input
-        class="sign-in-with-link-form__input"
-        :type="'email'"
-        :placeholder="'Informe seu email'"
-        :icon="'at'"
-        v-model="user.email"
-      />
       <form-input
         class="sign-in-with-link-form__input"
         :type="'password'"
@@ -43,7 +36,7 @@ import PublishButton from '@/components/shared/PublishButton'
 import store from '@/store/index.js'
 
 export default {
-  name: 'SignInWithLinkForm',
+  name: 'SignInPasswordReset',
 
   components: { FormInput, PublishButton },
 
@@ -54,20 +47,24 @@ export default {
   },
 
   activated() {
-    store.dispatch('documentTitle/setDocumentHeadTitle', 'Finalizar Cadastro')
+    // this.$nextTick(() => {
+    store.dispatch('documentTitle/setDocumentHeadTitle', 'Atualizar Senha')
+    // })
   },
 
   methods: {
     async onSubmit() {
-      const { email, password, passwordConfirm } = this.user
+      const { password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
         return
       }
-      await firebase.auth().signInWithEmailLink(email, this.$route.fullPath)
-      const user = firebase.auth().currentUser
-      user.updatePassword(password)
-      this.$router.replace({ name: 'HomePage' })
-      this.$emit('submited')
+      if (firebase.auth().verifyPasswordResetCode(this.$route.query.oobCode)) {
+        await firebase
+          .auth()
+          .confirmPasswordReset(this.$route.query.oobCode, password)
+        this.$router.replace({ name: 'SignInPage' })
+        this.$emit('submited')
+      }
     }
   }
 }
