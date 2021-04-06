@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{ 'app--dark-mode': getDarkMode }">
+  <div id="app" :class="getDarkMode ? 'app--light-mode' : 'app--dark-mode'">
     <router-view />
   </div>
 </template>
@@ -76,6 +76,10 @@ body {
   background-color: var(--light);
 }
 
+.app--light-mode {
+  background-image: url('./assets/stardust_light.png');
+}
+
 .app--dark-mode {
   --light: #2c3e50;
   --dark: #ffffff;
@@ -83,5 +87,6 @@ body {
   --dark-50: #ffffff50;
   --light-75: #2c3e5075;
   --dark-75: #ffffffad;
+  background-image: url('./assets/stardust_dark.png');
 }
 </style>
