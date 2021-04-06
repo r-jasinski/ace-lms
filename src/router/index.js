@@ -115,6 +115,16 @@ const routes = [
     }
   },
   {
+    path: '/welcome',
+    name: 'WelcomePage',
+    component: () =>
+      import(/* webpackChunkName: "welcome" */ '@/views/WelcomePage'),
+    meta: {
+      title: 'Bem-vindo',
+      requiresAuth: true
+    }
+  },
+  {
     path: '*',
     redirect: { name: 'SignInPage' }
   }
