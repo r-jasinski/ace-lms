@@ -14,6 +14,12 @@
       />
       <form-input
         class="sign-in-with-link-form__input"
+        :placeholder="'Informe o seu usuário'"
+        :icon="'user'"
+        v-model="user.name"
+      />
+      <form-input
+        class="sign-in-with-link-form__input"
         :type="'password'"
         :placeholder="'Informe a senha'"
         :icon="'key'"
@@ -59,14 +65,18 @@ export default {
 
   methods: {
     async onSubmit() {
-      const { email, password, passwordConfirm } = this.user
+      const { email, name, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
         return
       }
       await firebase.auth().signInWithEmailLink(email, this.$route.fullPath)
       const user = firebase.auth().currentUser
-      user.updatePassword(password)
-      this.$router.replace({ name: 'HomePage' })
+      await user.updateProfile({
+        displayName: name,
+        photoURL: 'https://example.com/jane-q-user/profile.jpg'
+      })
+      await user.updatePassword(password)
+      this.$router.replace({ name: 'WelcomePage' })
       this.$emit('submited')
     }
   }
