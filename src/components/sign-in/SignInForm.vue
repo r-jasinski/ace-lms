@@ -89,12 +89,12 @@ export default {
 
 <style scoped>
 .sign-in-form {
+  width: 95%;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: center;
   align-items: center;
-  /* padding: 0 500px; */
   margin-top: 25px;
   grid-area: form;
   background-image: url('../../assets/clouds.svg');
@@ -106,7 +106,7 @@ export default {
   flex-direction: column;
   text-align: center;
   font-weight: 900;
-  font-size: 3.5em;
+  font-size: 3em;
 }
 
 span,
@@ -121,7 +121,7 @@ p {
 }
 
 .sign-in-form__submit-button {
-  width: 300px;
+  width: 250px;
   margin: 25px 0;
 }
 
@@ -136,8 +136,8 @@ p {
 
 @media only screen and (max-width: 768px) {
   .sign-in-form {
-    justify-content: start;
-    padding: 0 20px;
+    justify-content: center;
+    padding: 0 30px;
   }
   .sign-in-form__title {
     font-size: 2.5em;

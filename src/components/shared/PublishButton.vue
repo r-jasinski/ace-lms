@@ -3,7 +3,7 @@
     :class="['publish-button', { 'publish-button--active': active }]"
     @click.prevent="$emit('clicked')"
   >
-    <div>
+    <div class="publish-button__label">
       {{ label }}
     </div>
   </button>
@@ -44,5 +44,9 @@ export default {
   background-color: var(--primary-plus);
   box-shadow: var(--primary-plus) 0px 0px 0px 2px;
   font-weight: 900;
+}
+
+.publish-button__label {
+  text-shadow: 0px 0px 2px var(--light);
 }
 </style>
