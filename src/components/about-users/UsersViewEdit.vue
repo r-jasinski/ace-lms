@@ -3,9 +3,10 @@
     <div class="admin-user__filters">
       <filter-input />
       <form-input
-        :type="'email'"
-        :placeholder="'E-mail do usuário'"
-        :icon="'at'"
+        type="email"
+        placeholder="E-mail do usuário"
+        autocomplete="email"
+        icon="at"
         v-model="user.email"
       />
       <add-button @clicked="addUser" icon="plus" />

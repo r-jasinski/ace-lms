@@ -7,16 +7,18 @@
     <div>
       <form-input
         class="sign-in-with-link-form__input"
-        :type="'password'"
-        :placeholder="'Informe a senha'"
-        :icon="'key'"
+        type="password"
+        placeholder="Informe a senha"
+        autocomplete="new-password"
+        icon="key"
         v-model="user.password"
       />
       <form-input
         class="sign-in-with-link-form__input"
-        :type="'password'"
-        :placeholder="'Confirme a senha'"
-        :icon="'key'"
+        type="password"
+        placeholder="Confirme a senha"
+        autocomplete="new-password"
+        icon="key"
         v-model="user.passwordConfirm"
       />
       <publish-button

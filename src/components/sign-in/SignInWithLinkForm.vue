@@ -7,29 +7,33 @@
     <div>
       <form-input
         class="sign-in-with-link-form__input"
-        :type="'email'"
-        :placeholder="'Informe seu email'"
-        :icon="'at'"
+        type="email"
+        placeholder="Informe seu email"
+        autocomplete="email"
+        icon="at"
         v-model="user.email"
       />
       <form-input
         class="sign-in-with-link-form__input"
-        :placeholder="'Informe o seu usuário'"
-        :icon="'user'"
+        placeholder="Informe o seu usuário"
+        autocomplete="name"
+        icon="user"
         v-model="user.name"
       />
       <form-input
         class="sign-in-with-link-form__input"
-        :type="'password'"
-        :placeholder="'Informe a senha'"
-        :icon="'key'"
+        type="password"
+        placeholder="Informe a senha"
+        autocomplete="new-password"
+        icon="key"
         v-model="user.password"
       />
       <form-input
         class="sign-in-with-link-form__input"
-        :type="'password'"
-        :placeholder="'Confirme a senha'"
-        :icon="'key'"
+        type="password"
+        placeholder="Confirme a senha"
+        autocomplete="new-password"
+        icon="key"
         v-model="user.passwordConfirm"
       />
       <publish-button

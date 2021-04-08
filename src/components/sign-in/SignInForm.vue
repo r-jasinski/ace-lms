@@ -13,17 +13,19 @@
     <div>
       <form-input
         class="sign-in-form__input"
-        :type="'email'"
-        :placeholder="'E-mail'"
-        :icon="'at'"
+        type="email"
+        placeholder="E-mail"
+        autocomplete="email"
+        icon="at"
         v-model="user.email"
       />
       <form-input
         v-if="!forgotPasswordMode"
         class="sign-in-form__input"
-        :type="'password'"
-        :placeholder="'Senha'"
-        :icon="'key'"
+        type="password"
+        placeholder="Senha"
+        autocomplete="current-password"
+        icon="key"
         v-model="user.password"
       />
       <publish-button

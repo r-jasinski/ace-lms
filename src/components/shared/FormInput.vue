@@ -6,6 +6,7 @@
       :placeholder="placeholder"
       :value="value"
       @input="updateValue($event.target.value)"
+      :autocomplete="autocomplete"
     />
   </div>
 </template>
@@ -15,6 +16,7 @@ export default {
   name: 'FormInput',
 
   props: {
+    autocomplete: { type: String, default: 'off' },
     icon: { type: String, default: 'meh-blank' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },

@@ -7,7 +7,7 @@
       </nav>
     </header>
 
-    <article>
+    <article role="main">
       <router-view />
       <app-side-menu />
     </article>
