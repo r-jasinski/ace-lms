@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'HomeMenu'
+  name: 'TheHomeMenu'
 }
 </script>
 

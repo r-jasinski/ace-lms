@@ -68,7 +68,7 @@ export default {
   color: var(--light);
 }
 
-ul {
+.ranking-user ul {
   list-style: none;
   margin-top: 0;
 }

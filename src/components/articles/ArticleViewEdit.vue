@@ -20,7 +20,7 @@
       :editable="editable"
     />
     <div v-if="!editable" class="article-view-edit__buttons">
-      <edit-button :edit="editArticle" />
+      <edit-button @clicked="editArticle" />
       <remove-button :remove="removeArticle" />
     </div>
     <div v-else>
@@ -28,8 +28,8 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button
-        class="article-view-edit__publish-button"
+      <round-corner-button
+        class="article-view-edit__round-corner-button"
         :label="'Publicar'"
       />
     </div>
@@ -40,23 +40,23 @@
 </template>
 
 <script>
+import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
 import PostInfo from '@/components/shared/PostInfo'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import RemoveButton from '@/components/shared/RemoveButton'
-import EditButton from '@/components/shared/EditButton'
 
 export default {
   name: 'ArticleViewEdit',
 
   components: {
-    RemoveButton,
     EditButton,
     EditorBody,
     EditorTitle,
     PostInfo,
-    PublishButton
+    RoundCornerButton,
+    RemoveButton
   },
 
   data() {
@@ -88,9 +88,6 @@ export default {
 </script>
 
 <style>
-.article-view-edit {
-}
-
 .article-view-edit__title {
   margin-bottom: 10px;
 }
@@ -118,8 +115,8 @@ export default {
   gap: 10px;
 }
 
-.article-view-edit__publish-button {
-  margin-top: 25px;
+.article-view-edit__round-corner-button {
+  margin: 25px 0;
 }
 
 .article-view-edit hr {

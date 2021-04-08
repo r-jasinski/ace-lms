@@ -1,40 +1,41 @@
 <template>
-  <div class="profile">
-    <div class="profile__avatar" />
-    <form class="profile__form">
+  <div class="profile-view-edit">
+    <div class="profile-view-edit__avatar" />
+    <form class="profile-view-edit__form">
       <form-input
-        v-for="({ type, placeholder, icon, value }, index) in inputs"
+        v-for="({ type, placeholder, autocomplete, icon, value },
+        index) in inputs"
         :key="index"
         :type="type"
         :placeholder="placeholder"
+        :autocomplete="autocomplete"
         :icon="icon"
         :value="value"
       />
-      <publish-button class="profile__save-button" :label="'Salvar'" />
+      <round-corner-button
+        class="profile-view-edit__save-button"
+        :label="'Salvar'"
+      />
     </form>
   </div>
 </template>
 
 <script>
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import FormInput from '@/components/shared/FormInput'
-import profileFormInputsMixin from '@/mixins/editor/profileFormInputsMixin'
+import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 
 export default {
-  name: 'Profile',
+  name: 'ProfileViewEdit',
 
-  components: { PublishButton, FormInput },
+  components: { RoundCornerButton, FormInput },
 
-  mixins: [profileFormInputsMixin],
-
-  data() {
-    return {}
-  }
+  mixins: [profileFormInputsMixin]
 }
 </script>
 
 <style scoped>
-.profile {
+.profile-view-edit {
   margin: 0 6%;
   display: flex;
   flex-direction: column;
@@ -42,7 +43,7 @@ export default {
   gap: 10px;
 }
 
-.profile__avatar {
+.profile-view-edit__avatar {
   height: 275px;
   width: 275px;
   background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
@@ -52,13 +53,13 @@ export default {
   box-shadow: #24292e2a 0px 0px 2px 2px;
 }
 
-.profile__form {
+.profile-view-edit__form {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.profile__save-button {
+.profile-view-edit__save-button {
   min-width: 300px;
   margin-top: 20px;
 }

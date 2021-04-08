@@ -27,18 +27,20 @@ Create top/back navigation
 Create lateral dynamic menu
 Change way to use svg
 Improve svg
-Setup Firebase
+Set up Firebase
 Add authentication
+Create add user feature
+Create sign in with email link page
+Create the welcome page
+Improve StyleGuide and project structure
+Resolve accessibility issues
 
 ==Doing==
-Create add user feature
-Create SignInWithEmailLink page
 
 ==To Do==
 Create add image modal
 Handle errors
 Add animations
 Add validation
-Improve StyleGuide (the, multi-word, AppButton)
 Cover app with tests
 Deploy production

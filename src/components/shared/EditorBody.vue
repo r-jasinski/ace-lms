@@ -32,7 +32,7 @@
 
 <script>
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
-import menuBarButtonsMixin from '@/mixins/editor/menuBarButtonsMixin'
+import menuBarButtonsMixin from '@/mixins/menuBarButtonsMixin'
 import {
   Blockquote,
   Bold,

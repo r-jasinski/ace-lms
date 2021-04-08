@@ -9,15 +9,15 @@
         :editable="editable"
       />
       <div v-if="!editable" class="admin-about__edit-button">
-        <edit-button :edit="editAbout" />
+        <edit-button @clicked="editAbout" />
       </div>
       <div v-else>
         <small class="admin-about__label">
           Ao clicar em “Publicar”, você concorda com os termos de serviço,
           política de privacidade e política de Cookies</small
         >
-        <publish-button
-          class="admin-about__publish-button"
+        <round-corner-button
+          class="admin-about__round-corner-button"
           :label="'Publicar'"
         />
       </div>
@@ -30,12 +30,12 @@
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import PostInfo from '@/components/shared/PostInfo'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 
 export default {
   name: 'AboutViewEdit',
 
-  components: { EditButton, EditorBody, PostInfo, PublishButton },
+  components: { EditButton, EditorBody, PostInfo, RoundCornerButton },
 
   data() {
     return {
@@ -66,9 +66,6 @@ export default {
 </script>
 
 <style>
-.admin-about {
-}
-
 .admin-about__title {
   margin-bottom: 10px;
 }
@@ -95,8 +92,8 @@ export default {
   gap: 10px;
 }
 
-.admin-about__publish-button {
-  margin: 25px 0 25px 0;
+.admin-about__round-corner-button {
+  margin: 25px 0;
 }
 
 .admin-about hr {

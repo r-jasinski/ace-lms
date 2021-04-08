@@ -1,37 +1,31 @@
 <template>
   <div class="app-page">
     <header v-once>
-      <app-header />
+      <the-app-header />
       <nav>
-        <app-menu />
+        <the-app-menu />
       </nav>
     </header>
 
-    <article>
+    <article role="main">
       <router-view />
-      <app-side-menu />
+      <the-app-side-menu />
     </article>
 
     <footer v-once>
-      <app-footer />
+      <the-app-footer />
     </footer>
   </div>
 </template>
 
 <script>
-import AppFooter from '@/components/app/AppFooter'
-import AppHeader from '@/components/app/AppHeader'
-import AppMenu from '@/components/app/AppMenu'
-import AppSideMenu from '@/components/app/AppSideMenu'
+import TheAppFooter from '@/components/app/TheAppFooter'
+import TheAppHeader from '@/components/app/TheAppHeader'
+import TheAppMenu from '@/components/app/TheAppMenu'
+import TheAppSideMenu from '@/components/app/TheAppSideMenu'
 
 export default {
-  components: { AppFooter, AppHeader, AppMenu, AppSideMenu },
-
-  data() {
-    return {}
-  },
-
-  methods: {}
+  components: { TheAppFooter, TheAppHeader, TheAppMenu, TheAppSideMenu }
 }
 </script>
 

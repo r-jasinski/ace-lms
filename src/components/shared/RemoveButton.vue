@@ -1,23 +1,16 @@
 <template>
-  <button class="remove-button" @click="remove">
+  <button class="remove-button" @click.prevent="$emit('clicked')">
     <font-awesome-icon icon="trash" />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'RemoveButton',
-
-  props: {
-    remove: { type: Function, required: true }
-  }
+  name: 'RemoveButton'
 }
 </script>
 
 <style scoped>
-.remove-button {
-}
-
 .remove-button {
   display: flex;
   justify-content: center;

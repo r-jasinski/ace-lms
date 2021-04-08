@@ -1,19 +1,19 @@
 <template>
-  <div id="app" :class="getDarkMode ? 'app--light-mode' : 'app--dark-mode'">
+  <div id="app" :class="darkMode">
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  data() {
-    return {}
-  },
-
   computed: {
-    ...mapGetters({ getDarkMode: 'darkMode/getDarkMode' })
+    ...mapGetters({ getDarkMode: 'darkMode/getDarkMode' }),
+
+    darkMode() {
+      return this.getDarkMode ? 'app--light-mode' : 'app--dark-mode'
+    }
   },
 
   mounted() {

@@ -1,23 +1,16 @@
 <template>
-  <button class="edit-button" @click="edit">
+  <button class="edit-button" @click.prevent="$emit('clicked')">
     <font-awesome-icon icon="edit" />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'EditButton',
-
-  props: {
-    edit: { type: Function, required: true }
-  }
+  name: 'EditButton'
 }
 </script>
 
 <style scoped>
-.edit-button {
-}
-
 .edit-button {
   display: flex;
   justify-content: center;

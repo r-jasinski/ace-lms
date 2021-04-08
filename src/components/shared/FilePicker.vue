@@ -24,10 +24,6 @@ export default {
     value: { type: File, default: null }
   },
 
-  data() {
-    return {}
-  },
-
   methods: {
     handleFileChange(e) {
       this.$emit('input', e.target.files[0])
@@ -51,6 +47,7 @@ export default {
 
 .file-picker:hover {
   border: 1px solid var(--dark);
+  cursor: pointer;
 }
 
 .file-picker__icon {

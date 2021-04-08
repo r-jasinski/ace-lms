@@ -19,7 +19,7 @@
       :editable="editable"
     />
     <div v-if="!editable" class="question-view-edit__buttons">
-      <edit-button :edit="editQuestion" />
+      <edit-button @clicked="editQuestion" />
       <remove-button :remove="removeQuestion" />
     </div>
     <div v-else>
@@ -27,8 +27,8 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button
-        class="question-view-edit__publish-button"
+      <round-corner-button
+        class="question-view-edit__round-corner-button"
         :label="'Publicar'"
       />
     </div>
@@ -42,7 +42,7 @@
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
 import PostInfo from '@/components/shared/PostInfo'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import EditButton from '@/components/shared/EditButton'
 
@@ -55,7 +55,7 @@ export default {
     EditorBody,
     EditorTitle,
     PostInfo,
-    PublishButton
+    RoundCornerButton
   },
 
   data() {
@@ -107,7 +107,7 @@ export default {
   gap: 10px;
 }
 
-.question-view-edit__publish-button {
+.question-view-edit__round-corner-button {
   margin-top: 25px;
 }
 

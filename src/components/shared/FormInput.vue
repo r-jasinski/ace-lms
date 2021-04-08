@@ -1,11 +1,12 @@
 <template>
   <div class="form-input">
-    <font-awesome-icon class="filter-input__icon" :icon="icon" />
+    <font-awesome-icon class="form-input__icon" :icon="icon" />
     <input
       :type="type"
       :placeholder="placeholder"
       :value="value"
       @input="updateValue($event.target.value)"
+      :autocomplete="autocomplete"
     />
   </div>
 </template>
@@ -15,6 +16,7 @@ export default {
   name: 'FormInput',
 
   props: {
+    autocomplete: { type: String, default: 'off' },
     icon: { type: String, default: 'meh-blank' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },
@@ -41,7 +43,7 @@ export default {
   align-items: center;
 }
 
-input {
+.form-input input {
   width: 100%;
   min-height: 50px;
   padding-left: 40px;
@@ -53,11 +55,11 @@ input {
   outline: none;
 }
 
-input:focus {
+.form-input input:focus {
   border: 1px solid var(--dark);
 }
 
-.filter-input__icon {
+.form-input__icon {
   position: relative;
   left: 18px;
   opacity: 0.5;

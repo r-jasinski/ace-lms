@@ -1,12 +1,12 @@
 <template>
   <div class="about-users-page">
     <div class="about-users-page__header-buttons">
-      <publish-button
+      <round-corner-button
         :label="'Sobre'"
         @clicked="switchComponentTo('about-view-edit')"
         :active="component === 'about-view-edit'"
       />
-      <publish-button
+      <round-corner-button
         :label="'Usuários'"
         @clicked="switchComponentTo('users-view-edit')"
         :active="component === 'users-view-edit'"
@@ -20,13 +20,13 @@
 
 <script>
 import AboutViewEdit from '@/components/about-users/AboutViewEdit'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import UsersViewEdit from '@/components/about-users/UsersViewEdit'
-import PublishButton from '@/components/shared/PublishButton'
 
 export default {
   name: 'AboutUsersPage',
 
-  components: { AboutViewEdit, PublishButton, UsersViewEdit },
+  components: { AboutViewEdit, RoundCornerButton, UsersViewEdit },
 
   data() {
     return {
@@ -36,10 +36,9 @@ export default {
 
   methods: {
     switchComponentTo(component) {
-      if (!component || component === this.component) {
-        return
+      if (component && component !== this.component) {
+        this.component = component
       }
-      this.component = component
     }
   }
 }
