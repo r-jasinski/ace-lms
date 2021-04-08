@@ -1,20 +1,12 @@
 <template>
-  <button
-    :class="['add-button', { 'add-button--active': active }]"
-    @click.prevent="$emit('clicked')"
-  >
-    <font-awesome-icon :icon="icon" />
+  <button class="add-button" @click.prevent="$emit('clicked')">
+    <font-awesome-icon icon="plus" />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'RoundButton',
-
-  props: {
-    active: { type: Boolean, default: false },
-    icon: { type: String, required: true }
-  }
+  name: 'AddButton'
 }
 </script>
 
@@ -36,6 +28,7 @@ export default {
 .add-button:hover {
   background-color: var(--primary-plus);
   box-shadow: var(--primary-plus) 0px 0px 0px 2px;
+  cursor: pointer;
 }
 
 .add-button--active {

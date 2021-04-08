@@ -20,8 +20,8 @@
         Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <publish-button
-        class="article-create__publish-button"
+      <round-corner-button
+        class="article-create__round-corner-button"
         :label="'Publicar'"
       />
     </div>
@@ -31,12 +31,12 @@
 <script>
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 
 export default {
   name: 'ArticleCreate',
 
-  components: { EditorBody, EditorTitle, PublishButton },
+  components: { EditorBody, EditorTitle, RoundCornerButton },
 
   data() {
     return {
@@ -49,9 +49,6 @@ export default {
 </script>
 
 <style scoped>
-.article-create {
-}
-
 .article-create__editor-body {
   min-height: 40vh;
 }
@@ -61,7 +58,7 @@ export default {
   opacity: 0.7;
 }
 
-.article-create__publish-button {
+.article-create__round-corner-button {
   margin-top: 25px;
 }
 </style>

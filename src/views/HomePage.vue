@@ -1,22 +1,29 @@
 <template>
   <div class="home-page">
-    <home />
+    <the-home-menu />
+    <h4>
+      Você sabia que é possível construir um sistema web utilizando apenas
+      Javascript?
+    </h4>
   </div>
 </template>
 
 <script>
-import Home from '@/components/home/Home'
+import TheHomeMenu from '@/components/home/TheHomeMenu'
 
 export default {
   name: 'HomePage',
-  components: {
-    Home
-  }
+
+  components: { TheHomeMenu }
 }
 </script>
 
 <style scoped>
 .home-page {
   width: 100%;
+}
+
+.home-page h4 {
+  text-align: center;
 }
 </style>

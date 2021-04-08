@@ -36,26 +36,25 @@
         icon="key"
         v-model="user.passwordConfirm"
       />
-      <publish-button
+      <round-corner-button
         class="sign-in-with-link-form__submit-button"
         label="Salvar"
-        @clicked="onSubmit"
+        @clicked="submitUserProfile"
       />
     </div>
   </form>
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
+import { confirmAccount } from '@/services/firebase'
 
 export default {
   name: 'SignInWithLinkForm',
 
-  components: { FormInput, PublishButton },
+  components: { FormInput, RoundCornerButton },
 
   data() {
     return {
@@ -68,18 +67,14 @@ export default {
   },
 
   methods: {
-    async onSubmit() {
+    async submitUserProfile() {
       const { email, name, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
+        //TODO: Remove alert and set info system
+        alert('Senhas não conferem!')
         return
       }
-      await firebase.auth().signInWithEmailLink(email, this.$route.fullPath)
-      const user = firebase.auth().currentUser
-      await user.updateProfile({
-        displayName: name,
-        photoURL: 'https://example.com/jane-q-user/profile.jpg'
-      })
-      await user.updatePassword(password)
+      await confirmAccount(email, name, password)
       this.$router.replace({ name: 'WelcomePage' })
       this.$emit('submited')
     }
@@ -109,7 +104,7 @@ export default {
   font-size: 3.5em;
 }
 
-span,
+.sign-in-with-link-form span,
 p {
   text-shadow: 0px 0px 20px var(--light);
 }

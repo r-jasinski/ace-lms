@@ -1,6 +1,6 @@
 <template>
   <div class="welcome-page">
-    <div class="welcome">
+    <div>
       <h1>
         Bem-vindo!
       </h1>
@@ -15,12 +15,12 @@
           ref="inputFile"
         />
         <div class="welcome-page__buttons">
-          <publish-button
+          <round-corner-button
             class="welcome-page__submit-button"
             label="Enviar"
-            @clicked="onSubmit"
+            @clicked="submitUserImage"
           />
-          <publish-button
+          <round-corner-button
             class="welcome-page__submit-button"
             label="Ir para home"
             @clicked="$router.replace({ name: 'HomePage' })"
@@ -28,14 +28,12 @@
         </div>
       </form>
     </div>
-    <div class="avatar">
-      <img :src="imageURL" alt="" class="avatar-image" />
-    </div>
+    <img :src="imageURL" alt="" class="welcome-page__avatar" />
   </div>
 </template>
 
 <script>
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import FilePicker from '@/components/shared/FilePicker'
 import {
   getBase64FromExternalUrl,
@@ -47,7 +45,7 @@ import { getAuthenticatedUser, uploadBase64AsImage } from '@/services/firebase'
 export default {
   name: 'WelcomePage',
 
-  components: { FilePicker, PublishButton },
+  components: { FilePicker, RoundCornerButton },
 
   data() {
     return {
@@ -65,7 +63,7 @@ export default {
   },
 
   methods: {
-    async onSubmit() {
+    async submitUserImage() {
       const userImage = this.$refs.inputFile.$el.children[2]
       const response = await toonifyImage(userImage)
       const toonifiedUserImage = await getBase64FromExternalUrl(
@@ -114,22 +112,9 @@ export default {
   text-shadow: 0px 0px 20px var(--light);
 }
 
-.avatar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 25px;
-  padding-top: 0;
-}
-
-.avatar-image {
+.welcome-page__avatar {
   width: 340px;
   border-radius: 100vh;
-}
-
-.welcome {
-  margin-bottom: 0;
-  padding-bottom: 0;
+  margin-top: 25px;
 }
 </style>

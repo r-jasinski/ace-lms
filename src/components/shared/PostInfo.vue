@@ -19,9 +19,6 @@ export default {
 </script>
 
 <style scoped>
-.post-info {
-}
-
 .post-info__avatar {
   float: left;
   margin-right: 20px;

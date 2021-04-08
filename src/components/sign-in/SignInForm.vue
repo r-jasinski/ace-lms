@@ -28,31 +28,28 @@
         icon="key"
         v-model="user.password"
       />
-      <publish-button
+      <round-corner-button
         class="sign-in-form__submit-button"
-        :label="!forgotPasswordMode ? 'START' : 'RESTART'"
+        :label="submitButtonLabel"
         @clicked="onSubmit"
       />
     </div>
     <a href="" @click.prevent="forgotPasswordModeToggle"
-      ><small>{{
-        !forgotPasswordMode ? 'Esqueci a senha' : 'Voltar para login'
-      }}</small></a
+      ><small>{{ toggleLinkLabel }}</small></a
     >
   </form>
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
 import FormInput from '@/components/shared/FormInput'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
+import { sendPasswordResetEmail, signIn } from '@/services/firebase'
 
 export default {
   name: 'SignInForm',
 
-  components: { FormInput, PublishButton },
+  components: { FormInput, RoundCornerButton },
 
   data() {
     return {
@@ -64,7 +61,14 @@ export default {
     }
   },
 
-  computed: {},
+  computed: {
+    submitButtonLabel() {
+      return !this.forgotPasswordMode ? 'START' : 'RESTART'
+    },
+    toggleLinkLabel() {
+      return !this.forgotPasswordMode ? 'Esqueci a senha' : 'Voltar para login'
+    }
+  },
 
   methods: {
     forgotPasswordModeToggle() {
@@ -75,13 +79,13 @@ export default {
       this.forgotPasswordMode = !this.forgotPasswordMode
     },
     async onSubmit() {
-      let { email, password } = this.user
+      const { email, password } = this.user
       if (!this.forgotPasswordMode) {
-        await firebase.auth().signInWithEmailAndPassword(email, password)
+        await signIn(email, password)
         this.$router.replace({ name: 'HomePage' })
         return
       }
-      firebase.auth().sendPasswordResetEmail(email)
+      await sendPasswordResetEmail(email)
       this.forgotPasswordMode = false
       store.dispatch('documentTitle/setDocumentHeadTitle', 'ACE LMS')
     }
@@ -111,7 +115,7 @@ export default {
   font-size: 3em;
 }
 
-span,
+.sign-in-form span,
 p {
   text-shadow: 0px 0px 20px var(--light);
 }

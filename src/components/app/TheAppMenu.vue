@@ -3,6 +3,7 @@
     <button
       class="app-menu__button"
       id="app-menu__button"
+      aria-label="Toggle Main Menu"
       @click="menuHandler"
     />
     <div
@@ -62,11 +63,10 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { signOut } from '@/services/firebase'
 
 export default {
-  name: 'AppMenu',
+  name: 'TheAppMenu',
 
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
       this.opened = !this.opened
     },
     async signOut() {
-      await firebase.auth().signOut()
+      await signOut()
       this.$router.replace({ name: 'SignInPage' })
     }
   }

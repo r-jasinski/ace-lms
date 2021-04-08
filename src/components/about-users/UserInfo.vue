@@ -1,22 +1,22 @@
 <template>
-  <div class="user" :class="{ 'user--current': user.current }">
-    <div class="user__avatar" />
-    <div class="user__indicator">
+  <div class="user-info" :class="{ 'user-info--current': user.current }">
+    <div class="user-info__avatar" />
+    <div class="user-info__indicator">
       <ul>
-        <li class="user__name">{{ user.name }}</li>
+        <li class="user-info__name">{{ user.name }}</li>
         <li>email: jan_kowalski@email.com</li>
         <li>data de cadastro: 01/03/2021</li>
       </ul>
     </div>
-    <div class="user--selected">
-      <slot name="selected-user" />
+    <div class="user-info--selected">
+      <slot name="selected-user-info" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'User',
+  name: 'UserInfo',
 
   props: {
     user: { type: Object, required: true }
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style scoped>
-.user {
+.user-info {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -33,12 +33,12 @@ export default {
   padding: 5px;
 }
 
-.user--current {
+.user-info--current {
   background-color: var(--primary);
   border-radius: 5px;
 }
 
-.user__avatar {
+.user-info__avatar {
   min-width: 100px;
   height: 100px;
   border-radius: 999px;
@@ -49,24 +49,24 @@ export default {
   background-size: cover;
 }
 
-.user__name {
+.user-info__name {
   font-size: 1.5em;
   font-weight: 900;
   margin-right: 40px;
 }
 
-.user__indicator {
+.user-info__indicator {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
 
-.user--selected {
+.user-info--selected {
   margin: 10px;
 }
 
-ul {
+.user-info ul {
   list-style: none;
   margin-top: 0;
 }

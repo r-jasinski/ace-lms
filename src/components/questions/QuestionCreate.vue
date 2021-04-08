@@ -21,8 +21,8 @@
         política de privacidade e política de Cookies</small
       >
 
-      <publish-button
-        class="question-create__publish-button"
+      <round-corner-button
+        class="question-create__round-corner-button"
         :label="'Publicar'"
       />
     </div>
@@ -32,12 +32,12 @@
 <script>
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
-import PublishButton from '@/components/shared/PublishButton'
+import RoundCornerButton from '@/components/shared/RoundCornerButton'
 
 export default {
   name: 'QuestionCreate',
 
-  components: { EditorBody, EditorTitle, PublishButton },
+  components: { EditorBody, EditorTitle, RoundCornerButton },
 
   data() {
     return {
@@ -50,9 +50,6 @@ export default {
 </script>
 
 <style scoped>
-.question-create {
-}
-
 .question-create__editor-body {
   min-height: 40vh;
 }
@@ -62,7 +59,7 @@ export default {
   opacity: 0.7;
 }
 
-.question-create__publish-button {
+.question-create__round-corner-button {
   margin-top: 25px;
 }
 </style>

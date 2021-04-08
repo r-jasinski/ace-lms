@@ -1,9 +1,9 @@
 <template>
   <button
-    :class="['publish-button', { 'publish-button--active': active }]"
+    :class="['round-corner-button', { 'round-corner-button--active': active }]"
     @click.prevent="$emit('clicked')"
   >
-    <div class="publish-button__label">
+    <div class="round-corner-button__label">
       {{ label }}
     </div>
   </button>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'PublishButton',
+  name: 'RoundCornerButton',
 
   props: {
     active: { type: Boolean, default: false },
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.publish-button {
+.round-corner-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,18 +35,19 @@ export default {
   outline: none;
 }
 
-.publish-button:hover {
+.round-corner-button:hover {
   background-color: var(--primary-plus);
   box-shadow: var(--primary-plus) 0px 0px 0px 2px;
+  cursor: pointer;
 }
 
-.publish-button--active {
+.round-corner-button--active {
   background-color: var(--primary-plus);
   box-shadow: var(--primary-plus) 0px 0px 0px 2px;
   font-weight: 900;
 }
 
-.publish-button__label {
+.round-corner-button__label {
   text-shadow: 0px 0px 2px var(--light);
 }
 </style>

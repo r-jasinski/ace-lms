@@ -5,19 +5,19 @@
       v-if="showScrollToTopButton"
       @click="scrollToTop"
     >
-      <arrow-icon class="app-side-menu__scroll-top-button box" />
+      <arrow-icon class="app-side-menu__scroll-top-button" />
     </div>
     <div class="app-side-menu__wrapper" @click="toggleDarkMode">
       <font-awesome-icon
         icon="lightbulb"
-        class="app-side-menu__dark-mode-button box"
+        class="app-side-menu__dark-mode-button"
         size="2x"
       />
     </div>
     <div class="app-side-menu__wrapper">
       <font-awesome-icon
         icon="bell"
-        class="app-side-menu__dark-mode-button box"
+        class="app-side-menu__dark-mode-button"
         size="2x"
       />
     </div>
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import ArrowIcon from '../../assets/arrow.svg?inline'
+import ArrowIcon from '@/assets/arrow.svg?inline'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'AppSideMenu',
+  name: 'TheAppSideMenu',
 
   components: { ArrowIcon },
 
@@ -88,26 +88,26 @@ export default {
 
 .app-side-menu__dark-mode-button {
   opacity: 0.5;
+  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
   cursor: pointer;
   padding: 3px;
 }
 
 .app-side-menu__dark-mode-button:hover {
   opacity: 1;
+  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 .app-side-menu__scroll-top-button {
   fill: var(--dark);
   width: 28px;
   height: 36px;
   opacity: 0.5;
+  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
   padding: 3px;
 }
 
 .app-side-menu__scroll-top-button:hover {
   opacity: 1;
-}
-
-.box {
   transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
 }
 

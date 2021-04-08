@@ -1,6 +1,6 @@
 <template>
   <div class="admin-user">
-    <div class="admin-user__filters">
+    <form class="admin-user__filters">
       <filter-input />
       <form-input
         type="email"
@@ -9,14 +9,14 @@
         icon="at"
         v-model="user.email"
       />
-      <add-button @clicked="addUser" icon="plus" />
-    </div>
+      <add-button @clicked="addUserWithLinkToEmail" />
+    </form>
     <div v-for="user in users" :key="user.id">
-      <user :user="user">
+      <user-info :user="user">
         <template v-if="user.current" slot="selected-user">
           <remove-button :remove="removeUser" />
         </template>
-      </user>
+      </user-info>
     </div>
   </div>
 </template>
@@ -24,16 +24,15 @@
 <script>
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { addUserWithLinkToEmail } from '@/services/firebase'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
-import User from '@/components/about-users/User'
+import UserInfo from '@/components/about-users/UserInfo'
 
 export default {
   name: 'UsersViewEdit',
 
-  components: { AddButton, FilterInput, FormInput, RemoveButton, User },
+  components: { AddButton, FilterInput, FormInput, RemoveButton, UserInfo },
 
   data() {
     return {
@@ -51,27 +50,20 @@ export default {
 
   methods: {
     removeUser() {},
-    async addUser() {
-      const actionCodeSettings = {
-        url: `${location.origin}/sign-in`,
-        handleCodeInApp: true
+    async addUserWithLinkToEmail() {
+      if (this.user.email) {
+        await addUserWithLinkToEmail(this.user.email)
+        this.user.email = ''
       }
-      await firebase
-        .auth()
-        .sendSignInLinkToEmail(this.user.email, actionCodeSettings)
-      this.user.email = ''
     }
   }
 }
 </script>
 
 <style scoped>
-.admin-user {
-}
-
 .admin-user__filters {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: flex-end;
   gap: 5px;
 }

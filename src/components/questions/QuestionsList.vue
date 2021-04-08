@@ -4,7 +4,7 @@
       <a href="#">data de postagem</a>
       <a href="#">respostas</a>
       <filter-input />
-      <add-button @clicked="addQuestion" icon="plus" />
+      <add-button @clicked="addQuestion" />
     </div>
     <router-link
       :to="{ name: 'QuestionViewEdit' }"
@@ -90,9 +90,6 @@ export default {
 </script>
 
 <style scoped>
-.questions-list {
-}
-
 .questions-list__filters {
   display: flex;
   align-items: center;

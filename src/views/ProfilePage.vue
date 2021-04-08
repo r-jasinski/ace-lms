@@ -1,15 +1,16 @@
 <template>
   <div class="profile-page">
-    <profile />
+    <profile-view-edit />
   </div>
 </template>
 
 <script>
-import Profile from '@/components/profile/Profile'
+import ProfileViewEdit from '@/components/profile/ProfileViewEdit'
 
 export default {
   name: 'ProfilePage',
-  components: { Profile }
+
+  components: { ProfileViewEdit }
 }
 </script>
 

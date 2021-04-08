@@ -3,7 +3,7 @@
     <div class="articles-list__filters">
       <a href="#">data de postagem</a>
       <filter-input />
-      <add-button @clicked="addArticle" icon="plus" />
+      <add-button @clicked="addArticle" />
     </div>
     <router-link
       :to="{ name: 'ArticleViewEdit' }"
@@ -17,13 +17,13 @@
 
 <script>
 import AddButton from '@/components/shared/AddButton'
-import FilterInput from '@/components/shared/FilterInput'
 import ArticlesListLink from './ArticlesListLink.vue'
+import FilterInput from '@/components/shared/FilterInput'
 
 export default {
   name: 'ArticlesList',
 
-  components: { AddButton, FilterInput, ArticlesListLink },
+  components: { AddButton, ArticlesListLink, FilterInput },
 
   data() {
     return {
@@ -88,9 +88,6 @@ export default {
 </script>
 
 <style scoped>
-.articles-list {
-}
-
 .articles-list__filters {
   display: flex;
   align-items: center;
