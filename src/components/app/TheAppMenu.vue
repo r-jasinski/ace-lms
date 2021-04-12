@@ -5,6 +5,7 @@
       id="app-menu__button"
       aria-label="Toggle Main Menu"
       @click="menuHandler"
+      :style="{ backgroundImage: `url(${authenticatedUser.displayImage})` }"
     />
     <div
       class="app-menu__wrapper"
@@ -63,7 +64,8 @@
 </template>
 
 <script>
-import { signOut } from '@/services/firebase'
+import { mapActions, mapGetters } from 'vuex'
+import { signOut, getAuthenticatedUser } from '@/services/firebaseService'
 
 export default {
   name: 'TheAppMenu',
@@ -74,16 +76,32 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'authenticatedUser/authenticatedUser'
+    })
+  },
+
   mounted() {
-    setTimeout(() => {
-      this.opened = true
-    }, 100)
+    this.initializeAppMenu()
   },
 
   methods: {
+    ...mapActions({
+      commitAuthenticatedUser: 'authenticatedUser/commitAuthenticatedUser'
+    }),
+
     menuHandler() {
       this.opened = !this.opened
     },
+    async initializeAppMenu() {
+      const user = getAuthenticatedUser()
+      this.commitAuthenticatedUser(user)
+      setTimeout(() => {
+        this.opened = true
+      }, 100)
+    },
+
     async signOut() {
       await signOut()
       this.$router.replace({ name: 'SignInPage' })
@@ -117,7 +135,6 @@ export default {
   width: 4.5em;
   height: 4.5em;
   border-radius: 50%;
-  background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -258,6 +275,7 @@ export default {
   display: block;
   font-size: 0.5em;
   text-transform: uppercase;
+  text-shadow: 0px 0px 2px black;
 }
 
 .app-menu__wrapper li a:hover,
