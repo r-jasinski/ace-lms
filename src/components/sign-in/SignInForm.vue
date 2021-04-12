@@ -6,9 +6,10 @@
       <span>EVOLUA</span>
     </div>
     <p class="sign-in-form__quote">
-      "Viva como se fosse morrer amanhã. Aprenda como se fosse viver para
-      sempre."
-      <small><i>- Mahatma Gandhi</i></small>
+      {{ quote.message }}
+      <small
+        ><i>{{ quote.author }}</i></small
+      >
     </p>
     <div>
       <form-input
@@ -44,7 +45,8 @@
 import FormInput from '@/components/shared/FormInput'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
-import { sendPasswordResetEmail, signIn } from '@/services/firebase'
+import { quotes } from '@/services/quotesService'
+import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
 
 export default {
   name: 'SignInForm',
@@ -55,9 +57,10 @@ export default {
     return {
       forgotPasswordMode: false,
       user: {
-        email: 'jan_kowalski@gmail.com',
-        password: 'kurwamac'
-      }
+        email: '',
+        password: ''
+      },
+      quote: {}
     }
   },
 
@@ -70,6 +73,10 @@ export default {
     }
   },
 
+  mounted() {
+    this.getQuote()
+  },
+
   methods: {
     forgotPasswordModeToggle() {
       store.dispatch(
@@ -78,6 +85,7 @@ export default {
       )
       this.forgotPasswordMode = !this.forgotPasswordMode
     },
+
     async onSubmit() {
       const { email, password } = this.user
       if (!this.forgotPasswordMode) {
@@ -88,6 +96,11 @@ export default {
       await sendPasswordResetEmail(email)
       this.forgotPasswordMode = false
       store.dispatch('documentTitle/setDocumentHeadTitle', 'ACE LMS')
+    },
+
+    getQuote() {
+      let index = Math.floor(Math.random() * (quotes.length - 1 - 0 + 1)) + 0
+      this.quote = quotes[index]
     }
   }
 }
