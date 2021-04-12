@@ -24,10 +24,10 @@
 <script>
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
-import { addUserWithLinkToEmail } from '@/services/firebase'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
 import UserInfo from '@/components/about-users/UserInfo'
+import { addUserWithLinkToEmail } from '@/services/firebaseService'
 
 export default {
   name: 'UsersViewEdit',

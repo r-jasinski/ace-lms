@@ -1,4 +1,4 @@
-import { firebaseConfig } from '@/services/firebase'
+import { firebaseConfig } from '@/services/firebaseService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import {

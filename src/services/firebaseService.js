@@ -16,7 +16,13 @@ export const getAuthenticatedUser = () => firebase.auth().currentUser
 export const uploadBase64AsImage = async (file, fileName) => {
   const storageRef = firebase.storage().ref()
   const userImageRef = storageRef.child(`images/${fileName}.jpg`)
-  userImageRef.putString(file, 'base64', { contentType: 'image/jpg' })
+  await userImageRef.putString(file, 'base64', { contentType: 'image/jpg' })
+}
+
+export const getUserPhotoURL = async fileName => {
+  const storageRef = firebase.storage().ref()
+  const photoURLRef = storageRef.child(`images/${fileName}.jpg`)
+  return await photoURLRef.getDownloadURL()
 }
 
 export const addUserWithLinkToEmail = async email => {

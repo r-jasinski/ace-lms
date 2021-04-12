@@ -36,13 +36,13 @@ export default {
 .file-picker {
   display: flex;
   align-items: center;
-  width: 100%;
   min-height: 50px;
   color: var(--dark);
   background-color: transparent;
   border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
+  overflow: hidden;
 }
 
 .file-picker:hover {
@@ -53,6 +53,11 @@ export default {
 .file-picker__icon {
   margin: 0 9px 0 18px;
   opacity: 0.5;
+}
+
+.file-picker span {
+  font: 400 13.3333px Arial;
+  color: gray;
 }
 
 .file-picker > input[type='file'] {

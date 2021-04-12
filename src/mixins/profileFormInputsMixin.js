@@ -7,28 +7,28 @@ export default {
           placeholder: 'Usuário',
           autocomplete: 'given-name',
           icon: 'user',
-          value: 'jan.kowalski'
+          meta: 'displayName'
         },
         {
           type: 'email',
           placeholder: 'E-mail',
           autocomplete: 'email',
           icon: 'at',
-          value: 'jan@email.com'
+          meta: 'email'
         },
         {
           type: 'password',
           placeholder: 'Senha',
-          autocomplete: 'current-password',
+          autocomplete: 'new-password',
           icon: 'key',
-          value: 'kurwa'
+          meta: 'password'
         },
         {
-          type: 'text',
-          placeholder: 'Imagem',
-          autocomplete: 'photo',
-          icon: 'image',
-          value: 'jan.jpeg'
+          type: 'password',
+          placeholder: 'Confirmar Senha',
+          autocomplete: 'new-password',
+          icon: 'key',
+          meta: 'passwordConfirm'
         }
       ]
     }

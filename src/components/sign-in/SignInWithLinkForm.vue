@@ -49,7 +49,7 @@
 import FormInput from '@/components/shared/FormInput'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
-import { confirmAccount } from '@/services/firebase'
+import { confirmAccount } from '@/services/firebaseService'
 
 export default {
   name: 'SignInWithLinkForm',
