@@ -9,7 +9,7 @@
       </ul>
     </div>
     <div class="user-info--selected">
-      <slot name="selected-user-info" />
+      <slot name="selected-user" />
     </div>
   </div>
 </template>

@@ -4,9 +4,13 @@
       <h1>
         Bem-vindo!
       </h1>
-      <h2>
-        {{ welcomeText }}
-      </h2>
+      <h2 v-html="welcomeText" />
+      <p>
+        <small
+          >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
+          poderá alterá-lo por sua foto a qualquer momento em "Perfil"</small
+        >
+      </p>
       <form action="#">
         <file-picker
           v-model="file"
@@ -39,8 +43,12 @@ import {
   getBase64FromExternalUrl,
   initializeToonify,
   toonifyImage
-} from '@/services/toonify'
-import { getAuthenticatedUser, uploadBase64AsImage } from '@/services/firebase'
+} from '@/services/toonifyService'
+import {
+  getAuthenticatedUser,
+  getUserPhotoURL,
+  uploadBase64AsImage
+} from '@/services/firebaseService'
 
 export default {
   name: 'WelcomePage',
@@ -50,7 +58,7 @@ export default {
   data() {
     return {
       welcomeText: `
-        Parabéns por escolher compartilhar, aprender e evoluir. Para
+        Parabéns por escolher <span style='text-transform: uppercase'>aprender, compartilhar e evoluir</span>. Para
         finalizar, envie uma foto sua no estilo 3x4. Você vai gostar do resultado!
       `,
       imageURL: '',
@@ -70,8 +78,10 @@ export default {
         response.output_url
       )
       this.imageURL = response.output_url
-      const userName = getAuthenticatedUser().displayName
-      await uploadBase64AsImage(toonifiedUserImage, userName)
+      const user = getAuthenticatedUser()
+      await uploadBase64AsImage(toonifiedUserImage, user.uid)
+      this.userPhotoURL = await getUserPhotoURL(user.uid)
+      await user.updateProfile({ photoURL: this.userPhotoURL })
       this.welcomeText = `
         Você está pronto! Este será seu avatar e também seu menu principal. Se não
         gostou do resultado, basta enviar outra foto!

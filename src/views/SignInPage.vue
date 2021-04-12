@@ -12,7 +12,7 @@ import SignInForm from '@/components/sign-in/SignInForm'
 import SignInHeader from '@/components/sign-in/SignInHeader'
 import SignInPasswordReset from '@/components/sign-in/SignInPasswordReset'
 import SignInWithLinkForm from '@/components/sign-in/SignInWithLinkForm'
-import { isSignInWithEmailLink } from '@/services/firebase'
+import { isSignInWithEmailLink } from '@/services/firebaseService'
 
 export default {
   name: 'SignInPage',

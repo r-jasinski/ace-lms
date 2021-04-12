@@ -34,7 +34,7 @@
 import FormInput from '@/components/shared/FormInput'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
-import { resetPassword } from '@/services/firebase'
+import { resetPassword } from '@/services/firebaseService'
 
 export default {
   name: 'SignInPasswordReset',

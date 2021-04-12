@@ -1,4 +1,4 @@
-import { getAuthenticatedUser } from '@/services/firebase'
+import { getAuthenticatedUser } from '@/services/firebaseService'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js'
