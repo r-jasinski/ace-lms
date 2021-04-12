@@ -48,6 +48,6 @@ export default {
 }
 
 .round-corner-button__label {
-  text-shadow: 0px 0px 2px var(--light);
+  text-shadow: 0px 0px 2px black;
 }
 </style>
