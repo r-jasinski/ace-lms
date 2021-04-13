@@ -1,4 +1,4 @@
-export const quotes = [
+const quotes = [
   {
     message:
       'Só temos certezas enquanto sabemos pouco; com o conhecimento as dúvidas aumentam.',
@@ -54,3 +54,7 @@ export const quotes = [
     author: '- Mahatma Gandhi'
   }
 ]
+
+let index = Math.floor(Math.random() * (quotes.length - 1 - 0 + 1)) + 0
+
+export const getQuote = () => quotes[index]
