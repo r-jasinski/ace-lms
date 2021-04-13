@@ -3,7 +3,13 @@
     <div
       class="profile-view-edit__avatar"
       :style="{ backgroundImage: `url(${authenticatedUser.displayImage})` }"
-    />
+    >
+      <remove-button
+        v-if="userHasPhoto"
+        @clicked="removePhoto(authenticatedUser)"
+        class="profile-view-edit__remove-button"
+      />
+    </div>
     <form class="profile-view-edit__form">
       <form-input
         v-for="({ type, placeholder, autocomplete, icon, meta },
@@ -33,6 +39,7 @@
 <script>
 import FilePicker from '@/components/shared/FilePicker'
 import FormInput from '@/components/shared/FormInput'
+import RemoveButton from '@/components/shared/RemoveButton'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 import { mapActions, mapGetters } from 'vuex'
@@ -50,7 +57,7 @@ import {
 export default {
   name: 'ProfileViewEdit',
 
-  components: { FilePicker, FormInput, RoundCornerButton },
+  components: { FilePicker, FormInput, RemoveButton, RoundCornerButton },
 
   mixins: [profileFormInputsMixin],
 
@@ -63,7 +70,13 @@ export default {
   computed: {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser'
-    })
+    }),
+    userHasPhoto() {
+      return (
+        this.authenticatedUser.displayImage !==
+        `https://robohash.org/${this.authenticatedUser.uid}.png`
+      )
+    }
   },
 
   async mounted() {
@@ -126,6 +139,13 @@ export default {
     async reloadData() {
       let user = await getAuthenticatedUser()
       this.commitAuthenticatedUser(user)
+    },
+
+    async removePhoto(user) {
+      await user.updateProfile({
+        photoURL: `https://robohash.org/${user.uid}.png`
+      })
+      this.reloadData()
     }
   }
 }
@@ -159,5 +179,11 @@ export default {
 .profile-view-edit__save-button {
   min-width: 300px;
   margin-top: 20px;
+}
+
+.profile-view-edit__remove-button {
+  position: relative;
+  top: 50px;
+  left: 240px;
 }
 </style>

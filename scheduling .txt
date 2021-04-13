@@ -34,12 +34,15 @@ Create sign in with email link page
 Create the welcome page
 Improve StyleGuide and project structure
 Resolve accessibility issues
+Set up tonnify
+Upgrade user profile view and edit
 
 ==Doing==
 
 ==To Do==
 Create add image modal
 Handle errors
+Add loaders
 Add animations
 Add validation
 Cover app with tests

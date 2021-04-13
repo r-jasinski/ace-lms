@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    darkMode: false
+    darkMode: null
   },
   getters: {
     getDarkMode(state) {
@@ -23,7 +23,7 @@ export default {
         .matches
       const localStorageScheme = JSON.parse(localStorage.getItem('darkMode'))
       if (localStorageScheme === null) {
-        commit('setDarkMode', !userSOScheme || false)
+        commit('setDarkMode', userSOScheme || false)
         return
       }
       commit('setDarkMode', localStorageScheme)

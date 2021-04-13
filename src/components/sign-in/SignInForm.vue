@@ -45,7 +45,7 @@
 import FormInput from '@/components/shared/FormInput'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
-import { quotes } from '@/services/quotesService'
+import { getQuote } from '@/services/quotesService'
 import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
 
 export default {
@@ -59,8 +59,7 @@ export default {
       user: {
         email: '',
         password: ''
-      },
-      quote: {}
+      }
     }
   },
 
@@ -70,11 +69,10 @@ export default {
     },
     toggleLinkLabel() {
       return !this.forgotPasswordMode ? 'Esqueci a senha' : 'Voltar para login'
+    },
+    quote() {
+      return getQuote()
     }
-  },
-
-  mounted() {
-    this.getQuote()
   },
 
   methods: {
@@ -96,11 +94,6 @@ export default {
       await sendPasswordResetEmail(email)
       this.forgotPasswordMode = false
       store.dispatch('documentTitle/setDocumentHeadTitle', 'ACE LMS')
-    },
-
-    getQuote() {
-      let index = Math.floor(Math.random() * (quotes.length - 1 - 0 + 1)) + 0
-      this.quote = quotes[index]
     }
   }
 }
