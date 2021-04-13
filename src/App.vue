@@ -12,7 +12,7 @@ export default {
     ...mapGetters({ getDarkMode: 'darkMode/getDarkMode' }),
 
     darkMode() {
-      return this.getDarkMode ? 'app--light-mode' : 'app--dark-mode'
+      return this.getDarkMode ? 'app--dark-mode' : 'app--light-mode'
     }
   },
 
