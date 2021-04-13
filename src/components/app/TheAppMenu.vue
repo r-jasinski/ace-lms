@@ -65,7 +65,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { signOut, getAuthenticatedUser } from '@/services/firebaseService'
+import { signOut } from '@/services/firebaseService'
 
 export default {
   name: 'TheAppMenu',
@@ -95,8 +95,6 @@ export default {
       this.opened = !this.opened
     },
     async initializeAppMenu() {
-      const user = getAuthenticatedUser()
-      this.commitAuthenticatedUser(user)
       setTimeout(() => {
         this.opened = true
       }, 100)
