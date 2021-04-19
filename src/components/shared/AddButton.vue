@@ -23,17 +23,20 @@ export default {
   border: none;
   outline: none;
   font-weight: 900;
+  transform: scale(1);
+  transition: all 0.1s;
 }
 
 .add-button:hover {
   background-color: var(--primary-plus);
-  box-shadow: var(--primary-plus) 0px 0px 0px 2px;
   cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.1s;
 }
 
 .add-button--active {
   background-color: var(--primary-plus);
-  box-shadow: var(--primary-plus) 0px 0px 0px 2px;
-  font-weight: 900;
+  transform: scale(1.05);
+  transition: all 0.1s;
 }
 </style>
