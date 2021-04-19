@@ -1,24 +1,24 @@
 <template>
-  <button class="add-button" @click.prevent="$emit('clicked')">
-    <font-awesome-icon icon="plus" />
+  <button class="reactivate-button" @click.prevent="$emit('clicked')">
+    <font-awesome-icon icon="redo" />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'AddButton'
+  name: 'ReactivateButton'
 }
 </script>
 
 <style scoped>
-.add-button {
+.reactivate-button {
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 50px;
   min-height: 50px;
   color: #fff;
-  background-color: var(--primary);
+  background-color: var(--success);
   border-radius: 100vh;
   border: none;
   outline: none;
@@ -27,15 +27,15 @@ export default {
   transition: all 0.1s;
 }
 
-.add-button:hover {
-  background-color: var(--primary-plus);
+.reactivate-button:hover {
+  background-color: var(--success-plus);
   cursor: pointer;
   transform: scale(1.05);
   transition: all 0.1s;
 }
 
-.add-button--active {
-  background-color: var(--primary-plus);
+.reactivate-button--active {
+  background-color: var(--success-plus);
   transform: scale(1.05);
   transition: all 0.1s;
 }

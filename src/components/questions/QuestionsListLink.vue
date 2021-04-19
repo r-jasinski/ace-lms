@@ -36,11 +36,13 @@ export default {
 <style scoped>
 .question-list-link {
   padding: 0px 15px;
+  transition: all 0.1s;
 }
 
 .question-list-link:hover {
   border-left: 5px solid var(--primary);
   border-radius: 9px;
+  transition: all 0.1s;
 }
 
 .question-list-link__title {

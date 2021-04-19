@@ -24,8 +24,8 @@ export default {
   margin-right: 20px;
   height: 50px;
   min-width: 50px;
-  background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
-  background-position: center;
+  background: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg')
+    no-repeat center;
   background-size: cover;
   border-radius: 999px;
 }

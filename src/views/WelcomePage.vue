@@ -11,7 +11,7 @@
           poderá alterá-lo por sua foto a qualquer momento em "Perfil"</small
         >
       </p>
-      <form action="#">
+      <form @submit.prevent>
         <file-picker
           v-model="file"
           icon="image"
@@ -27,7 +27,7 @@
           <round-corner-button
             class="welcome-page__submit-button"
             label="Ir para home"
-            @clicked="$router.replace({ name: 'HomePage' })"
+            @clicked="goToHome()"
           />
         </div>
       </form>
@@ -39,6 +39,7 @@
 <script>
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import FilePicker from '@/components/shared/FilePicker'
+import { mapActions } from 'vuex'
 import {
   getBase64FromExternalUrl,
   initializeToonify,
@@ -49,6 +50,7 @@ import {
   getUserPhotoURL,
   uploadBase64AsImage
 } from '@/services/firebaseService'
+import { updateUser } from '@/services/usersService'
 
 export default {
   name: 'WelcomePage',
@@ -71,6 +73,10 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      commitAuthenticatedUser: 'authenticatedUser/commitAuthenticatedUser'
+    }),
+
     async submitUserImage() {
       const userImage = this.$refs.inputFile.$el.children[2]
       const response = await toonifyImage(userImage)
@@ -78,7 +84,7 @@ export default {
         response.output_url
       )
       this.imageURL = response.output_url
-      const user = getAuthenticatedUser()
+      let user = getAuthenticatedUser()
       await uploadBase64AsImage(toonifiedUserImage, user.uid)
       this.userPhotoURL = await getUserPhotoURL(user.uid)
       await user.updateProfile({ photoURL: this.userPhotoURL })
@@ -86,6 +92,13 @@ export default {
         Você está pronto! Este será seu avatar e também seu menu principal. Se não
         gostou do resultado, basta enviar outra foto!
       `
+      await updateUser(user.uid, { photoURL: this.userPhotoURL })
+    },
+
+    async goToHome() {
+      const user = await getAuthenticatedUser()
+      this.commitAuthenticatedUser(user)
+      this.$router.replace({ name: 'HomePage' })
     }
   }
 }
@@ -100,8 +113,7 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   padding: 0 30%;
-  background-image: url('../assets/clouds.svg');
-  background-repeat: no-repeat;
+  background: url('../assets/clouds.svg') no-repeat;
 }
 
 .welcome-page__buttons {

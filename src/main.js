@@ -1,4 +1,3 @@
-import { firebaseConfig } from '@/services/firebaseService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -7,8 +6,11 @@ import {
   faBold,
   faCode,
   faEdit,
+  faGraduationCap,
   faHeading,
+  faHome,
   faImage,
+  faInfo,
   faItalic,
   faKey,
   faLightbulb,
@@ -17,15 +19,19 @@ import {
   faMehBlank,
   faParagraph,
   faPlus,
+  faQuestion,
   faQuoteRight,
   faRedo,
   faSearch,
   faStrikethrough,
   faTerminal,
+  faTimes,
   faTrash,
+  faTrophy,
   faUnderline,
   faUndo,
   faUser,
+  faUserEdit,
   faWindowMinimize
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -44,9 +50,12 @@ library.add(
   faBold,
   faCode,
   faEdit,
+  faGraduationCap,
   faGithub,
   faHeading,
+  faHome,
   faImage,
+  faInfo,
   faItalic,
   faKey,
   faLightbulb,
@@ -56,20 +65,23 @@ library.add(
   faMehBlank,
   faParagraph,
   faPlus,
+  faQuestion,
   faQuoteRight,
   faSearch,
   faRedo,
   faStrikethrough,
   faTerminal,
+  faTimes,
   faTrash,
+  faTrophy,
+  faQuestion,
   faUnderline,
   faUndo,
   faUser,
+  faUserEdit,
   faWindowMinimize
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-firebase.initializeApp(firebaseConfig)
 
 let app
 

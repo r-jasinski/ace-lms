@@ -4,8 +4,7 @@
     <input
       :type="type"
       :placeholder="placeholder"
-      :value="value"
-      @input="updateValue($event.target.value)"
+      v-model="inputModel"
       :autocomplete="autocomplete"
     />
   </div>
@@ -23,15 +22,14 @@ export default {
     value: { type: [String, Number, Date], default: '' }
   },
 
-  data() {
-    return {
-      inputModel: ''
-    }
-  },
-
-  methods: {
-    updateValue(value) {
-      this.$emit('input', value)
+  computed: {
+    inputModel: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
     }
   }
 }
@@ -53,6 +51,7 @@ export default {
   border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
+  -webkit-text-fill-color: var(--dark) !important;
 }
 
 .form-input input:focus {
@@ -63,5 +62,12 @@ export default {
   position: relative;
   left: 18px;
   opacity: 0.5;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
 }
 </style>

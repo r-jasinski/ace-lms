@@ -21,8 +21,7 @@ export default {
   justify-content: center;
   align-items: flex-end;
   grid-area: image;
-  background-image: url('../../assets/bg-login.svg');
-  background-position: right top;
+  background: url('../../assets/bg-login.svg') no-repeat right top;
   background-size: cover;
 }
 
@@ -35,8 +34,7 @@ export default {
 @media only screen and (max-width: 768px) {
   .sign-in-header {
     align-items: flex-start;
-    background-image: url('../../assets/bg-login-form.svg');
-    background-position: right bottom;
+    background: url('../../assets/bg-login-form.svg') no-repeat right bottom;
     background-size: cover;
   }
 }

@@ -9,14 +9,14 @@
       <small>
         <a
           href="https://github.com/r-jasinski"
-          target="__blank"
+          target="_blank"
           aria-label="GitHub"
         >
           <font-awesome-icon :icon="['fab', 'github']" size="2x" />
         </a>
         <a
-          href="https:www.linkedin.com/in/roberto-jasinski"
-          target="__blank"
+          href="https://www.linkedin.com/in/roberto-jasinski"
+          target="_blank"
           aria-label="Linkedin"
         >
           <font-awesome-icon :icon="['fab', 'linkedin']" size="2x" />
@@ -39,8 +39,7 @@ export default {
 <style scoped>
 .app-footer {
   height: 15vh;
-  background-image: url('../../assets/bg-footer.svg');
-  background-position: center top;
+  background: url('../../assets/bg-footer.svg') no-repeat center top;
   background-size: cover;
 }
 

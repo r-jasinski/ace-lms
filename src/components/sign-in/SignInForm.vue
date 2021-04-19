@@ -1,5 +1,5 @@
 <template>
-  <form class="sign-in-form">
+  <form class="sign-in-form" @submit.prevent>
     <div class="sign-in-form__title">
       <span>APRENDA </span>
       <span>COMPARTILHE</span>
@@ -21,7 +21,7 @@
         v-model="user.email"
       />
       <form-input
-        v-if="!forgotPasswordMode"
+        v-show="!forgotPasswordMode"
         class="sign-in-form__input"
         type="password"
         placeholder="Senha"
@@ -109,8 +109,7 @@ export default {
   align-items: center;
   margin-top: 25px;
   grid-area: form;
-  background-image: url('../../assets/clouds.svg');
-  background-repeat: no-repeat;
+  background: url('../../assets/clouds.svg') no-repeat;
 }
 
 .sign-in-form__title {
@@ -133,11 +132,12 @@ p {
 }
 
 .sign-in-form__submit-button {
-  width: 250px;
+  width: 100%;
   margin: 25px 0;
 }
 
 .sign-in-form__input {
+  min-width: 300px;
   margin-bottom: 5px;
 }
 

@@ -50,8 +50,8 @@ export default {
   border-radius: 999px;
   margin-left: 20px;
   margin-right: 20px;
-  background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
-  background-position: center;
+  background: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg')
+    no-repeat center;
   background-size: cover;
 }
 
@@ -61,15 +61,17 @@ export default {
   margin-right: 40px;
 }
 
+.ranking-user ul {
+  list-style: none;
+  margin-top: 0;
+  text-shadow: 0 0 5px var(--light);
+}
+
 .ranking-user__indicator {
   font-size: 1em;
   opacity: 0.4;
   padding-left: 5px;
   color: var(--light);
-}
-
-.ranking-user ul {
-  list-style: none;
-  margin-top: 0;
+  text-shadow: 0 0 0 var(--dark);
 }
 </style>

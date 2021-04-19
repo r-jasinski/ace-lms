@@ -38,6 +38,7 @@ Set up tonnify
 Upgrade user profile view and edit
 
 ==Doing==
+Upgrade users list
 
 ==To Do==
 Create add image modal
@@ -45,5 +46,6 @@ Handle errors
 Add loaders
 Add animations
 Add validation
+vue-virtual-scroller
 Cover app with tests
 Deploy production

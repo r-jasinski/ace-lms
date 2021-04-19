@@ -33,17 +33,21 @@ export default {
   border-radius: 100vh;
   border: none;
   outline: none;
+  transform: scale(1);
+  transition: all 0.1s;
 }
 
 .round-corner-button:hover {
   background-color: var(--primary-plus);
-  box-shadow: var(--primary-plus) 0px 0px 0px 2px;
   cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.1s;
 }
 
 .round-corner-button--active {
   background-color: var(--primary-plus);
-  box-shadow: var(--primary-plus) 0px 0px 0px 2px;
+  transform: scale(1.05);
+  transition: all 0.1s;
   font-weight: 900;
 }
 

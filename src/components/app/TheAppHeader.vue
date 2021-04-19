@@ -11,8 +11,7 @@ export default {
 <style scoped>
 .app-header {
   height: 40vh;
-  background-image: url('../../assets/bg-header.svg');
-  background-position: center top;
+  background: url('../../assets/bg-header.svg') no-repeat center top;
   background-size: cover;
 }
 </style>

@@ -40,16 +40,19 @@ export default {
   data() {
     return {
       editable: false,
-      editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
-      editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
-      editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
+      editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
       about: {
         autor: 'anna_nowak',
         postDate: '5 horas atrás',
-        title:
-          '<h1>O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos</h1>',
-        text:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisiLorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi '
+        text: `
+          <p>Este projeto nasceu da necessidade de compartilhamento de experiências e conhecimentos entre pessoas que trabalham com desenvolvimento de software. Baseado em técnicas presentes em áreas multidisciplinares, busca-se o enfrentamento de um problema bastante comum no cotidiano de desenvolvedores : a constante necessidade de aprendizado.</p>
+          <p>Possui como funcionalidade central um ambiente onde o usuário pode postar quaisquer dúvidas que venha enfrentar, principalmente aquelas cujo não enfrentamento ocasionam algum tipo de bloqueio na continuidade de sua tarefa.</p>
+          <p>Ainda, disponibiliza uma área para a publicação de artigos com conteúdos diversos relacionados ao escopo de programação. A fim de incentivar a visualiação dos artigos, na página principal do projeto aparecerá, de forma aleatória, um link direcionando a essa seção.</p>
+          <p>Assim, busca-se diminuir a lacuna de conhecimento no ambiente que utiliza a solução, deixando registrado um pouco de cada profissional e agilizando o processo de imersão de novos colaboradores no ecossistema da empresa.</p>
+          <p>No processo de design, foram observadas tendências diversas para a elaboração das cores, tipografia, estilo etc.</p>
+          <p>Para a obter sucesso ao despertar interesse dos envolvidos, utiliza-se gamification de várias formas, como rankings baseados no grau de atividade e criação de personagens (API Toonify).</p>
+          <p>Sugere-se que o gestor responsável pela aplicação desta ferramenta fomente e incentive seu uso através de bonificações ou como requisitos para eventuais promoções.</p>
+          <p>Como futuros módulos a serem implementados, este sistema contará com emissão de relatórios gerenciais, integração com sistemas de gerenciamento de projetos e uma área para disponibilização de cursos.</p>`
       }
     }
   },

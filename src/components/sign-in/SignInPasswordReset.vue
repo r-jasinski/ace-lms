@@ -1,5 +1,5 @@
 <template>
-  <form class="sign-in-with-link-form">
+  <form class="sign-in-with-link-form" @submit.prevent>
     <div class="sign-in-with-link-form__title">
       <span>ATUALIZE SUA SENHA</span>
     </div>
@@ -78,8 +78,7 @@ export default {
   /* padding: 0 500px; */
   margin-top: 25px;
   grid-area: form;
-  background-image: url('../../assets/clouds.svg');
-  background-repeat: no-repeat;
+  background: url('../../assets/clouds.svg') no-repeat;
 }
 
 .sign-in-with-link-form__title {

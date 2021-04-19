@@ -1,22 +1,39 @@
 <template>
-  <div class="user-info" :class="{ 'user-info--current': user.current }">
-    <div class="user-info__avatar" />
+  <div class="user-info">
+    <div
+      class="user-info__avatar"
+      :class="{ 'user-info__avatar--inactive': user.deletedAt }"
+      :style="{ backgroundImage: `url(${user.photoURL})` }"
+    />
     <div class="user-info__indicator">
-      <ul>
-        <li class="user-info__name">{{ user.name }}</li>
-        <li>email: jan_kowalski@email.com</li>
-        <li>data de cadastro: 01/03/2021</li>
+      <ul :class="{ 'user-info__indicator--inactive': !!user.deletedAt }">
+        <li class="user-info__name">{{ user.displayName }}</li>
+        <li>email: {{ user.email }}</li>
+        <li>data de cadastro: {{ user.creationTime }}</li>
+        <li v-if="user.deletedAt">data de exclusão: {{ user.deletedAt }}</li>
+        <li>
+          <form-checkbox
+            :disabled="user.deletedAt"
+            label="Admin"
+            v-model="user.isAdmin"
+            @change="$emit('changed', $event)"
+          />
+        </li>
       </ul>
     </div>
-    <div class="user-info--selected">
+    <div class="user-info-button">
       <slot name="selected-user" />
     </div>
   </div>
 </template>
 
 <script>
+import FormCheckbox from '@/components/shared/FormCheckbox'
+
 export default {
   name: 'UserInfo',
+
+  components: { FormCheckbox },
 
   props: {
     user: { type: Object, required: true }
@@ -31,11 +48,13 @@ export default {
   align-items: center;
   margin-top: 20px;
   padding: 5px;
+  border-radius: 5px;
+  transition: all 0.1s;
 }
 
-.user-info--current {
+.user-info:hover {
   background-color: var(--primary);
-  border-radius: 5px;
+  transition: all 0.1s;
 }
 
 .user-info__avatar {
@@ -44,9 +63,13 @@ export default {
   border-radius: 999px;
   margin-left: 20px;
   margin-right: 20px;
-  background-image: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg');
   background-position: center;
   background-size: cover;
+}
+
+.user-info__avatar--inactive {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
 }
 
 .user-info__name {
@@ -58,16 +81,22 @@ export default {
 .user-info__indicator {
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 10px;
 }
 
-.user-info--selected {
-  margin: 10px;
+.user-info__indicator--inactive {
+  opacity: 0.75;
+}
+
+.user-info-button {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
 }
 
 .user-info ul {
   list-style: none;
   margin-top: 0;
+  text-shadow: 0 0 5px var(--light);
 }
 </style>
