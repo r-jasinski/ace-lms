@@ -88,7 +88,7 @@ export default {
       const { email, password } = this.user
       if (!this.forgotPasswordMode) {
         await signIn(email, password)
-        this.$router.replace({ name: 'HomePage' })
+        this.$router.push(this.$route.query.to || '/')
         return
       }
       await sendPasswordResetEmail(email)

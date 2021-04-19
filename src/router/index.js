@@ -56,7 +56,8 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const isAuthenticated = getAuthenticatedUser()
   if (requiresAuth && !isAuthenticated) {
-    next('/sign-in')
+    const loginpath = window.location.pathname
+    next({ name: 'SignInPage', query: { to: loginpath } })
     return
   }
   if (!requiresAuth && isAuthenticated) {
