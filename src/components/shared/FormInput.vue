@@ -4,8 +4,7 @@
     <input
       :type="type"
       :placeholder="placeholder"
-      :value="value"
-      @input="updateValue($event.target.value)"
+      v-model="inputModel"
       :autocomplete="autocomplete"
     />
   </div>
@@ -23,15 +22,14 @@ export default {
     value: { type: [String, Number, Date], default: '' }
   },
 
-  data() {
-    return {
-      inputModel: ''
-    }
-  },
-
-  methods: {
-    updateValue(value) {
-      this.$emit('input', value)
+  computed: {
+    inputModel: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
     }
   }
 }
