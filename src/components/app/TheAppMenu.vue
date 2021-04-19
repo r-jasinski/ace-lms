@@ -17,46 +17,59 @@
           <router-link
             exact-active-class="app-menu__link--active"
             :to="{ name: 'HomePage', params: { savedPosition: true } }"
-            ><span>Home</span></router-link
           >
+            <span>Home</span>
+            <font-awesome-icon icon="home" class="app-menu__button-icon" />
+          </router-link>
         </li>
         <li>
           <router-link
             active-class="app-menu__link--active"
             :to="{ name: 'RankingPage', params: { savedPosition: true } }"
-            ><span>Ranking</span></router-link
-          >
+            ><span>Ranking</span>
+            <font-awesome-icon icon="trophy" class="app-menu__button-icon" />
+          </router-link>
         </li>
         <li>
           <router-link
             active-class="app-menu__link--active"
             :to="{ name: 'ArticlesList', params: { savedPosition: true } }"
-            ><span>Artigos</span></router-link
-          >
+            ><span>Artigos</span>
+            <font-awesome-icon
+              icon="graduation-cap"
+              class="app-menu__button-icon"
+            />
+          </router-link>
         </li>
         <li>
           <router-link
             active-class="app-menu__link--active"
             :to="{ name: 'QuestionsList', params: { savedPosition: true } }"
-            ><span>Perguntas</span></router-link
-          >
+            ><span>Perguntas</span>
+            <font-awesome-icon icon="question" class="app-menu__button-icon" />
+          </router-link>
         </li>
         <li>
           <router-link
             active-class="app-menu__link--active"
             :to="{ name: 'ProfilePage', params: { savedPosition: true } }"
-            ><span>Perfil</span></router-link
-          >
+            ><span>Perfil</span>
+            <font-awesome-icon icon="user-edit" class="app-menu__button-icon" />
+          </router-link>
         </li>
         <li>
           <router-link
             active-class="app-menu__link--active"
             :to="{ name: 'AboutUsersPage', params: { savedPosition: true } }"
-            ><span>Sobre</span></router-link
-          >
+            ><span>Sobre</span>
+            <font-awesome-icon icon="info" class="app-menu__button-icon" />
+          </router-link>
         </li>
         <li @click="signOut">
-          <router-link to="exit"><span>Sair</span></router-link>
+          <router-link to="exit"
+            ><span>Sair</span>
+            <font-awesome-icon icon="times" class="app-menu__button-icon" />
+          </router-link>
         </li>
       </ul>
     </div>
@@ -356,6 +369,13 @@ export default {
     var(--primary-plus) 35%
   ) !important;
   font-weight: 900;
+}
+
+.app-menu__button-icon {
+  margin-top: 1em;
+  width: 25px;
+  height: 25px;
+  opacity: 0.5;
 }
 
 @media only screen and (max-width: 550px) {
