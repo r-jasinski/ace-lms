@@ -1,5 +1,3 @@
-import { getAuthenticatedUser } from '@/services/firebaseService'
-
 export default [
   {
     path: '/welcome',
@@ -8,8 +6,7 @@ export default [
       import(/* webpackChunkName: "welcome" */ '@/views/WelcomePage'),
     meta: { title: 'Bem-vindo', requiresAuth: true },
     beforeEnter: (to, from, next) => {
-      const noPhotoURL = !!getAuthenticatedUser().photoURL
-      if (noPhotoURL) {
+      if (from.name !== 'SignInPage') {
         next('')
         return
       }
