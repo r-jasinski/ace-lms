@@ -1,20 +1,24 @@
 <template>
   <div class="admin-user">
-    <form class="admin-user__filters">
+    <form class="admin-user__filters" @submit.prevent>
       <filter-input />
       <form-input
         type="email"
         placeholder="E-mail do usuário"
         autocomplete="email"
         icon="at"
-        v-model="user.email"
+        v-model="newUser.email"
       />
       <add-button @clicked="addUserWithLinkToEmail" />
     </form>
     <div v-for="user in users" :key="user.id">
-      <user-info :user="user">
-        <template v-if="user.current" slot="selected-user">
-          <remove-button :remove="removeUser" />
+      <user-info :user="user.data" @changed="toggleAdminRole(user.id, $event)">
+        <template slot="selected-user">
+          <reactivate-button
+            v-if="user.data.deletedAt"
+            @clicked="reactivateUser(user.id)"
+          />
+          <remove-button v-else @clicked="deactivateUser(user.id)" />
         </template>
       </user-info>
     </div>
@@ -25,36 +29,61 @@
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
 import FormInput from '@/components/shared/FormInput'
+import ReactivateButton from '@/components/shared/ReactivateButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
+import { getUsers, updateUser, usersCollection } from '@/services/usersService'
 
 export default {
   name: 'UsersViewEdit',
 
-  components: { AddButton, FilterInput, FormInput, RemoveButton, UserInfo },
+  components: {
+    AddButton,
+    FilterInput,
+    FormInput,
+    ReactivateButton,
+    RemoveButton,
+    UserInfo
+  },
 
   data() {
     return {
-      user: {},
-      users: [
-        { id: 1, name: 'anna_nowak', current: false },
-        { id: 2, name: 'jan_kowalski', current: true },
-        { id: 3, name: 'jan_kowalski', current: false },
-        { id: 4, name: 'jan_kowalski', current: false },
-        { id: 5, name: 'jan_kowalski', current: false },
-        { id: 6, name: 'jan_kowalski', current: false }
-      ]
+      newUser: {},
+      users: [],
+      unsubscribe: null
     }
   },
 
+  mounted() {
+    this.unsubscribe = usersCollection.onSnapshot(async () => {
+      this.users = await getUsers()
+    })
+  },
+
+  destroyed() {
+    this.unsubscribe()
+  },
+
   methods: {
-    removeUser() {},
     async addUserWithLinkToEmail() {
-      if (this.user.email) {
-        await addUserWithLinkToEmail(this.user.email)
-        this.user.email = ''
+      if (this.newUser.email) {
+        await addUserWithLinkToEmail(this.newUser.email)
+        this.newUser.email = ''
       }
+    },
+
+    async deactivateUser(userId) {
+      var UTCStringDeletionTime = new Date().toUTCString()
+      await updateUser(userId, { deletedAt: UTCStringDeletionTime })
+    },
+
+    async reactivateUser(userId) {
+      await updateUser(userId, { deletedAt: null })
+    },
+
+    async toggleAdminRole(user, value) {
+      await updateUser(user, { isAdmin: value })
     }
   }
 }
@@ -66,6 +95,11 @@ export default {
   align-items: baseline;
   justify-content: flex-end;
   gap: 5px;
+}
+
+.inactive {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
 }
 
 .admin-user__filters a {
