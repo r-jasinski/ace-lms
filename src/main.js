@@ -1,4 +1,3 @@
-import { firebaseConfig } from '@/services/firebaseService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -68,8 +67,6 @@ library.add(
   faWindowMinimize
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-firebase.initializeApp(firebaseConfig)
 
 let app
 
