@@ -10,7 +10,7 @@
         class="profile-view-edit__remove-button"
       />
     </div>
-    <form class="profile-view-edit__form">
+    <form class="profile-view-edit__form" @submit.prevent>
       <form-input
         v-for="({ type, placeholder, autocomplete, icon, meta },
         index) in inputs"
@@ -48,6 +48,7 @@ import {
   getUserPhotoURL,
   uploadBase64AsImage
 } from '@/services/firebaseService'
+import { updateUser } from '@/services/usersService'
 import {
   getBase64FromExternalUrl,
   initializeToonify,
@@ -133,6 +134,8 @@ export default {
       ) {
         await user.updatePassword(this.user.password)
       }
+      const { displayName, email, photoURL, uid } = user
+      await updateUser(uid, { displayName, email, photoURL })
       this.reloadData()
     },
 
@@ -142,9 +145,9 @@ export default {
     },
 
     async removePhoto(user) {
-      await user.updateProfile({
-        photoURL: `https://robohash.org/${user.uid}.png`
-      })
+      const defaultPhotoURL = `https://robohash.org/${user.uid}.png`
+      await user.updateProfile({ photoURL: defaultPhotoURL })
+      await updateUser(user.uid, { photoURL: defaultPhotoURL })
       this.reloadData()
     }
   }
