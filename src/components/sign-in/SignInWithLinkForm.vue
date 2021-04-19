@@ -1,5 +1,5 @@
 <template>
-  <form class="sign-in-with-link-form">
+  <form class="sign-in-with-link-form" @submit.prevent>
     <div class="sign-in-with-link-form__title">
       <span>FINALIZE SEU CADASTRO </span>
     </div>
@@ -18,7 +18,7 @@
         placeholder="Informe o seu usuário"
         autocomplete="name"
         icon="user"
-        v-model="user.name"
+        v-model="user.displayName"
       />
       <form-input
         class="sign-in-with-link-form__input"
@@ -49,7 +49,11 @@
 import FormInput from '@/components/shared/FormInput'
 import RoundCornerButton from '@/components/shared/RoundCornerButton'
 import store from '@/store/index.js'
-import { confirmAccount } from '@/services/firebaseService'
+import {
+  confirmAccount,
+  getAuthenticatedUser
+} from '@/services/firebaseService'
+import { createUser } from '@/services/usersService'
 
 export default {
   name: 'SignInWithLinkForm',
@@ -68,15 +72,26 @@ export default {
 
   methods: {
     async submitUserProfile() {
-      const { email, name, password, passwordConfirm } = this.user
+      let { email, displayName, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
-        //TODO: Remove alert and set info system
+        //TODO: Remove alert and set up info system
         alert('Senhas não conferem!')
         return
       }
-      await confirmAccount(email, name, password)
+      await confirmAccount(email, displayName, password)
+      const user = getAuthenticatedUser()
+      const { metadata, uid } = user
+      const photoURL = user.photoURL || `https://robohash.org/${uid}.png`
+      await user.updateProfile({ photoURL: photoURL })
+      await createUser(uid, {
+        displayName,
+        email,
+        creationTime: metadata.creationTime,
+        photoURL,
+        role: 'user',
+        userDeleted: false
+      })
       this.$router.replace({ name: 'WelcomePage' })
-      this.$emit('submited')
     }
   }
 }
@@ -89,7 +104,6 @@ export default {
   flex-grow: 1;
   justify-content: center;
   align-items: center;
-  /* padding: 0 500px; */
   margin-top: 25px;
   grid-area: form;
   background-image: url('../../assets/clouds.svg');
