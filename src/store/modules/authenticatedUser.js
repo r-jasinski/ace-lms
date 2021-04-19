@@ -16,9 +16,8 @@ export default {
   },
   actions: {
     commitAuthenticatedUser({ commit }, authenticatedUser) {
-      const { photoURL, uid } = authenticatedUser
-      authenticatedUser.displayImage =
-        photoURL || `https://robohash.org/${uid}.png`
+      const { photoURL } = authenticatedUser
+      authenticatedUser.displayImage = photoURL
       commit('setAuthenticatedUser', authenticatedUser)
     }
   }
