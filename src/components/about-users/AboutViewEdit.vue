@@ -2,24 +2,26 @@
   <div>
     <div class="admin-about">
       <hr />
-      <post-info :post-info="about" />
+      <post-info :post-info="postInfo" />
       <editor-body
         :placeholder="editorBodyPlaceholder"
-        :content="about.text"
+        :content="about.content"
         :editable="editable"
+        :sendData="sendData"
+        @data-sent="createAbout"
       />
       <div v-if="!editable" class="admin-about__edit-button">
-        <edit-button @clicked="editAbout" />
+        <edit-button @clicked="editable = true" />
       </div>
       <div v-else>
         <small class="admin-about__label">
-          Ao clicar em “Publicar”, você concorda com os termos de serviço,
+          *Ao clicar em “Publicar”, você concorda com os termos de serviço,
           política de privacidade e política de Cookies</small
         >
-        <round-corner-button
-          class="admin-about__round-corner-button"
-          :label="'Publicar'"
-        />
+        <div class="admin-about__buttons">
+          <confirm-button :label="'Publicar'" @clicked="sendData = true" />
+          <cancel-button :label="'Cancelar'" @clicked="cancelEdit" />
+        </div>
       </div>
       <hr />
     </div>
@@ -27,42 +29,93 @@
 </template>
 
 <script>
+import CancelButton from '@/components/shared/CancelButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import PostInfo from '@/components/shared/PostInfo'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import { aboutCollection, createAbout } from '@/services/aboutService'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'AboutViewEdit',
 
-  components: { EditButton, EditorBody, PostInfo, RoundCornerButton },
+  components: { CancelButton, ConfirmButton, EditButton, EditorBody, PostInfo },
 
   data() {
     return {
       editable: false,
       editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
-      about: {
-        autor: 'anna_nowak',
-        postDate: '5 horas atrás',
-        text: `
-          <p>Este projeto nasceu da necessidade de compartilhamento de experiências e conhecimentos entre pessoas que trabalham com desenvolvimento de software. Baseado em técnicas presentes em áreas multidisciplinares, busca-se o enfrentamento de um problema bastante comum no cotidiano de desenvolvedores : a constante necessidade de aprendizado.</p>
-          <p>Possui como funcionalidade central um ambiente onde o usuário pode postar quaisquer dúvidas que venha enfrentar, principalmente aquelas cujo não enfrentamento ocasionam algum tipo de bloqueio na continuidade de sua tarefa.</p>
-          <p>Ainda, disponibiliza uma área para a publicação de artigos com conteúdos diversos relacionados ao escopo de programação. A fim de incentivar a visualiação dos artigos, na página principal do projeto aparecerá, de forma aleatória, um link direcionando a essa seção.</p>
-          <p>Assim, busca-se diminuir a lacuna de conhecimento no ambiente que utiliza a solução, deixando registrado um pouco de cada profissional e agilizando o processo de imersão de novos colaboradores no ecossistema da empresa.</p>
-          <p>No processo de design, foram observadas tendências diversas para a elaboração das cores, tipografia, estilo etc.</p>
-          <p>Para a obter sucesso ao despertar interesse dos envolvidos, utiliza-se gamification de várias formas, como rankings baseados no grau de atividade e criação de personagens (API Toonify).</p>
-          <p>Sugere-se que o gestor responsável pela aplicação desta ferramenta fomente e incentive seu uso através de bonificações ou como requisitos para eventuais promoções.</p>
-          <p>Como futuros módulos a serem implementados, este sistema contará com emissão de relatórios gerenciais, integração com sistemas de gerenciamento de projetos e uma área para disponibilização de cursos.</p>`
+      about: {},
+      fixedID: 'NPtCmqzUQrL32G7kEHnT',
+      unsubscribe: null,
+      sendData: false
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      user: 'users/user'
+    }),
+
+    postInfo() {
+      let user = this.user(this.about.author)
+      let creationTime = this.about.creationTime
+      return {
+        ...user,
+        creationTime
       }
     }
   },
 
+  watch: {
+    sendData() {
+      if (this.sendData) {
+        setTimeout(() => {
+          this.sendData = false
+        }, 5)
+      }
+    }
+  },
+
+  mounted() {
+    this.initializeAbout()
+  },
+
+  destroyed() {
+    this.unsubscribe()
+  },
+
   methods: {
-    removeAbout() {
-      this.about = {}
+    async createAbout(about) {
+      if (about.length < 1) {
+        this.editable = false
+        return
+      }
+      this.sendData = true
+      let UTCStringCreationTime = new Date().toUTCString()
+      this.about = {
+        author: this.authenticatedUser.uid,
+        content: about,
+        creationTime: UTCStringCreationTime
+      }
+      await createAbout(this.fixedID, this.about)
+      this.editable = false
     },
-    editAbout() {
-      this.editable = true
+
+    cancelEdit() {
+      this.editable = false
+      this.about.content += ' '
+    },
+
+    initializeAbout() {
+      this.unsubscribe = aboutCollection.doc(this.fixedID).onSnapshot(doc => {
+        this.about = { ...doc.data() }
+        if (!this.about.content) {
+          this.editable = true
+        }
+      })
     }
   }
 }
@@ -74,6 +127,8 @@ export default {
 }
 
 .admin-about__label {
+  display: flex;
+  justify-content: flex-start;
   font-size: 0.75em;
   opacity: 0.7;
 }
@@ -88,15 +143,19 @@ export default {
   padding-left: 3px;
 }
 
+.admin-about__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 25px 0;
+  gap: 10px;
+}
+
 .admin-about__edit-button {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-}
-
-.admin-about__round-corner-button {
-  margin: 25px 0;
 }
 
 .admin-about hr {
