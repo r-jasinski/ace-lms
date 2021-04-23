@@ -69,7 +69,8 @@ export default {
   props: {
     content: { type: String, default: '' },
     editable: { type: Boolean, default: true },
-    placeholder: { type: String, default: '' }
+    placeholder: { type: String, default: '' },
+    sendData: { type: Boolean, default: false }
   },
 
   data() {
@@ -109,10 +110,10 @@ export default {
           new Underline()
         ],
         autoFocus: false,
-        content: '',
+        contentHTML: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-          this.content = this.html === '<p></p>' ? '' : this.html
+          this.contentHTML = this.html === '<p></p>' ? '' : this.html
         }
       })
     }
@@ -121,6 +122,14 @@ export default {
   watch: {
     editable() {
       this.editor.setOptions({ editable: this.editable })
+    },
+    content() {
+      this.editor.setContent(this.content)
+    },
+    sendData() {
+      if (this.sendData === true) {
+        this.$emit('data-sent', this.html)
+      }
     }
   },
 
