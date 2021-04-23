@@ -12,10 +12,10 @@
       <add-button @clicked="addUserWithLinkToEmail" />
     </form>
     <div v-for="user in users" :key="user.id">
-      <user-info :user="user.data" @changed="toggleAdminRole(user.id, $event)">
+      <user-info :user="user" @changed="toggleAdminRole(user.id, $event)">
         <template slot="selected-user">
           <reactivate-button
-            v-if="user.data.deletedAt"
+            v-if="user.deletedAt"
             @clicked="reactivateUser(user.id)"
           />
           <remove-button v-else @clicked="deactivateUser(user.id)" />
@@ -33,7 +33,7 @@ import ReactivateButton from '@/components/shared/ReactivateButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
-import { getUsers, updateUser, usersCollection } from '@/services/usersService'
+import { updateUser, usersCollection } from '@/services/usersService'
 
 export default {
   name: 'UsersViewEdit',
@@ -56,9 +56,7 @@ export default {
   },
 
   mounted() {
-    this.unsubscribe = usersCollection.onSnapshot(async () => {
-      this.users = await getUsers()
-    })
+    this.initializeUsers()
   },
 
   destroyed() {
@@ -74,8 +72,17 @@ export default {
     },
 
     async deactivateUser(userId) {
-      var UTCStringDeletionTime = new Date().toUTCString()
+      const UTCStringDeletionTime = new Date().toUTCString()
       await updateUser(userId, { deletedAt: UTCStringDeletionTime })
+    },
+
+    initializeUsers() {
+      this.unsubscribe = usersCollection.onSnapshot(snapshot => {
+        this.users = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+      })
     },
 
     async reactivateUser(userId) {
