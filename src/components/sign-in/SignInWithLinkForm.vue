@@ -36,7 +36,7 @@
         icon="key"
         v-model="user.passwordConfirm"
       />
-      <round-corner-button
+      <confirm-button
         class="sign-in-with-link-form__submit-button"
         label="Salvar"
         @clicked="submitUserProfile"
@@ -47,7 +47,7 @@
 
 <script>
 import FormInput from '@/components/shared/FormInput'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import store from '@/store/index.js'
 import {
   confirmAccount,
@@ -58,7 +58,7 @@ import { createUser } from '@/services/usersService'
 export default {
   name: 'SignInWithLinkForm',
 
-  components: { FormInput, RoundCornerButton },
+  components: { FormInput, ConfirmButton },
 
   data() {
     return {
@@ -84,12 +84,12 @@ export default {
       const photoURL = user.photoURL || `https://robohash.org/${uid}.png`
       await user.updateProfile({ photoURL: photoURL })
       await createUser(uid, {
+        creationTime: metadata.creationTime,
+        deletedAt: null,
         displayName,
         email,
-        creationTime: metadata.creationTime,
-        photoURL,
-        role: 'user',
-        userDeleted: false
+        isAdmin: false,
+        photoURL
       })
       this.$router.replace({ name: 'WelcomePage' })
     }

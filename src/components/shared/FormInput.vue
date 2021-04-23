@@ -51,11 +51,16 @@ export default {
   border-radius: 100vh;
   border: 1px solid var(--dark-50);
   outline: none;
+  caret-color: var(--dark);
   -webkit-text-fill-color: var(--dark) !important;
 }
 
 .form-input input:focus {
   border: 1px solid var(--dark);
+}
+
+.form-input input::placeholder {
+  -webkit-text-fill-color: var(--dark-50) !important;
 }
 
 .form-input__icon {

@@ -1,9 +1,9 @@
 <template>
   <button
-    :class="['round-corner-button', { 'round-corner-button--active': active }]"
+    :class="['cancel-button', { 'cancel-button--active': active }]"
     @click.prevent="$emit('clicked')"
   >
-    <div class="round-corner-button__label">
+    <div class="cancel-button__label">
       {{ label }}
     </div>
   </button>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'RoundCornerButton',
+  name: 'CancelButton',
 
   props: {
     active: { type: Boolean, default: false },
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-.round-corner-button {
+.cancel-button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,29 +29,29 @@ export default {
   min-height: 50px;
   padding: 10px;
   color: #fff;
-  background-color: var(--primary);
+  background-color: var(--danger);
   border-radius: 100vh;
   border: none;
   outline: none;
   transform: scale(1);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
-.round-corner-button:hover {
-  background-color: var(--primary-plus);
+.cancel-button:hover {
+  background-color: var(--danger-plus);
   cursor: pointer;
   transform: scale(1.05);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
-.round-corner-button--active {
-  background-color: var(--primary-plus);
+.cancel-button--active {
+  background-color: var(--danger-plus);
   transform: scale(1.05);
-  transition: all 0.1s;
+  transition: all 0.05s;
   font-weight: 900;
 }
 
-.round-corner-button__label {
+.cancel-button__label {
   text-shadow: 0px 0px 2px black;
 }
 </style>

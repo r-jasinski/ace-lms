@@ -29,7 +29,7 @@
         icon="key"
         v-model="user.password"
       />
-      <round-corner-button
+      <confirm-button
         class="sign-in-form__submit-button"
         :label="submitButtonLabel"
         @clicked="onSubmit"
@@ -43,7 +43,7 @@
 
 <script>
 import FormInput from '@/components/shared/FormInput'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import store from '@/store/index.js'
 import { getQuote } from '@/services/quotesService'
 import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
@@ -51,7 +51,7 @@ import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
 export default {
   name: 'SignInForm',
 
-  components: { FormInput, RoundCornerButton },
+  components: { FormInput, ConfirmButton },
 
   data() {
     return {

@@ -1,42 +1,57 @@
 <template>
-  <button class="add-button" @click.prevent="$emit('clicked')">
-    <font-awesome-icon icon="plus" />
+  <button
+    :class="['confirm-button', { 'confirm-button--active': active }]"
+    @click.prevent="$emit('clicked')"
+  >
+    <div class="confirm-button__label">
+      {{ label }}
+    </div>
   </button>
 </template>
 
 <script>
 export default {
-  name: 'AddButton'
+  name: 'ConfirmButton',
+
+  props: {
+    active: { type: Boolean, default: false },
+    label: { type: String, default: '' }
+  }
 }
 </script>
 
 <style scoped>
-.add-button {
+.confirm-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 50px;
+  width: 150px;
   min-height: 50px;
+  padding: 10px;
   color: #fff;
   background-color: var(--primary);
   border-radius: 100vh;
   border: none;
   outline: none;
-  font-weight: 900;
   transform: scale(1);
   transition: all 0.05s;
 }
 
-.add-button:hover {
+.confirm-button:hover {
   background-color: var(--primary-plus);
   cursor: pointer;
   transform: scale(1.05);
   transition: all 0.05s;
 }
 
-.add-button--active {
+.confirm-button--active {
   background-color: var(--primary-plus);
   transform: scale(1.05);
   transition: all 0.05s;
+  font-weight: 900;
+}
+
+.confirm-button__label {
+  text-shadow: 0px 0px 2px black;
 }
 </style>

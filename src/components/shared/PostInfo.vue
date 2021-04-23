@@ -1,9 +1,12 @@
 <template>
   <div class="post-info">
-    <div class="post-info__avatar" />
+    <div
+      class="post-info__avatar"
+      :style="{ backgroundImage: `url(${postInfo.photoURL})` }"
+    />
     <ul class="post-info__text">
-      <li>{{ postInfo.autor }}</li>
-      <li>{{ postInfo.postDate }}</li>
+      <li>{{ postInfo.displayName }}</li>
+      <li>{{ postInfo.creationTime }}</li>
     </ul>
   </div>
 </template>
@@ -13,7 +16,7 @@ export default {
   name: 'PostInfo',
 
   props: {
-    postInfo: { type: Object, required: true }
+    postInfo: { type: Object, default: Object.create({}) }
   }
 }
 </script>
@@ -24,8 +27,7 @@ export default {
   margin-right: 20px;
   height: 50px;
   min-width: 50px;
-  background: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg')
-    no-repeat center;
+  background-position: center;
   background-size: cover;
   border-radius: 999px;
 }

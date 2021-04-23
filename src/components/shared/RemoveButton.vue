@@ -24,13 +24,13 @@ export default {
   outline: none;
   font-weight: 900;
   transform: scale(1);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
 .remove-button:hover {
   background-color: var(--danger-plus);
   transform: scale(1.05);
-  transition: all 0.1s;
+  transition: all 0.05s;
   cursor: pointer;
 }
 </style>

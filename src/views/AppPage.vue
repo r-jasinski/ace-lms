@@ -23,9 +23,42 @@ import TheAppFooter from '@/components/app/TheAppFooter'
 import TheAppHeader from '@/components/app/TheAppHeader'
 import TheAppMenu from '@/components/app/TheAppMenu'
 import TheAppSideMenu from '@/components/app/TheAppSideMenu'
+import { mapActions } from 'vuex'
+import { usersCollection } from '@/services/usersService'
 
 export default {
-  components: { TheAppFooter, TheAppHeader, TheAppMenu, TheAppSideMenu }
+  components: { TheAppFooter, TheAppHeader, TheAppMenu, TheAppSideMenu },
+
+  data() {
+    return {
+      unsubscribe: null
+    }
+  },
+
+  created() {
+    this.initializeApp()
+  },
+
+  destroyed() {
+    this.unsubscribe()
+  },
+
+  methods: {
+    ...mapActions({
+      commitUsers: 'users/commitUsers'
+    }),
+
+    initializeApp() {
+      this.unsubscribe = usersCollection.onSnapshot(querySnapshot => {
+        var users = {}
+        querySnapshot.forEach(doc => {
+          let id = doc.id
+          users[id] = doc.data()
+        })
+        this.commitUsers(users)
+      })
+    }
+  }
 }
 </script>
 

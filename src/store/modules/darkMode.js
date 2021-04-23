@@ -4,21 +4,19 @@ export default {
     darkMode: null
   },
   getters: {
-    getDarkMode(state) {
-      return state.darkMode
-    }
+    darkMode: state => state.darkMode
   },
   mutations: {
-    setDarkMode(state, payload) {
+    setDarkMode: (state, payload) => {
       state.darkMode = payload
     }
   },
   actions: {
-    toggleDarkMode({ commit, state }) {
+    toggleDarkMode: ({ commit, state }) => {
       commit('setDarkMode', !state.darkMode)
       localStorage.setItem('darkMode', JSON.stringify(state.darkMode))
     },
-    initDarkMode({ commit }) {
+    initDarkMode: ({ commit }) => {
       const userSOScheme = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
       const localStorageScheme = JSON.parse(localStorage.getItem('darkMode'))

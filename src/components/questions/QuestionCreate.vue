@@ -17,12 +17,12 @@
     />
     <div>
       <small class="question-create__label">
-        Ao clicar em “Publicar”, você concorda com os termos de serviço,
+        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
 
-      <round-corner-button
-        class="question-create__round-corner-button"
+      <confirm-button
+        class="question-create__confirm-button"
         :label="'Publicar'"
       />
     </div>
@@ -32,12 +32,12 @@
 <script>
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 
 export default {
   name: 'QuestionCreate',
 
-  components: { EditorBody, EditorTitle, RoundCornerButton },
+  components: { EditorBody, EditorTitle, ConfirmButton },
 
   data() {
     return {
@@ -59,7 +59,7 @@ export default {
   opacity: 0.7;
 }
 
-.question-create__round-corner-button {
+.question-create__confirm-button {
   margin-top: 25px;
 }
 </style>

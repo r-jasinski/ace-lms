@@ -17,11 +17,11 @@
     />
     <div>
       <small class="article-create__label">
-        Ao clicar em “Publicar”, você concorda com os termos de serviço,
+        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <round-corner-button
-        class="article-create__round-corner-button"
+      <confirm-button
+        class="article-create__confirm-button"
         :label="'Publicar'"
       />
     </div>
@@ -31,12 +31,12 @@
 <script>
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 
 export default {
   name: 'ArticleCreate',
 
-  components: { EditorBody, EditorTitle, RoundCornerButton },
+  components: { EditorBody, EditorTitle, ConfirmButton },
 
   data() {
     return {
@@ -58,7 +58,7 @@ export default {
   opacity: 0.7;
 }
 
-.article-create__round-corner-button {
+.article-create__confirm-button {
   margin-top: 25px;
 }
 </style>
