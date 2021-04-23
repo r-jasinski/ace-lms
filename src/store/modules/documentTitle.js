@@ -4,17 +4,13 @@ export default {
     documentTitle: ''
   },
   getters: {
-    getDocumentTitle(state) {
-      return state.documentTitle
-    }
+    documentTitle: state => state.documentTitle
   },
   mutations: {
-    setDocumentTitle(state, payload) {
-      state.documentTitle = payload
-    }
+    setDocumentTitle: (state, payload) => (state.documentTitle = payload)
   },
   actions: {
-    setDocumentHeadTitle({ commit }, title) {
+    setDocumentHeadTitle: ({ commit }, title) => {
       commit('setDocumentTitle', title)
       document.title = title
     }

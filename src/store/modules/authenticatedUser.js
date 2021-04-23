@@ -1,21 +1,17 @@
 export default {
   namespaced: true,
   state: {
-    authenticatedUser: {},
-    displayUserImage: ''
+    authenticatedUser: {}
   },
   getters: {
-    authenticatedUser(state) {
-      return state.authenticatedUser
-    }
+    authenticatedUser: state => state.authenticatedUser
   },
   mutations: {
-    setAuthenticatedUser(state, payload) {
-      state.authenticatedUser = payload
-    }
+    setAuthenticatedUser: (state, payload) =>
+      (state.authenticatedUser = payload)
   },
   actions: {
-    commitAuthenticatedUser({ commit }, authenticatedUser) {
+    commitAuthenticatedUser: ({ commit }, authenticatedUser) => {
       const { photoURL } = authenticatedUser
       authenticatedUser.displayImage = photoURL
       commit('setAuthenticatedUser', authenticatedUser)
