@@ -10,10 +10,10 @@ export const createUser = async (uid, data) => {
 }
 
 export const getUsers = async () => {
-  const snapshot = await usersCollection.get()
-  return snapshot.docs.map(doc => ({
+  const get = await usersCollection.get()
+  return get.docs.map(doc => ({
     id: doc.id,
-    data: doc.data()
+    ...doc.data()
   }))
 }
 
