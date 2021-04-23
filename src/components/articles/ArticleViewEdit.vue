@@ -25,11 +25,11 @@
     </div>
     <div v-else>
       <small class="article-view-edit__label">
-        Ao clicar em “Publicar”, você concorda com os termos de serviço,
+        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <round-corner-button
-        class="article-view-edit__round-corner-button"
+      <confirm-button
+        class="article-view-edit__confirm-button"
         :label="'Publicar'"
       />
     </div>
@@ -44,7 +44,7 @@ import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
 import PostInfo from '@/components/shared/PostInfo'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 
 export default {
@@ -55,7 +55,7 @@ export default {
     EditorBody,
     EditorTitle,
     PostInfo,
-    RoundCornerButton,
+    ConfirmButton,
     RemoveButton
   },
 
@@ -115,7 +115,7 @@ export default {
   gap: 10px;
 }
 
-.article-view-edit__round-corner-button {
+.article-view-edit__confirm-button {
   margin: 25px 0;
 }
 

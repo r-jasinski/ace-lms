@@ -27,7 +27,7 @@
         placeholder="Selecione uma imagem"
         ref="inputFile"
       />
-      <round-corner-button
+      <confirm-button
         class="profile-view-edit__save-button"
         label="Salvar"
         @clicked="submitProfileForm(authenticatedUser)"
@@ -40,7 +40,7 @@
 import FilePicker from '@/components/shared/FilePicker'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -58,7 +58,7 @@ import {
 export default {
   name: 'ProfileViewEdit',
 
-  components: { FilePicker, FormInput, RemoveButton, RoundCornerButton },
+  components: { FilePicker, FormInput, RemoveButton, ConfirmButton },
 
   mixins: [profileFormInputsMixin],
 

@@ -19,12 +19,12 @@
           ref="inputFile"
         />
         <div class="welcome-page__buttons">
-          <round-corner-button
+          <confirm-button
             class="welcome-page__submit-button"
             label="Enviar"
             @clicked="submitUserImage"
           />
-          <round-corner-button
+          <confirm-button
             class="welcome-page__submit-button"
             label="Ir para home"
             @clicked="goToHome()"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import FilePicker from '@/components/shared/FilePicker'
 import { mapActions } from 'vuex'
 import {
@@ -55,7 +55,7 @@ import { updateUser } from '@/services/usersService'
 export default {
   name: 'WelcomePage',
 
-  components: { FilePicker, RoundCornerButton },
+  components: { FilePicker, ConfirmButton },
 
   data() {
     return {

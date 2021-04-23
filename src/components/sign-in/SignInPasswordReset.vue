@@ -21,7 +21,7 @@
         icon="key"
         v-model="user.passwordConfirm"
       />
-      <round-corner-button
+      <confirm-button
         class="sign-in-with-link-form__submit-button"
         label="Salvar"
         @clicked="submitUserPassword"
@@ -32,14 +32,14 @@
 
 <script>
 import FormInput from '@/components/shared/FormInput'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import store from '@/store/index.js'
 import { resetPassword } from '@/services/firebaseService'
 
 export default {
   name: 'SignInPasswordReset',
 
-  components: { FormInput, RoundCornerButton },
+  components: { FormInput, ConfirmButton },
 
   data() {
     return {

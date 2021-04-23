@@ -24,11 +24,11 @@
     </div>
     <div v-else>
       <small class="question-view-edit__label">
-        Ao clicar em “Publicar”, você concorda com os termos de serviço,
+        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
         política de privacidade e política de Cookies</small
       >
-      <round-corner-button
-        class="question-view-edit__round-corner-button"
+      <confirm-button
+        class="question-view-edit__confirm-button"
         :label="'Publicar'"
       />
     </div>
@@ -42,7 +42,7 @@
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '../shared/EditorTitle.vue'
 import PostInfo from '@/components/shared/PostInfo'
-import RoundCornerButton from '@/components/shared/RoundCornerButton'
+import ConfirmButton from '@/components/shared/ConfirmButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import EditButton from '@/components/shared/EditButton'
 
@@ -55,7 +55,7 @@ export default {
     EditorBody,
     EditorTitle,
     PostInfo,
-    RoundCornerButton
+    ConfirmButton
   },
 
   data() {
@@ -107,7 +107,7 @@ export default {
   gap: 10px;
 }
 
-.question-view-edit__round-corner-button {
+.question-view-edit__confirm-button {
   margin-top: 25px;
 }
 
