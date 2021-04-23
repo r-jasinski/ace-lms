@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="darkMode">
+  <div id="app" :class="UIMode">
     <router-view />
   </div>
 </template>
@@ -9,10 +9,10 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters({ getDarkMode: 'darkMode/getDarkMode' }),
+    ...mapGetters({ darkMode: 'darkMode/darkMode' }),
 
-    darkMode() {
-      return this.getDarkMode ? 'app--dark-mode' : 'app--light-mode'
+    UIMode() {
+      return this.darkMode ? 'app--dark-mode' : 'app--light-mode'
     }
   },
 
