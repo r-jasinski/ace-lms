@@ -24,19 +24,19 @@ export default {
   outline: none;
   font-weight: 900;
   transform: scale(1);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
 .add-button:hover {
   background-color: var(--primary-plus);
   cursor: pointer;
   transform: scale(1.05);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
 .add-button--active {
   background-color: var(--primary-plus);
   transform: scale(1.05);
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 </style>

@@ -49,12 +49,12 @@ export default {
   margin-top: 20px;
   padding: 5px;
   border-radius: 5px;
-  transition: all 0.1s;
+  transition: all 0.03s;
 }
 
 .user-info:hover {
   background-color: var(--primary);
-  transition: all 0.1s;
+  transition: all 0.02s;
 }
 
 .user-info__avatar {
