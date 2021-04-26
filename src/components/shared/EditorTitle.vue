@@ -41,11 +41,8 @@ export default {
           })
         ],
         autoFocus: true,
-        // contentHTML: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-          // console.log(this.html)
-          // this.contentHTML = this.html === undefined ? '<h1></h1>' : this.html
         },
         onBlur: () => {
           this.$emit('input', this.html)
@@ -53,17 +50,6 @@ export default {
       })
     }
   },
-
-  // computed: {
-  //   inputModel: {
-  //     get() {
-  //       return this.value
-  //     },
-  //     set(value) {
-  //       this.$emit('input', value)
-  //     }
-  //   }
-  // },
 
   watch: {
     editable() {
