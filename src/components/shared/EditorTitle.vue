@@ -16,7 +16,7 @@ export default {
   },
 
   props: {
-    content: { type: String, default: '' },
+    content: { type: String, default: '<h1></h1>' },
     editable: { type: Boolean, default: true },
     placeholder: { type: String, default: '' }
   },
@@ -41,14 +41,29 @@ export default {
           })
         ],
         autoFocus: true,
-        content: '',
+        // contentHTML: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-          this.content = this.html === '<h1></h1>' ? '' : this.html
+          // console.log(this.html)
+          // this.contentHTML = this.html === undefined ? '<h1></h1>' : this.html
+        },
+        onBlur: () => {
+          this.$emit('input', this.html)
         }
       })
     }
   },
+
+  // computed: {
+  //   inputModel: {
+  //     get() {
+  //       return this.value
+  //     },
+  //     set(value) {
+  //       this.$emit('input', value)
+  //     }
+  //   }
+  // },
 
   watch: {
     editable() {
@@ -58,6 +73,7 @@ export default {
       !this.editor.isActive.heading({ level: 1 }) &&
         this.editor.commands.heading({ level: 1 })
       !this.content && this.editor.commands.heading({ level: 1 })
+      this.editor.setContent(this.content)
     }
   },
 
