@@ -110,10 +110,13 @@ export default {
           new Underline()
         ],
         autoFocus: false,
-        contentHTML: '',
+        // contentHTML: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-          this.contentHTML = this.html === '<p></p>' ? '' : this.html
+          // this.contentHTML = this.html === '<p></p>' ? '' : this.html
+        },
+        onBlur: () => {
+          this.$emit('input', this.html)
         }
       })
     }
@@ -125,12 +128,12 @@ export default {
     },
     content() {
       this.editor.setContent(this.content)
-    },
-    sendData() {
-      if (this.sendData === true) {
-        this.$emit('data-sent', this.html)
-      }
     }
+    // sendData() {
+    //   if (this.sendData === true) {
+    //     this.$emit('data-sent', this.html)
+    //   }
+    // }
   },
 
   mounted() {
