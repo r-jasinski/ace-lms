@@ -7,8 +7,7 @@
         :placeholder="editorBodyPlaceholder"
         :content="about.content"
         :editable="editable"
-        :sendData="sendData"
-        @data-sent="createAbout"
+        @input="about.content = $event"
       />
       <div v-if="!editable" class="admin-about__edit-button">
         <edit-button @clicked="editable = true" />
@@ -19,7 +18,7 @@
           política de privacidade e política de Cookies</small
         >
         <div class="admin-about__buttons">
-          <confirm-button :label="'Publicar'" @clicked="sendData = true" />
+          <confirm-button :label="'Publicar'" @clicked="createAbout" />
           <cancel-button :label="'Cancelar'" @clicked="cancelEdit" />
         </div>
       </div>
@@ -48,8 +47,8 @@ export default {
       editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
       about: {},
       fixedID: 'NPtCmqzUQrL32G7kEHnT',
-      unsubscribe: null,
-      sendData: false
+      unsubscribe: null
+      // sendData: false
     }
   },
 
@@ -69,15 +68,15 @@ export default {
     }
   },
 
-  watch: {
-    sendData() {
-      if (this.sendData) {
-        setTimeout(() => {
-          this.sendData = false
-        }, 5)
-      }
-    }
-  },
+  // watch: {
+  //   sendData() {
+  //     if (this.sendData) {
+  //       setTimeout(() => {
+  //         this.sendData = false
+  //       }, 5)
+  //     }
+  //   }
+  // },
 
   mounted() {
     this.initializeAbout()
@@ -88,18 +87,15 @@ export default {
   },
 
   methods: {
-    async createAbout(about) {
-      if (about.length < 1) {
+    async createAbout() {
+      if (this.about.length < 1) {
         this.editable = false
         return
       }
-      this.sendData = true
-      let UTCStringCreationTime = new Date().toUTCString()
-      this.about = {
-        author: this.authenticatedUser.uid,
-        content: about,
-        creationTime: UTCStringCreationTime
-      }
+      // this.sendData = true
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.about.author = this.authenticatedUser.uid
+      this.about.creationTime = UTCStringCreationTime
       await createAbout(this.fixedID, this.about)
       this.editable = false
     },
