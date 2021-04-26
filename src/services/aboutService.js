@@ -5,8 +5,8 @@ const db = firebase.firestore()
 
 export const aboutCollection = db.collection('about')
 
-export const createAbout = async (uid, data) => {
-  await aboutCollection.doc(uid).set(data)
+export const createAbout = async (id, data) => {
+  await aboutCollection.doc(id).set(data)
 }
 
 export const getAbout = async user => {

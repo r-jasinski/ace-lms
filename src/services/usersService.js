@@ -5,8 +5,8 @@ const db = firebase.firestore()
 
 export const usersCollection = db.collection('users')
 
-export const createUser = async (uid, data) => {
-  await usersCollection.doc(uid).set(data)
+export const createUser = async (id, data) => {
+  await usersCollection.doc(id).set(data)
 }
 
 export const getUsers = async () => {
