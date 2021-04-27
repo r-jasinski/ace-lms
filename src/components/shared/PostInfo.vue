@@ -16,7 +16,7 @@ export default {
   name: 'PostInfo',
 
   props: {
-    postInfo: { type: Object, default: Object.create({}) }
+    postInfo: { type: Object, default: () => {} }
   }
 }
 </script>

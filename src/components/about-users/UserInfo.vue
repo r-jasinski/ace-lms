@@ -36,7 +36,7 @@ export default {
   components: { FormCheckbox },
 
   props: {
-    user: { type: Object, required: true }
+    user: { type: Object, default: () => {} }
   }
 }
 </script>

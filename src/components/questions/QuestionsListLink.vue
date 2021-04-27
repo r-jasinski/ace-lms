@@ -20,7 +20,7 @@ export default {
   components: { PostInfo },
 
   props: {
-    question: { type: Object, default: Object.create({}) }
+    question: { type: Object, default: () => {} }
   },
 
   computed: {
