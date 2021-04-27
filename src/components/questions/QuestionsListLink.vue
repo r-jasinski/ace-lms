@@ -1,9 +1,9 @@
 <template>
   <div class="question-list-link">
     <hr />
-    <p class="question-list-link__title">{{ questionTitle }}</p>
-    <post-info :post-info="question" />
-    <p class="question-list-link__summary">{{ questionText }}</p>
+    <p class="question-list-link__title">{{ questionTitleText }}</p>
+    <post-info :post-info="postInfo" />
+    <p class="question-list-link__summary">{{ questionSummaryText }}</p>
 
     <hr />
   </div>
@@ -12,6 +12,7 @@
 <script>
 import PostInfo from '@/components/shared/PostInfo'
 import { htmlToText } from 'html-to-text'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'QuestionLlistLink',
@@ -19,15 +20,29 @@ export default {
   components: { PostInfo },
 
   props: {
-    question: { type: Object, required: true }
+    question: { type: Object, default: Object.create({}) }
   },
 
   computed: {
-    questionTitle() {
+    questionTitleText() {
       return htmlToText(this.question.title, { wordwrap: 130 })
     },
-    questionText() {
-      return htmlToText(this.question.summary, { wordwrap: 130 })
+
+    questionSummaryText() {
+      return htmlToText(this.question.content, { wordwrap: 130 })
+    },
+
+    ...mapGetters({
+      user: 'users/user'
+    }),
+
+    postInfo() {
+      let user = this.user(this.question.author)
+      let creationTime = this.question.creationTime
+      return {
+        ...user,
+        creationTime
+      }
     }
   }
 }
@@ -43,6 +58,7 @@ export default {
   border-left: 5px solid var(--primary);
   border-radius: 9px;
   transition: all 0.03s;
+  cursor: pointer;
 }
 
 .question-list-link__title {
