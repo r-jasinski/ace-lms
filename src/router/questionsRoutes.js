@@ -14,8 +14,7 @@ export default [
       {
         path: 'view',
         name: 'QuestionViewEdit',
-        component: () => import('@/components/questions/QuestionViewEdit'),
-        meta: { title: 'Visualizar Pergunta' }
+        component: () => import('@/components/questions/QuestionViewEdit')
       },
       {
         path: 'create',

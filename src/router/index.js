@@ -49,7 +49,9 @@ const router = new VueRouter({
 })
 
 router.afterEach(to => {
-  store.dispatch('documentTitle/setDocumentHeadTitle', to.meta.title)
+  if (to.meta.title) {
+    store.dispatch('documentTitle/commitDocumentTitle', to.meta.title)
+  }
 })
 
 router.beforeEach((to, from, next) => {
