@@ -12,7 +12,7 @@ export default [
         meta: { title: 'Perguntas' }
       },
       {
-        path: 'view',
+        path: 'view/:slug/:id',
         name: 'QuestionViewEdit',
         component: () => import('@/components/questions/QuestionViewEdit')
       },
