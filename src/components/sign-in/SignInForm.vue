@@ -44,8 +44,8 @@
 <script>
 import FormInput from '@/components/shared/FormInput'
 import ConfirmButton from '@/components/shared/ConfirmButton'
-import store from '@/store/index.js'
 import { getQuote } from '@/services/quotesService'
+import { mapActions } from 'vuex'
 import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
 
 export default {
@@ -76,9 +76,12 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      commitDocumentTitle: 'documentTitle/commitDocumentTitle'
+    }),
+
     forgotPasswordModeToggle() {
-      store.dispatch(
-        'documentTitle/setDocumentHeadTitle',
+      this.commitDocumentTitle(
         !this.forgotPasswordMode ? 'Recuperar Senha' : 'ACE LMS'
       )
       this.forgotPasswordMode = !this.forgotPasswordMode
@@ -93,7 +96,7 @@ export default {
       }
       await sendPasswordResetEmail(email)
       this.forgotPasswordMode = false
-      store.dispatch('documentTitle/setDocumentHeadTitle', 'ACE LMS')
+      this.commitDocumentTitle('ACE LMS')
     }
   }
 }

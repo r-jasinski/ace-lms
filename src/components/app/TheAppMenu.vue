@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { signOut } from '@/services/firebaseService'
 
 export default {
@@ -100,10 +100,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      commitAuthenticatedUser: 'authenticatedUser/commitAuthenticatedUser'
-    }),
-
     menuHandler() {
       this.opened = !this.opened
     },

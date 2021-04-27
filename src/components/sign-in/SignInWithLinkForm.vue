@@ -48,12 +48,12 @@
 <script>
 import FormInput from '@/components/shared/FormInput'
 import ConfirmButton from '@/components/shared/ConfirmButton'
-import store from '@/store/index.js'
 import {
   confirmAccount,
   getAuthenticatedUser
 } from '@/services/firebaseService'
 import { createUser } from '@/services/usersService'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'SignInWithLinkForm',
@@ -67,10 +67,14 @@ export default {
   },
 
   activated() {
-    store.dispatch('documentTitle/setDocumentHeadTitle', 'Finalizar Cadastro')
+    this.commitDocumentTitle('Finalizar Cadastro')
   },
 
   methods: {
+    ...mapActions({
+      commitDocumentTitle: 'documentTitle/commitDocumentTitle'
+    }),
+
     async submitUserProfile() {
       let { email, displayName, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {

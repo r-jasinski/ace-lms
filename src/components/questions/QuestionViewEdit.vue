@@ -45,6 +45,9 @@ import PostInfo from '@/components/shared/PostInfo'
 import ConfirmButton from '@/components/shared/ConfirmButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import EditButton from '@/components/shared/EditButton'
+import { htmlToText } from 'html-to-text'
+import { mapActions } from 'vuex'
+import { questionsCollection } from '@/services/questionsService'
 
 export default {
   name: 'QuestionViewEdit',
@@ -64,23 +67,49 @@ export default {
       editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
       editorBodyPlaceholder: 'Escreva aqui o conteúdo da sua pergunta...',
       editorAnswerPlaceholder: 'Escreva aqui a sua resposta...',
-      question: {
-        autor: 'anna_nowak',
-        postDate: '5 horas atrás',
-        title:
-          '<h1>O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos</h1>',
-        text:
-          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisiLorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi '
-      }
+      question: {}
     }
   },
 
+  watch: {
+    question() {
+      if (!this.question.title) {
+        return
+      }
+      const questionTitleText = htmlToText(this.question.title, {
+        tags: { h1: { options: { uppercase: false } } }
+      })
+      this.commitDocumentTitle(questionTitleText)
+    }
+  },
+
+  mounted() {
+    this.initializeQuestion()
+  },
+
+  destroyed() {
+    this.unsubscribe()
+  },
+
   methods: {
+    ...mapActions({
+      commitDocumentTitle: 'documentTitle/commitDocumentTitle'
+    }),
+
     removeQuestion() {
       this.question = {}
     },
+
     editQuestion() {
       this.editable = true
+    },
+
+    initializeQuestion() {
+      this.unsubscribe = questionsCollection
+        .doc(this.$route.params.id)
+        .onSnapshot(doc => {
+          this.question = { ...doc.data() }
+        })
     }
   }
 }

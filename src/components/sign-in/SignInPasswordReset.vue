@@ -33,7 +33,7 @@
 <script>
 import FormInput from '@/components/shared/FormInput'
 import ConfirmButton from '@/components/shared/ConfirmButton'
-import store from '@/store/index.js'
+import { mapActions } from 'vuex'
 import { resetPassword } from '@/services/firebaseService'
 
 export default {
@@ -48,10 +48,14 @@ export default {
   },
 
   activated() {
-    store.dispatch('documentTitle/setDocumentHeadTitle', 'Atualizar Senha')
+    this.commitDocumentTitle('Atualizar Senha')
   },
 
   methods: {
+    ...mapActions({
+      commitDocumentTitle: 'documentTitle/commitDocumentTitle'
+    }),
+
     async submitUserPassword() {
       const { password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {

@@ -10,7 +10,7 @@ export default {
     setDocumentTitle: (state, payload) => (state.documentTitle = payload)
   },
   actions: {
-    setDocumentHeadTitle: ({ commit }, title) => {
+    commitDocumentTitle: ({ commit }, title) => {
       commit('setDocumentTitle', title)
       document.title = title
     }

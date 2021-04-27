@@ -7,8 +7,11 @@
       <add-button @clicked="addQuestion" />
     </div>
     <router-link
-      :to="{ name: 'QuestionViewEdit' }"
       v-for="question in questions"
+      :to="{
+        name: 'QuestionViewEdit',
+        params: { slug: slugifyQuestionTitle(question.title), id: question.id }
+      }"
       :key="question.id"
     >
       <questions-list-link :question="question" />
@@ -20,6 +23,8 @@
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
 import QuestionsListLink from './QuestionsListLink.vue'
+import { questionsCollection } from '@/services/questionsService'
+import { slugify } from '@/services/slugsService'
 
 export default {
   name: 'QuestionsList',
@@ -28,62 +33,35 @@ export default {
 
   data() {
     return {
-      questions: [
-        {
-          title:
-            '<h1>Vue JS - Como exibir uma lista intercalada entre propriedade e valor?</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'anna_nowak',
-          postDate: '05 horas atrás'
-        },
-        {
-          title:
-            '<h1>Qual a melhor forma de salvar vários tipos de dados de uma struct {} em um arquivo de texto em C?</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'jan_kowalski',
-          postDate: '05 minutos atrás'
-        },
-        {
-          title:
-            '<h1>É possível obter a geolocalização do usuário usando o Leaflet Js?</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'sam_smith',
-          postDate: '02 dias atrás'
-        },
-        {
-          title:
-            '<h1>Como mudar o separador ponto para vírgula no eixo dos xx em Python no seguinte código usando Jupyter Notebook do Anaconda?</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'john_doe',
-          postDate: '1 semana atrás'
-        },
-        {
-          title:
-            '<h1>O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'jan_kowalski',
-          postDate: '05 minutos atrás'
-        },
-        {
-          title:
-            '<h1>O CSS possui um vasto conjunto de propriedades pode receber valores numéricosO CSS possui um vasto conjunto de propriedades pode receber valores numéricos</h1>',
-          summary:
-            '<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat ad natus quae dolorem, obcaecati saepe iusto nisi fugiat eius? Dolore pariatur beatae sequi alias assumenda eos, dolorum consequuntur. Eveniet, et Vero nihil voluptas, pariatur eveniet fugiat sequi ad amet, eius asperiores laudantium dolor molestias voluptatibus qui ab voluptate ipsum esse ea velit tempore veniam error quas magnam. Minus, ut nobis. Dignissimos quibusdam expedita rem vitae iusto quasi odit? Minima molestiae eius adipisci obcaecati ullam debitis quos et quod minus? Necessitatibus, nulla. Aspernatur, veniam distinctio. Explicabo unde animi voluptas. Omnis, quasi</p>',
-          autor: 'jan_kowalski',
-          postDate: '05 minutos atrás'
-        }
-      ]
+      questions: [],
+      unsubscribe: null
     }
+  },
+
+  mounted() {
+    this.initializeQuestions()
+  },
+
+  destroyed() {
+    this.unsubscribe()
   },
 
   methods: {
     addQuestion() {
       this.$router.push({ name: 'QuestionCreate' })
+    },
+
+    initializeQuestions() {
+      this.unsubscribe = questionsCollection.onSnapshot(snapshot => {
+        this.questions = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+      })
+    },
+
+    slugifyQuestionTitle(questionTitle) {
+      return slugify(questionTitle)
     }
   }
 }

@@ -10,8 +10,8 @@ export const createQuestion = async data => {
 }
 
 export const getQuestion = async id => {
-  const questions = await questionsCollection.doc(id).get()
-  return questions.data()
+  const question = await questionsCollection.doc(id).get()
+  return question.data()
 }
 
 export const getQuestions = async () => {

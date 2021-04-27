@@ -48,7 +48,6 @@ export default {
       about: {},
       fixedID: 'NPtCmqzUQrL32G7kEHnT',
       unsubscribe: null
-      // sendData: false
     }
   },
 
@@ -67,16 +66,6 @@ export default {
       }
     }
   },
-
-  // watch: {
-  //   sendData() {
-  //     if (this.sendData) {
-  //       setTimeout(() => {
-  //         this.sendData = false
-  //       }, 5)
-  //     }
-  //   }
-  // },
 
   mounted() {
     this.initializeAbout()
