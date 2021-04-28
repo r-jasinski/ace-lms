@@ -75,9 +75,9 @@ export default {
   data() {
     return {
       editable: false,
-      editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
-      editorBodyPlaceholder: 'Escreva aqui o conteúdo da sua pergunta...',
       editorAnswerPlaceholder: 'Escreva aqui a sua resposta...',
+      editorBodyPlaceholder: 'Escreva aqui o conteúdo da sua pergunta...',
+      editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
       question: {}
     }
   },
@@ -123,30 +123,9 @@ export default {
       commitDocumentTitle: 'documentTitle/commitDocumentTitle'
     }),
 
-    async removeQuestion() {
-      await deleteQuestion(this.question.id)
-      console.log('removed')
-      this.$router.push({ name: 'QuestionsList' })
-    },
-
     cancelEdit() {
       this.editable = false
       this.question.content += ' '
-    },
-
-    async updateQuestion() {
-      if (
-        this.question.content.length < 10 ||
-        this.question.title.length < 10
-      ) {
-        return
-      }
-      console.log(this.question.title)
-      const UTCStringCreationTime = new Date().toUTCString()
-      this.question.author = this.authenticatedUser.uid
-      this.question.creationTime = UTCStringCreationTime
-      await updateQuestion(this.question.id, this.question)
-      this.editable = false
     },
 
     initializeQuestion() {
@@ -156,6 +135,25 @@ export default {
           this.question = { ...doc.data() }
           this.question.id = doc.id
         })
+    },
+
+    async removeQuestion() {
+      await deleteQuestion(this.question.id)
+      this.$router.push({ name: 'QuestionsList' })
+    },
+
+    async updateQuestion() {
+      if (
+        this.question.content.length < 10 ||
+        this.question.title.length < 10
+      ) {
+        return
+      }
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.question.author = this.authenticatedUser.uid
+      this.question.creationTime = UTCStringCreationTime
+      await updateQuestion(this.question.id, this.question)
+      this.editable = false
     }
   }
 }
@@ -188,6 +186,5 @@ export default {
   border: none;
   border-top: 1px dotted var(--primary);
   opacity: 0.5;
-  margin-bottom: 50px;
 }
 </style>
