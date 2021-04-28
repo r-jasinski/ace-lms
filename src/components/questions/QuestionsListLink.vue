@@ -24,6 +24,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      user: 'users/user'
+    }),
+
     questionTitleText() {
       return htmlToText(this.question.title, { wordwrap: 130 })
     },
@@ -31,10 +35,6 @@ export default {
     questionSummaryText() {
       return htmlToText(this.question.content, { wordwrap: 130 })
     },
-
-    ...mapGetters({
-      user: 'users/user'
-    }),
 
     postInfo() {
       let user = this.user(this.question.author)

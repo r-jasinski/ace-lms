@@ -1,9 +1,9 @@
 <template>
   <div class="article-list-link">
     <hr />
-    <p class="article-list-link__title">{{ articleTitle }}</p>
-    <post-info :post-info="article" />
-    <p class="article-list-link__summary">{{ articleText }}</p>
+    <p class="article-list-link__title">{{ articleTitleText }}</p>
+    <post-info :post-info="postInfo" />
+    <p class="article-list-link__summary">{{ articleSummaryText }}</p>
 
     <hr />
   </div>
@@ -12,6 +12,7 @@
 <script>
 import PostInfo from '@/components/shared/PostInfo'
 import { htmlToText } from 'html-to-text'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ArticleLlistLink',
@@ -19,15 +20,29 @@ export default {
   components: { PostInfo },
 
   props: {
-    article: { type: Object, required: true }
+    article: { type: Object, default: () => {} }
   },
 
   computed: {
-    articleTitle() {
+    ...mapGetters({
+      user: 'users/user'
+    }),
+
+    articleTitleText() {
       return htmlToText(this.article.title, { wordwrap: 130 })
     },
-    articleText() {
-      return htmlToText(this.article.summary, { wordwrap: 130 })
+
+    articleSummaryText() {
+      return htmlToText(this.article.content, { wordwrap: 130 })
+    },
+
+    postInfo() {
+      let user = this.user(this.article.author)
+      let creationTime = this.article.creationTime
+      return {
+        ...user,
+        creationTime
+      }
     }
   }
 }
