@@ -114,8 +114,6 @@ export default {
           this.html = getHTML()
         },
         onBlur: () => {
-          console.log(this.content)
-          console.log(this.html)
           if (this.html) {
             this.$emit('input', this.html)
           }
@@ -226,14 +224,4 @@ export default {
   height: 0;
   pointer-events: none;
 }
-
-/* .editor p:first-child:first-letter {
-  color: var(--primary);
-  float: left;
-  font-size: 75px;
-  line-height: 60px;
-  padding-top: 4px;
-  padding-right: 8px;
-  padding-left: 3px;
-} */
 </style>

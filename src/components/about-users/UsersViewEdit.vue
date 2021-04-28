@@ -102,6 +102,7 @@ export default {
   align-items: baseline;
   justify-content: flex-end;
   gap: 5px;
+  margin: 25px 25px 0 0;
 }
 
 .inactive {

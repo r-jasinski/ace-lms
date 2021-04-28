@@ -69,14 +69,16 @@ export default {
 
 header {
   position: relative;
-  min-height: 425px;
+  min-height: 450px;
+  z-index: 0;
 }
 
 article {
   display: flex;
-  margin-top: 145px;
+  margin-top: 0;
   min-height: 45vh;
   padding: 0 20%;
+  z-index: 1;
 }
 
 footer {
@@ -103,11 +105,10 @@ a {
 
 @media only screen and (max-width: 550px) {
   header {
-    min-height: 375px;
-    height: 375px;
+    min-height: 350px;
+    height: 350px;
   }
   article {
-    margin-top: 50px;
     padding: 0 1%;
   }
 }
