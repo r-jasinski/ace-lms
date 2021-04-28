@@ -2,11 +2,6 @@ export default {
   data() {
     return {
       menuBarButtons: [
-        {
-          active: 'horizontal_rule',
-          command: 'horizontal_rule',
-          icon: 'window-minimize'
-        },
         { active: 'bold', command: 'bold', icon: 'bold' },
         { active: 'italic', command: 'italic', icon: 'italic' },
         { active: 'strike', command: 'strike', icon: 'strikethrough' },
