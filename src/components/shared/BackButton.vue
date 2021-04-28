@@ -1,20 +1,21 @@
 <template>
-  <button class="edit-button" @click.prevent="$emit('clicked')">
-    <font-awesome-icon icon="edit" />
+  <button class="back-button" @click.prevent="$emit('clicked')">
+    <font-awesome-icon icon="arrow-left" />
   </button>
 </template>
 
 <script>
 export default {
-  name: 'EditButton'
+  name: 'BackButton'
 }
 </script>
 
 <style scoped>
-.edit-button {
+.back-button {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* margin: 25px 0 50px 0; */
   min-width: 50px;
   min-height: 50px;
   color: #fff;
@@ -27,7 +28,7 @@ export default {
   transition: all 0.05s;
 }
 
-.edit-button:hover {
+.back-button:hover {
   background-color: var(--primary-plus);
   transform: scale(1.05);
   transition: all 0.05s;

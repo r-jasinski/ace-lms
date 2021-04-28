@@ -110,10 +110,8 @@ export default {
           new Underline()
         ],
         autoFocus: false,
-        // contentHTML: '',
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-          // this.contentHTML = this.html === '<p></p>' ? '' : this.html
         },
         onBlur: () => {
           this.$emit('input', this.html)
@@ -129,11 +127,6 @@ export default {
     content() {
       this.editor.setContent(this.content)
     }
-    // sendData() {
-    //   if (this.sendData === true) {
-    //     this.$emit('data-sent', this.html)
-    //   }
-    // }
   },
 
   mounted() {
@@ -212,6 +205,7 @@ export default {
 
 .editor__content pre {
   background-color: var(--primary);
+  color: #2c3e50;
   border-radius: 5px;
   padding: 1%;
 }
@@ -228,4 +222,14 @@ export default {
   height: 0;
   pointer-events: none;
 }
+
+/* .editor p:first-child:first-letter {
+  color: var(--primary);
+  float: left;
+  font-size: 75px;
+  line-height: 60px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+} */
 </style>

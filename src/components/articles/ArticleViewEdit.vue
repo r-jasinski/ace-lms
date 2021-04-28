@@ -97,17 +97,6 @@ export default {
   opacity: 0.7;
 }
 
-.article-view-edit__body p:first-child:first-letter {
-  color: var(--primary);
-  float: left;
-  font-size: 75px;
-  line-height: 60px;
-  padding-top: 4px;
-  padding-right: 8px;
-  padding-left: 3px;
-  font-weight: 600;
-}
-
 .article-view-edit__buttons {
   display: flex;
   align-items: baseline;

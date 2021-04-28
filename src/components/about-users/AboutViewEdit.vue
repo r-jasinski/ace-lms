@@ -10,7 +10,7 @@
         @input="about.content = $event"
       />
       <div v-if="!editable" class="admin-about__edit-button">
-        <edit-button @clicked="editable = true" />
+        <edit-button class="admin-about__buttons" @clicked="editable = true" />
       </div>
       <div v-else>
         <small class="admin-about__label">
@@ -81,7 +81,6 @@ export default {
         this.editable = false
         return
       }
-      // this.sendData = true
       const UTCStringCreationTime = new Date().toUTCString()
       this.about.author = this.authenticatedUser.uid
       this.about.creationTime = UTCStringCreationTime
@@ -118,21 +117,11 @@ export default {
   opacity: 0.7;
 }
 
-.editor p:first-child:first-letter {
-  color: var(--primary);
-  float: left;
-  font-size: 75px;
-  line-height: 60px;
-  padding-top: 4px;
-  padding-right: 8px;
-  padding-left: 3px;
-}
-
 .admin-about__buttons {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin: 25px 0;
+  margin: 50px 0;
   gap: 10px;
 }
 
