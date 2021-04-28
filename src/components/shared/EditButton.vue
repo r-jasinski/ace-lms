@@ -15,7 +15,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 25px 0 50px 0;
   min-width: 50px;
   min-height: 50px;
   color: #fff;
