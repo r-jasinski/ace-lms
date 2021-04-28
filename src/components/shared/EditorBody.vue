@@ -114,7 +114,11 @@ export default {
           this.html = getHTML()
         },
         onBlur: () => {
-          this.$emit('input', this.html)
+          console.log(this.content)
+          console.log(this.html)
+          if (this.html) {
+            this.$emit('input', this.html)
+          }
         }
       })
     }

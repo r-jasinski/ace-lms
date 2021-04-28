@@ -45,7 +45,9 @@ export default {
           this.html = getHTML()
         },
         onBlur: () => {
-          this.$emit('input', this.html)
+          if (this.html) {
+            this.$emit('input', this.html)
+          }
         }
       })
     }
