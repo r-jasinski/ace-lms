@@ -91,7 +91,8 @@ export default {
 .user-info-button {
   display: flex;
   flex-grow: 1;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-right: 25px;
 }
 
 .user-info ul {

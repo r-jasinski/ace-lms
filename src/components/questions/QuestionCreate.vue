@@ -94,8 +94,4 @@ export default {
   margin: 25px 0;
   gap: 10px;
 }
-
-.question-create__confirm-button {
-  margin-top: 25px;
-}
 </style>
