@@ -9,6 +9,10 @@ export const createQuestion = async data => {
   await questionsCollection.doc().set(data)
 }
 
+export const deleteQuestion = async id => {
+  await questionsCollection.doc(id).delete()
+}
+
 export const getQuestion = async id => {
   const question = await questionsCollection.doc(id).get()
   return question.data()
