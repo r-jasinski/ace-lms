@@ -3,13 +3,17 @@
     <form class="admin-user__filters" @submit.prevent>
       <filter-input />
       <form-input
+        v-if="false"
         type="email"
         placeholder="E-mail do usuário"
         autocomplete="email"
         icon="at"
         v-model="newUser.email"
       />
-      <add-button @clicked="addUserWithLinkToEmail" />
+      <add-button
+        @clicked="addUserWithLinkToEmail"
+        v-if="authenticatedUser.uid === 'MqJSZr9ODNWWlxCa67BhaUyTu343'"
+      />
     </form>
     <div v-for="user in users" :key="user.id">
       <user-info :user="user" @changed="toggleAdminRole(user.id, $event)">
@@ -33,6 +37,7 @@ import ReactivateButton from '@/components/shared/ReactivateButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
+import { mapGetters } from 'vuex'
 import { updateUser, usersCollection } from '@/services/usersService'
 
 export default {
@@ -53,6 +58,13 @@ export default {
       users: [],
       unsubscribe: null
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      user: 'users/user'
+    })
   },
 
   mounted() {
