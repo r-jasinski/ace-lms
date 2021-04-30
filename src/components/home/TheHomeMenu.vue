@@ -93,7 +93,7 @@ export default {
   position: absolute;
   bottom: 0;
   width: 100%;
-  font-size: 2em;
+  font-size: 32px;
   font-weight: 900;
   text-decoration: none;
   background: -webkit-linear-gradient(

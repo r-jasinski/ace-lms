@@ -68,7 +68,7 @@ export default {
 .article-list-link__summary {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 6;
   overflow: hidden;
   text-align: justify;
   text-justify: inter-word;

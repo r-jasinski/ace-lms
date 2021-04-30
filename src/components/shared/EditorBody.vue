@@ -205,6 +205,11 @@ export default {
   padding-left: 0.8rem;
 }
 
+.editor__content img {
+  height: 100%;
+  width: 100%;
+}
+
 .editor__content pre {
   background-color: var(--primary);
   color: #2c3e50;

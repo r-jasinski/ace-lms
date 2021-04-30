@@ -5,8 +5,12 @@
       :style="{ backgroundImage: `url(${postInfo.photoURL})` }"
     />
     <ul class="post-info__text">
-      <li>{{ postInfo.displayName }}</li>
-      <li>{{ postInfo.creationTime }}</li>
+      <li>
+        <small>{{ postInfo.displayName }}</small>
+      </li>
+      <li>
+        <small>{{ postInfo.creationTime }}</small>
+      </li>
     </ul>
   </div>
 </template>

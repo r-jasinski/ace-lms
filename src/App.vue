@@ -59,7 +59,7 @@ html {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 }
 
 body {

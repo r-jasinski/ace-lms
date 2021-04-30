@@ -1,5 +1,5 @@
 <template>
-  <div class="question-view-edit">
+  <div class="post-view-edit">
     <hr />
     <div class="question-view-edit__title">
       <editor-title
@@ -116,11 +116,13 @@ export default {
 
   destroyed() {
     this.unsubscribe()
+    this.commitShowScrollPercentage(false)
   },
 
   methods: {
     ...mapActions({
-      commitDocumentTitle: 'documentTitle/commitDocumentTitle'
+      commitDocumentTitle: 'documentTitle/commitDocumentTitle',
+      commitShowScrollPercentage: 'miscellaneous/commitShowScrollPercentage'
     }),
 
     cancelEdit() {
@@ -129,6 +131,7 @@ export default {
     },
 
     initializeQuestion() {
+      this.commitShowScrollPercentage(true)
       this.unsubscribe = questionsCollection
         .doc(this.$route.params.id)
         .onSnapshot(doc => {
@@ -181,7 +184,7 @@ export default {
   gap: 10px;
 }
 
-.question-view-edit hr {
+.post-view-edit hr {
   width: 50%;
   border: none;
   border-top: 1px dotted var(--primary);
