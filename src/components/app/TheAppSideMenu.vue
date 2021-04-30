@@ -1,33 +1,64 @@
 <template>
   <div class="app-side-menu">
     <div
-      class="app-side-menu__wrapper"
+      class="app-side-menu__wrapper app-side-menu__button"
       v-if="showScrollToTopButton"
       @click="scrollToTop"
     >
-      <arrow-icon class="app-side-menu__scroll-top-button" />
+      <arrow-icon class="app-side-menu__scroll-top-button " />
     </div>
-    <div class="app-side-menu__wrapper" @click="toggleDarkMode">
+    <small
+      v-if="percentLabel && showScrollPercentage && showScrollToBottomButton"
+      >{{ percentScroll }}%
+    </small>
+    <div
+      class="app-side-menu__wrapper app-side-menu__button"
+      v-if="showScrollToBottomButton"
+      @click="scrollToBottom"
+    >
+      <arrow-icon class="app-side-menu__scroll-bottom-button" />
+    </div>
+    <div
+      class="app-side-menu__wrapper app-side-menu__button"
+      @click="toggleDarkMode"
+    >
       <font-awesome-icon
         icon="lightbulb"
-        class="app-side-menu__dark-mode-button"
+        class="app-side-menu__icon"
         size="2x"
       />
     </div>
-    <div class="app-side-menu__wrapper">
+
+    <div
+      class="app-side-menu__wrapper app-side-menu__button app-side-menu__button--center"
+      @click="commitArticleFontSizeIncrease"
+    >
+      <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
       <font-awesome-icon
-        icon="bell"
-        class="app-side-menu__dark-mode-button"
-        size="2x"
+        icon="plus"
+        class="app-side-menu__icon app-side-menu__button--sup"
       />
+    </div>
+
+    <div
+      class="app-side-menu__wrapper app-side-menu__button--center app-side-menu__button"
+      @click="commitArticleFontSizeDecrease"
+    >
+      <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
+      <font-awesome-icon
+        icon="minus"
+        class="app-side-menu__icon app-side-menu__button--sup"
+      />
+    </div>
+    <div class="app-side-menu__wrapper app-side-menu__button">
+      <font-awesome-icon icon="bell" class="app-side-menu__icon" size="2x" />
     </div>
   </div>
 </template>
 
 <script>
 import ArrowIcon from '@/assets/arrow.svg?inline'
-import { mapActions } from 'vuex'
-
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'TheAppSideMenu',
 
@@ -35,7 +66,26 @@ export default {
 
   data() {
     return {
-      showScrollToTopButton: false
+      percentLabel: 0,
+      scrollBoddyPercent: 0
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      showScrollPercentage: 'miscellaneous/showScrollPercentage'
+    }),
+
+    percentScroll() {
+      return this.percentLabel <= 100 ? this.percentLabel : 100
+    },
+
+    showScrollToTopButton() {
+      return this.scrollBoddyPercent > 0.01
+    },
+
+    showScrollToBottomButton() {
+      return this.scrollBoddyPercent < 0.99
     }
   },
 
@@ -48,12 +98,33 @@ export default {
   },
 
   methods: {
-    ...mapActions('darkMode', ['toggleDarkMode']),
+    ...mapActions({
+      toggleDarkMode: 'darkMode/toggleDarkMode',
+      commitArticleFontSizeIncrease:
+        'miscellaneous/commitArticleFontSizeIncrease',
+      commitArticleFontSizeDecrease:
+        'miscellaneous/commitArticleFontSizeDecrease'
+    }),
+
+    scrollToBottom() {
+      window.scrollTo(0, document.body.scrollHeight)
+    },
+
     scrollToTop() {
       window.scrollTo(0, 0)
     },
+
     handleScroll() {
-      this.showScrollToTopButton = window.scrollY > 150 ? true : false
+      let scrollTop = window.scrollY
+      let docBodyHeight = document.body.offsetHeight
+      let docHeight =
+        document.querySelector('.post-view-edit')?.offsetHeight ||
+        document.body.offsetHeight
+      let winHeight = window.innerHeight
+      let scrollPercent = scrollTop / (docHeight - winHeight)
+      let scrollPercentRounded = Math.round(scrollPercent * 100)
+      this.percentLabel = scrollPercentRounded
+      this.scrollBoddyPercent = scrollTop / (docBodyHeight - winHeight)
     }
   }
 }
@@ -62,17 +133,16 @@ export default {
 <style scoped>
 .app-side-menu {
   width: 30px;
-  height: 300px;
-  margin: 0;
-  padding: 0;
+  height: 100%;
   position: fixed;
   right: 20px;
-  top: 40%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1px;
+  font-size: 16px;
+  z-index: 3;
 }
 
 .app-side-menu__wrapper {
@@ -82,33 +152,65 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 100vh;
-  opacity: 0.9;
   background-color: var(--light);
 }
 
-.app-side-menu__dark-mode-button {
-  opacity: 0.5;
-  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
+.app-side-menu__icon {
+  max-width: 24px;
   cursor: pointer;
   padding: 3px;
 }
 
-.app-side-menu__dark-mode-button:hover {
+.app-side-menu__icon:hover {
   opacity: 1;
-  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
 }
+
+.app-side-menu__scroll-bottom-button {
+  fill: var(--dark);
+  width: 28px;
+  height: 36px;
+  padding: 3px;
+  transform: rotate(180deg);
+}
+
 .app-side-menu__scroll-top-button {
   fill: var(--dark);
   width: 28px;
   height: 36px;
-  opacity: 0.5;
-  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
   padding: 3px;
 }
 
-.app-side-menu__scroll-top-button:hover {
+.app-side-menu__button--sup {
+  position: relative;
+  bottom: 7px;
+  right: 10px;
+}
+
+.app-side-menu__button--center {
+  padding-left: 14px;
+}
+
+.app-side-menu__button {
+  opacity: 0.4;
+  transition: 1.5s opacity cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.app-side-menu__button:hover {
   opacity: 1;
-  transition: 1.5s all cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition: 1.5s opacity cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.app-side-menu__icon {
+  max-width: 24px;
+  cursor: pointer;
+  padding: 3px;
+}
+
+.app-side-menu small {
+  font-size: 10px;
+  opacity: 0.4;
+  text-shadow: -1px 0 var(--light), 0 1px var(--light), 1px 0 var(--light),
+    0 -1px var(--light);
 }
 
 @media only screen and (max-width: 768px) {
