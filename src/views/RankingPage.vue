@@ -6,9 +6,9 @@
       <filter-input />
     </div>
     <div v-for="user in users" :key="user.id">
-      <ranking-user :user="user">
-        <template slot="ranking-user-position">#{{ user.id }}</template>
-        <template v-if="user.current" slot="ranking-user-indicator">{{
+      <ranking-user :user="user" :currentUser="isCurrentUser(user.id)">
+        <template slot="ranking-user-position">#1</template>
+        <template v-if="isCurrentUser(user.id)" slot="ranking-user-indicator">{{
           '(você)'
         }}</template>
       </ranking-user>
@@ -19,6 +19,8 @@
 <script>
 import FilterInput from '@/components/shared/FilterInput'
 import RankingUser from '@/components/ranking/RankingUser'
+import { mapGetters } from 'vuex'
+import { usersCollection } from '@/services/usersService'
 
 export default {
   name: 'RankingPage',
@@ -27,14 +29,38 @@ export default {
 
   data() {
     return {
-      users: [
-        { id: 1, name: 'anna_nowak', current: false },
-        { id: 2, name: 'jan_kowalski', current: true },
-        { id: 3, name: 'jan_kowalski', current: false },
-        { id: 4, name: 'jan_kowalski', current: false },
-        { id: 5, name: 'jan_kowalski', current: false },
-        { id: 6, name: 'jan_kowalski', current: false }
-      ]
+      users: [],
+      unsubscribe: null
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      user: 'users/user'
+    })
+  },
+
+  mounted() {
+    this.initializeUsers()
+  },
+
+  destroyed() {
+    this.unsubscribe()
+  },
+
+  methods: {
+    isCurrentUser(userId) {
+      return this.authenticatedUser.uid === userId
+    },
+
+    initializeUsers() {
+      this.unsubscribe = usersCollection.onSnapshot(snapshot => {
+        this.users = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+      })
     }
   }
 }

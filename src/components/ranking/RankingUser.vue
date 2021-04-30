@@ -1,17 +1,20 @@
 <template>
-  <div class="ranking-user" :class="{ 'ranking-user--current': user.current }">
+  <div class="ranking-user" :class="{ 'ranking-user--current': currentUser }">
     <span class="ranking-user__position">
       <slot name="ranking-user-position" />
     </span>
-    <div class="ranking-user__avatar" />
+    <div
+      class="ranking-user__avatar"
+      :style="{ backgroundImage: `url(${user.photoURL})` }"
+    />
     <ul>
       <li class="ranking-user__name">
-        {{ user.name }}
+        {{ user.displayName }}
         <span class="ranking-user__indicator">
           <slot name="ranking-user-indicator" />
         </span>
       </li>
-      <li>20248 pt</li>
+      <li>1337 pt</li>
     </ul>
   </div>
 </template>
@@ -20,6 +23,7 @@
 export default {
   name: 'RankingUser',
   props: {
+    currentUser: { type: Boolean, required: false },
     user: { type: Object, required: true }
   }
 }
@@ -50,8 +54,7 @@ export default {
   border-radius: 999px;
   margin-left: 20px;
   margin-right: 20px;
-  background: url('https://assets.justinpinkney.com/toonify/images/hd/crops/gosling.jpg')
-    no-repeat center;
+  background-position: center;
   background-size: cover;
 }
 
