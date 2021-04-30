@@ -12,10 +12,9 @@ export default [
         meta: { title: 'Artigos' }
       },
       {
-        path: 'view',
+        path: 'view/:slug/:id',
         name: 'ArticleViewEdit',
-        component: () => import('@/components/articles/ArticleViewEdit'),
-        meta: { title: 'Visualizar Artigo' }
+        component: () => import('@/components/articles/ArticleViewEdit')
       },
       {
         path: 'create',
