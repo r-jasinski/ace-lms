@@ -84,7 +84,6 @@ export default {
   border: none;
   border-radius: 100vh;
   outline: none;
-  font-weight: 900;
 }
 
 .articles-list__add-button:hover {

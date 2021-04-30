@@ -1,5 +1,6 @@
 <template>
   <div class="app-page">
+    <the-app-side-menu />
     <header v-once>
       <the-app-header />
       <nav>
@@ -7,9 +8,8 @@
       </nav>
     </header>
 
-    <article role="main">
+    <article role="main" :style="{ 'font-size': `${articleFontSize}em` }">
       <router-view />
-      <the-app-side-menu />
     </article>
 
     <footer v-once>
@@ -23,7 +23,7 @@ import TheAppFooter from '@/components/app/TheAppFooter'
 import TheAppHeader from '@/components/app/TheAppHeader'
 import TheAppMenu from '@/components/app/TheAppMenu'
 import TheAppSideMenu from '@/components/app/TheAppSideMenu'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { usersCollection } from '@/services/usersService'
 
 export default {
@@ -33,6 +33,12 @@ export default {
     return {
       unsubscribe: null
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      articleFontSize: 'miscellaneous/articleFontSize'
+    })
   },
 
   created() {
