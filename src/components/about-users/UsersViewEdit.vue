@@ -3,7 +3,7 @@
     <form class="admin-user__filters" @submit.prevent>
       <filter-input />
       <form-input
-        v-if="false"
+        v-if="authenticatedUser.uid === 'MqJSZr9ODNWWlxCa67BhaUyTu343'"
         type="email"
         placeholder="E-mail do usuário"
         autocomplete="email"

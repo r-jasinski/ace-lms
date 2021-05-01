@@ -7,10 +7,7 @@
     >
       <arrow-icon class="app-side-menu__scroll-top-button " />
     </div>
-    <small
-      v-if="percentLabel && showScrollPercentage && showScrollToBottomButton"
-      >{{ percentScroll }}%
-    </small>
+    <small v-if="showPercentScroll">{{ percentScroll }}% </small>
     <div
       class="app-side-menu__wrapper app-side-menu__button"
       v-if="showScrollToBottomButton"
@@ -77,7 +74,18 @@ export default {
     }),
 
     percentScroll() {
-      return this.percentLabel <= 100 ? this.percentLabel : 100
+      if (this.percentLabel > 0) {
+        return this.percentLabel <= 100 ? this.percentLabel : 100
+      }
+      return 100
+    },
+
+    showPercentScroll() {
+      return (
+        this.percentLabel &&
+        this.showScrollPercentage &&
+        this.showScrollToBottomButton
+      )
     },
 
     showScrollToTopButton() {
