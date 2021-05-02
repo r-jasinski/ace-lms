@@ -98,11 +98,11 @@ export default {
   },
 
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    addEventListener('scroll', this.handleScroll)
   },
 
   destroyed() {
-    window.removeEventListener('scroll', this.handleScroll)
+    removeEventListener('scroll', this.handleScroll)
   },
 
   methods: {
@@ -115,20 +115,28 @@ export default {
     }),
 
     scrollToBottom() {
-      window.scrollTo(0, document.body.scrollHeight)
+      scroll({
+        top: document.body.scrollHeight,
+        left: 0,
+        behavior: 'smooth'
+      })
     },
 
     scrollToTop() {
-      window.scrollTo(0, 0)
+      scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
     },
 
     handleScroll() {
-      let scrollTop = window.scrollY
+      let scrollTop = scrollY
       let docBodyHeight = document.body.offsetHeight
       let docHeight =
         document.querySelector('.post-view-edit')?.offsetHeight ||
         document.body.offsetHeight
-      let winHeight = window.innerHeight
+      let winHeight = innerHeight
       let scrollPercent = scrollTop / (docHeight - winHeight)
       let scrollPercentRounded = Math.round(scrollPercent * 100)
       this.percentLabel = scrollPercentRounded
