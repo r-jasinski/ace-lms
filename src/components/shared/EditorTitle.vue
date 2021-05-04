@@ -16,7 +16,7 @@ export default {
   },
 
   props: {
-    content: { type: String, default: '<h1></h1>' },
+    content: { type: String, default: '' },
     editable: { type: Boolean, default: true },
     placeholder: { type: String, default: '' }
   },
@@ -35,17 +35,24 @@ export default {
           new Placeholder({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            emptyNodeText: '',
-            showOnlyWhenEditable: true,
-            showOnlyCurrent: true
+            emptyNodeText: ''
           })
         ],
         autoFocus: true,
         onUpdate: ({ getHTML }) => {
+          if (
+            !this.editor.isActive.heading({ level: 1 }) &&
+            this.html !== '<h1></h1>'
+          ) {
+            this.editor.commands.heading({ level: 1 })
+          }
           this.html = getHTML()
+          if (this.html === '<h1></h1>') {
+            this.editor.commands.heading({ level: 1 })
+          }
         },
         onBlur: () => {
-          if (this.html) {
+          if (this.html && this.editable) {
             this.$emit('input', this.html)
           }
         }
@@ -58,9 +65,6 @@ export default {
       this.editor.setOptions({ editable: this.editable })
     },
     content() {
-      !this.editor.isActive.heading({ level: 1 }) &&
-        this.editor.commands.heading({ level: 1 })
-      !this.content && this.editor.commands.heading({ level: 1 })
       this.editor.setContent(this.content)
     }
   },
