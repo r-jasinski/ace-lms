@@ -34,6 +34,8 @@ export default {
   --primary-plus: #3c83ac;
   --dark: #2c3e50;
   --light: #ffffff;
+  --dark-20: #2c3e5010;
+  --light-20: #ffffff20;
   --dark-50: #2c3e5050;
   --light-50: #ffffff50;
   --dark-75: #2c3e5075;
@@ -83,6 +85,8 @@ body {
 .app--dark-mode {
   --light: #2c3e50;
   --dark: #ffffff;
+  --light-20: #2c3e5010;
+  --dark-20: #ffffff20;
   --light-50: #2c3e5050;
   --dark-50: #ffffff50;
   --light-75: #2c3e5075;

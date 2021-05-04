@@ -5,16 +5,12 @@ const db = firebase.firestore()
 
 export const articlesCollection = db.collection('articles')
 
-export const createArticle = async data => {
-  await articlesCollection.doc().set(data)
+export const createArticle = async article => {
+  await articlesCollection.doc().set(article)
 }
 
-export const deleteArticle = async id => {
-  await articlesCollection.doc(id).delete()
-}
-
-export const getArticle = async id => {
-  const article = await articlesCollection.doc(id).get()
+export const getArticle = async articleId => {
+  const article = await articlesCollection.doc(articleId).get()
   return article.data()
 }
 
@@ -26,6 +22,22 @@ export const getArticles = async () => {
   }))
 }
 
-export const updateArticle = async (id, data) => {
-  await articlesCollection.doc(id).update(data)
+export const deleteArticle = async articleId => {
+  await articlesCollection.doc(articleId).delete()
+}
+
+export const updateArticle = async (articleId, article) => {
+  await articlesCollection.doc(articleId).update(article)
+}
+
+export const createComment = async (articleId, comment) => {
+  await articlesCollection.doc(articleId).update({
+    comments: firebase.firestore.FieldValue.arrayUnion(comment)
+  })
+}
+
+export const deleteComment = async (articleId, comment) => {
+  await articlesCollection.doc(articleId).update({
+    comments: firebase.firestore.FieldValue.arrayRemove(comment)
+  })
 }

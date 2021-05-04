@@ -64,7 +64,7 @@ export default {
 
   methods: {
     async createArticle() {
-      if (this.article.title.length > 8 && this.article.content.length > 30) {
+      if (this.article.title?.length > 8 && this.article.content?.length > 30) {
         const UTCStringCreationTime = new Date().toUTCString()
         this.article.author = this.authenticatedUser.uid
         this.article.comments = []
