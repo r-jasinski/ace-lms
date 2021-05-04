@@ -134,7 +134,7 @@ export default {
       let scrollTop = scrollY
       let docBodyHeight = document.body.offsetHeight
       let docHeight =
-        document.querySelector('.post-view-edit')?.offsetHeight ||
+        document.querySelector('.post-wrapper')?.offsetHeight ||
         document.body.offsetHeight
       let winHeight = innerHeight
       let scrollPercent = scrollTop / (docHeight - winHeight)

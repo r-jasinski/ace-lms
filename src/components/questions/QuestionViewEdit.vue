@@ -1,38 +1,40 @@
 <template>
   <div class="post-view-edit">
     <hr />
-    <div class="question-view-edit__title">
-      <editor-title
-        :placeholder="editorTitlePlaceholder"
-        :content="question.title"
+    <div class="post-wrapper">
+      <div class="question-view-edit__title">
+        <editor-title
+          :placeholder="editorTitlePlaceholder"
+          :content="question.title"
+          :editable="editable"
+          @input="question.title = $event"
+        />
+        <small v-if="editable" class="question-view-edit__label"
+          >O título aparecerá na listagem inicial, portanto seja claro e
+          objetivo</small
+        >
+      </div>
+      <post-info :post-info="postInfo" />
+      <editor-body
+        :placeholder="editorBodyPlaceholder"
+        :content="question.content"
         :editable="editable"
-        @input="question.title = $event"
+        @input="question.content = $event"
       />
-      <small v-if="editable" class="question-view-edit__label"
-        >O título aparecerá na listagem inicial, portanto seja claro e
-        objetivo</small
-      >
-    </div>
-    <post-info :post-info="postInfo" />
-    <editor-body
-      :placeholder="editorBodyPlaceholder"
-      :content="question.content"
-      :editable="editable"
-      @input="question.content = $event"
-    />
-    <div v-if="!editable" class="question-view-edit__buttons">
-      <edit-button @clicked="editable = true" />
-      <remove-button @clicked="removeQuestion" />
-      <back-button @clicked="$router.go(-1)" />
-    </div>
-    <div v-else>
-      <small class="question-view-edit__label">
-        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-        política de privacidade e política de Cookies</small
-      >
-      <div class="question-view-edit__buttons">
-        <confirm-button :label="'Publicar'" @clicked="updateQuestion" />
-        <cancel-button :label="'Cancelar'" @clicked="cancelEdit" />
+      <div v-if="!editable" class="question-view-edit__buttons">
+        <edit-button @clicked="editable = true" />
+        <remove-button @clicked="removeQuestion" />
+        <back-button @clicked="$router.go(-1)" />
+      </div>
+      <div v-else>
+        <small class="question-view-edit__label">
+          *Ao clicar em “Publicar”, você concorda com os termos de serviço,
+          política de privacidade e política de Cookies</small
+        >
+        <div class="question-view-edit__buttons">
+          <confirm-button :label="'Publicar'" @clicked="updateQuestion" />
+          <cancel-button :label="'Cancelar'" @clicked="cancelEdit" />
+        </div>
       </div>
     </div>
     <hr />
