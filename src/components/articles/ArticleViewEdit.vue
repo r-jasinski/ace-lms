@@ -268,7 +268,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .article-view-edit__title {
   margin-bottom: 10px;
 }
@@ -304,8 +304,8 @@ export default {
 }
 
 .article-view-edit hr {
-  border-top: 1px dotted var(--primary);
   border: none;
+  border-top: 1px dotted var(--primary);
   opacity: 0.5;
   width: 50%;
 }
