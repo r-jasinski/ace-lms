@@ -5,16 +5,12 @@ const db = firebase.firestore()
 
 export const questionsCollection = db.collection('questions')
 
-export const createQuestion = async data => {
-  await questionsCollection.doc().set(data)
+export const createQuestion = async question => {
+  await questionsCollection.doc().set(question)
 }
 
-export const deleteQuestion = async id => {
-  await questionsCollection.doc(id).delete()
-}
-
-export const getQuestion = async id => {
-  const question = await questionsCollection.doc(id).get()
+export const getQuestion = async questionId => {
+  const question = await questionsCollection.doc(questionId).get()
   return question.data()
 }
 
@@ -26,6 +22,22 @@ export const getQuestions = async () => {
   }))
 }
 
-export const updateQuestion = async (id, data) => {
-  await questionsCollection.doc(id).update(data)
+export const deleteQuestion = async questionId => {
+  await questionsCollection.doc(questionId).delete()
+}
+
+export const updateQuestion = async (questionId, question) => {
+  await questionsCollection.doc(questionId).update(question)
+}
+
+export const createAnswer = async (questionId, answer) => {
+  await questionsCollection.doc(questionId).update({
+    answers: firebase.firestore.FieldValue.arrayUnion(answer)
+  })
+}
+
+export const deleteAnswer = async (questionId, answer) => {
+  await questionsCollection.doc(questionId).update({
+    answers: firebase.firestore.FieldValue.arrayRemove(answer)
+  })
 }
