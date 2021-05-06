@@ -14,7 +14,7 @@
           <slot name="ranking-user-indicator" />
         </span>
       </li>
-      <li>1337 pt</li>
+      <li>{{ userRankingPoints }}</li>
     </ul>
   </div>
 </template>
@@ -22,9 +22,18 @@
 <script>
 export default {
   name: 'RankingUser',
+
   props: {
     currentUser: { type: Boolean, required: false },
     user: { type: Object, required: true }
+  },
+
+  computed: {
+    userRankingPoints() {
+      return this.user.rankingPoints
+        ? `${this.user.rankingPoints} pontos`
+        : 'sem pontuação'
+    }
   }
 }
 </script>
@@ -44,6 +53,7 @@ export default {
 }
 
 .ranking-user__position {
+  min-width: 85px;
   font-size: 3em;
   font-weight: 900;
 }

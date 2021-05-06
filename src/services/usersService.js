@@ -3,10 +3,12 @@ import 'firebase/firestore'
 
 const db = firebase.firestore()
 
-export const usersCollection = db.collection('users')
+export const usersCollection = db
+  .collection('users')
+  .orderBy('rankingPoints', 'desc')
 
-export const createUser = async (id, data) => {
-  await usersCollection.doc(id).set(data)
+export const createUser = async (userId, user) => {
+  await usersCollection.doc(userId).set(user)
 }
 
 export const getUsers = async () => {
@@ -17,6 +19,6 @@ export const getUsers = async () => {
   }))
 }
 
-export const updateUser = async (user, data) => {
-  await usersCollection.doc(user).update(data)
+export const updateUser = async (userId, user) => {
+  await usersCollection.doc(userId).update(user)
 }
