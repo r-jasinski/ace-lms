@@ -56,10 +56,14 @@ export default {
 
     initializeApp() {
       this.unsubscribe = usersCollection.onSnapshot(querySnapshot => {
-        var users = {}
+        let users = {}
+        let userRankingPosition = 0
         querySnapshot.forEach(doc => {
+          userRankingPosition++
           let id = doc.id
           users[id] = doc.data()
+          users[id].rankingPosition = userRankingPosition
+          users[id].id = id
         })
         this.commitUsers(users)
       })
@@ -71,6 +75,7 @@ export default {
 <style>
 .app-page {
   width: 100%;
+  padding-right: 20px;
 }
 
 header {
