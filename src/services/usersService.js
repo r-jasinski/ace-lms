@@ -3,9 +3,7 @@ import 'firebase/firestore'
 
 const db = firebase.firestore()
 
-export const usersCollection = db
-  .collection('users')
-  .orderBy('rankingPoints', 'desc')
+export const usersCollection = db.collection('users')
 
 export const createUser = async (userId, user) => {
   await usersCollection.doc(userId).set(user)
