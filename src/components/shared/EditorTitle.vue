@@ -39,7 +39,7 @@ export default {
           })
         ],
         autoFocus: true,
-        onUpdate: ({ getHTML }) => {
+        onTransaction: ({ getHTML }) => {
           if (
             !this.editor.isActive.heading({ level: 1 }) &&
             this.html !== '<h1></h1>'
@@ -50,6 +50,7 @@ export default {
           if (this.html === '<h1></h1>') {
             this.editor.commands.heading({ level: 1 })
           }
+          console.log('transaction')
         },
         onBlur: () => {
           if (this.html && this.editable) {

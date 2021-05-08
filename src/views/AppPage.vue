@@ -55,18 +55,20 @@ export default {
     }),
 
     initializeApp() {
-      this.unsubscribe = usersCollection.onSnapshot(querySnapshot => {
-        let users = {}
-        let userRankingPosition = 0
-        querySnapshot.forEach(doc => {
-          userRankingPosition++
-          let id = doc.id
-          users[id] = doc.data()
-          users[id].rankingPosition = userRankingPosition
-          users[id].id = id
+      this.unsubscribe = usersCollection
+        .orderBy('rankingPoints', 'desc')
+        .onSnapshot(querySnapshot => {
+          let users = {}
+          let userRankingPosition = 0
+          querySnapshot.forEach(doc => {
+            userRankingPosition++
+            let id = doc.id
+            users[id] = doc.data()
+            users[id].rankingPosition = userRankingPosition
+            users[id].id = id
+          })
+          this.commitUsers(users)
         })
-        this.commitUsers(users)
-      })
     }
   }
 }
