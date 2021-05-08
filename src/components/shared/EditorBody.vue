@@ -110,7 +110,7 @@ export default {
           new Underline()
         ],
         autoFocus: false,
-        onUpdate: ({ getHTML }) => {
+        onTransaction: ({ getHTML }) => {
           this.html = getHTML()
         },
         onBlur: () => {
