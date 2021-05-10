@@ -23,8 +23,10 @@
         @input="article.content = $event"
       />
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
-        <edit-button @clicked="editArticle" />
-        <remove-button @clicked="removeArticle" />
+        <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
+          <edit-button @clicked="editArticle" />
+          <remove-button @clicked="removeArticle" />
+        </div>
         <back-button @clicked="$router.go(-1)" />
       </div>
       <div v-else>
@@ -54,13 +56,16 @@
           @input="article.comments[index].content = $event"
         />
         <div
-          v-if="!commentIsEditabled(index)"
+          v-if="
+            !commentIsEditabled(index) &&
+              (isAdmin || comment.author === authenticatedUser.uid)
+          "
           class="article-view-edit__buttons"
         >
           <edit-button @clicked="editComment(comment, index)" />
           <remove-button @clicked="removeComment(comment)" />
         </div>
-        <div v-else>
+        <div v-if="commentIsEditabled(index)">
           <small class="article-view-edit__label">
             *Ao clicar em “Publicar”, você concorda com os termos de serviço,
             política de privacidade e política de Cookies
@@ -145,6 +150,14 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
     }),
+
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid)?.isAdmin
+    },
+
+    isAuthor() {
+      return this.article?.author === this.authenticatedUser.uid
+    },
 
     postInfo() {
       let user = this.user(this.article.author)
