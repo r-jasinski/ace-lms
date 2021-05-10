@@ -237,7 +237,7 @@ export default {
     },
 
     async removeArticle() {
-      await deleteArticle(this.article.id)
+      await deleteArticle(this.article.id, this.article.author)
       this.$router.push({ name: 'ArticlesList' })
     },
 

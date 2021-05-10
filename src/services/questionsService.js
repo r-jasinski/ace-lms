@@ -1,5 +1,5 @@
 import {
-  decrementAuthenticatedUserRanking,
+  decrementAuthorRanking,
   incrementAuthenticatedUserRanking
 } from '@/services/rankingService'
 import firebase from 'firebase/app'
@@ -27,9 +27,9 @@ export const getQuestions = async () => {
   }))
 }
 
-export const deleteQuestion = async questionId => {
+export const deleteQuestion = async (questionId, authorId) => {
   await questionsCollection.doc(questionId).delete()
-  await decrementAuthenticatedUserRanking('question')
+  await decrementAuthorRanking(authorId, 'question')
 }
 
 export const updateQuestion = async (questionId, question) => {
@@ -47,5 +47,5 @@ export const deleteAnswer = async (questionId, answer) => {
   await questionsCollection.doc(questionId).update({
     answers: firebase.firestore.FieldValue.arrayRemove(answer)
   })
-  await decrementAuthenticatedUserRanking('answer')
+  await decrementAuthorRanking(answer.author, 'answer')
 }

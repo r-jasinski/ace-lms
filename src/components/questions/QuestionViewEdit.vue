@@ -237,7 +237,7 @@ export default {
     },
 
     async removeQuestion() {
-      await deleteQuestion(this.question.id)
+      await deleteQuestion(this.question.id, this.question.author)
       this.$router.push({ name: 'QuestionsList' })
     },
 
