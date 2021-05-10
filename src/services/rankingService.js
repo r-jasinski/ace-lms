@@ -13,9 +13,8 @@ const rankingPointsMetric = {
 
 export const usersCollection = db.collection('users')
 
-export const decrementAuthenticatedUserRanking = async content => {
-  const authenticatedUser = getAuthenticatedUser().uid
-  await usersCollection.doc(authenticatedUser).update({
+export const decrementAuthorRanking = async (authorId, content) => {
+  await usersCollection.doc(authorId).update({
     rankingPoints: firebase.firestore.FieldValue.increment(
       -Math.abs(rankingPointsMetric[content])
     )

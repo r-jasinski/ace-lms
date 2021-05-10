@@ -10,7 +10,11 @@
         @input="about.content = $event"
       />
       <div v-if="!editable" class="admin-about__edit-button">
-        <edit-button class="admin-about__buttons" @clicked="editable = true" />
+        <edit-button
+          v-if="isAdmin"
+          class="admin-about__buttons"
+          @clicked="editable = true"
+        />
       </div>
       <div v-else>
         <small class="admin-about__label">
@@ -19,7 +23,7 @@
         >
         <div class="admin-about__buttons">
           <confirm-button :label="'Publicar'" @clicked="createAbout" />
-          <cancel-button :label="'Cancelar'" @clicked="cancelEdit" />
+          <cancel-button :label="'Cancelar'" @clicked="cancelAboutEdit" />
         </div>
       </div>
       <hr />
@@ -57,6 +61,10 @@ export default {
       user: 'users/user'
     }),
 
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid).isAdmin
+    },
+
     postInfo() {
       let user = this.user(this.about.author)
       let creationTime = this.about.creationTime
@@ -88,7 +96,7 @@ export default {
       this.editable = false
     },
 
-    cancelEdit() {
+    cancelAboutEdit() {
       this.editable = false
       this.about.content += ' '
     },

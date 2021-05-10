@@ -1,6 +1,6 @@
 <template>
   <div class="about-users-page">
-    <div class="about-users-page__header-buttons">
+    <div v-if="isAdmin" class="about-users-page__header-buttons">
       <confirm-button
         :label="'Sobre'"
         @clicked="switchComponentTo('about-view-edit')"
@@ -22,6 +22,7 @@
 import AboutViewEdit from '@/components/about-users/AboutViewEdit'
 import ConfirmButton from '@/components/shared/ConfirmButton'
 import UsersViewEdit from '@/components/about-users/UsersViewEdit'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'AboutUsersPage',
@@ -31,6 +32,17 @@ export default {
   data() {
     return {
       component: 'about-view-edit'
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      user: 'users/user'
+    }),
+
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid).isAdmin
     }
   },
 
