@@ -23,8 +23,10 @@
         @input="question.content = $event"
       />
       <div v-if="!questionIsEditable" class="question-view-edit__buttons">
-        <edit-button @clicked="editQuestion" />
-        <remove-button @clicked="removeQuestion" />
+        <div v-if="isAdmin || isAuthor" class="question-view-edit__buttons">
+          <edit-button @clicked="editQuestion" />
+          <remove-button @clicked="removeQuestion" />
+        </div>
         <back-button @clicked="$router.go(-1)" />
       </div>
       <div v-else>
@@ -54,13 +56,16 @@
           @input="question.answers[index].content = $event"
         />
         <div
-          v-if="!answerIsEditabled(index)"
+          v-if="
+            !answerIsEditabled(index) &&
+              (isAdmin || answer.author === authenticatedUser.uid)
+          "
           class="question-view-edit__buttons"
         >
           <edit-button @clicked="editAnswer(answer, index)" />
           <remove-button @clicked="removeAnswer(answer)" />
         </div>
-        <div v-else>
+        <div v-if="answerIsEditabled(index)">
           <small class="question-view-edit__label">
             *Ao clicar em “Publicar”, você concorda com os termos de serviço,
             política de privacidade e política de Cookies
@@ -145,6 +150,14 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
     }),
+
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid)?.isAdmin
+    },
+
+    isAuthor() {
+      return this.question?.author === this.authenticatedUser.uid
+    },
 
     postInfo() {
       let user = this.user(this.question.author)
