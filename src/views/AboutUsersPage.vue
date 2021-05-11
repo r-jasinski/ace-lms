@@ -42,7 +42,7 @@ export default {
     }),
 
     isAdmin() {
-      return this.user(this.authenticatedUser.uid).isAdmin
+      return this.user(this.authenticatedUser.uid)?.isAdmin
     }
   },
 
