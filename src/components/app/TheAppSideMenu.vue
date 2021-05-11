@@ -168,7 +168,6 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 100vh;
-  background-color: var(--light);
 }
 
 .app-side-menu__icon {
