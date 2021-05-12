@@ -93,4 +93,25 @@ body {
   --dark-75: #ffffffad;
   background-image: url('./assets/stardust_dark.png');
 }
+
+.Vue-Toastification__toast--default {
+  background-color: #1976d2;
+  color: var(--dark);
+}
+.Vue-Toastification__toast--info {
+  background-color: var(--primary);
+  color: var(--dark);
+}
+.Vue-Toastification__toast--success {
+  background-color: var(--success);
+  color: var(--dark);
+}
+.Vue-Toastification__toast--error {
+  background-color: var(--danger);
+  color: var(--dark);
+}
+.Vue-Toastification__toast--warning {
+  background-color: #ffc107;
+  color: var(--dark);
+}
 </style>
