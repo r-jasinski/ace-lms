@@ -139,6 +139,7 @@ p {
 
 .sign-in-form__submit-button {
   width: 100%;
+  min-width: 300px;
   margin: 25px 0;
 }
 
