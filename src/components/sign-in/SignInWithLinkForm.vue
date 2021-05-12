@@ -50,7 +50,8 @@ import FormInput from '@/components/shared/FormInput'
 import ConfirmButton from '@/components/shared/ConfirmButton'
 import {
   confirmAccount,
-  getAuthenticatedUser
+  getAuthenticatedUser,
+  updateUser
 } from '@/services/firebaseService'
 import { createUser } from '@/services/usersService'
 import { mapActions } from 'vuex'
@@ -82,20 +83,29 @@ export default {
         alert('Senhas não conferem!')
         return
       }
-      await confirmAccount(email, displayName, password)
-      const user = getAuthenticatedUser()
-      const { metadata, uid } = user
-      const photoURL = user.photoURL || `https://robohash.org/${uid}.png`
-      await user.updateProfile({ photoURL: photoURL })
-      await createUser(uid, {
-        creationTime: metadata.creationTime,
-        deletedAt: null,
-        displayName,
+      const confirmAccountError = await confirmAccount(
         email,
-        isAdmin: false,
-        photoURL
-      })
-      this.$router.replace({ name: 'WelcomePage' })
+        displayName,
+        password
+      )
+      if (!confirmAccountError) {
+        const user = getAuthenticatedUser()
+        const { metadata, uid } = user
+        const photoURL = user.photoURL || `https://robohash.org/${uid}.png`
+        const updateUserError = await updateUser(user, { photoURL: photoURL })
+        const createUserError = await createUser(uid, {
+          creationTime: metadata.creationTime,
+          deletedAt: null,
+          displayName,
+          email,
+          isAdmin: false,
+          photoURL,
+          rankingPoints: 0
+        })
+        if (!confirmAccountError && !updateUserError && !createUserError) {
+          this.$router.replace({ name: 'WelcomePage' })
+        }
+      }
     }
   }
 }

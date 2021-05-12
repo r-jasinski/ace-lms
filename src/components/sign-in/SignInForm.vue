@@ -90,13 +90,16 @@ export default {
     async onSubmit() {
       const { email, password } = this.user
       if (!this.forgotPasswordMode) {
-        await signIn(email, password)
-        this.$router.push(this.$route.query.to || '/')
+        const response = await signIn(email, password)
+        const to = this.$route.query.to || '/'
+        !response && this.$router.replace(to === '/welcome' ? '/' : to)
         return
       }
-      await sendPasswordResetEmail(email)
-      this.forgotPasswordMode = false
-      this.commitDocumentTitle('ACE LMS')
+      const response = await sendPasswordResetEmail(email)
+      if (!response) {
+        this.forgotPasswordMode = false
+        this.commitDocumentTitle('ACE LMS')
+      }
     }
   }
 }
