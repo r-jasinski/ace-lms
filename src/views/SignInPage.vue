@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  async mounted() {
+  created() {
     if (isSignInWithEmailLink()) {
       this.component = 'sign-in-with-link-form'
       return

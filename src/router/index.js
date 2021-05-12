@@ -56,13 +56,14 @@ router.afterEach(to => {
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const isAuthenticated = getAuthenticatedUser()
-  if (requiresAuth && !isAuthenticated) {
-    const loginpath = window.location.pathname
-    next({ name: 'SignInPage', query: { to: loginpath } })
+  const authenticatedUser = getAuthenticatedUser()
+  if (requiresAuth && !authenticatedUser) {
+    const loginPath = window.location.pathname
+    const query = loginPath === '/' ? {} : { to: loginPath }
+    next({ name: 'SignInPage', query })
     return
   }
-  if (!requiresAuth && isAuthenticated) {
+  if (!requiresAuth && authenticatedUser) {
     next('')
     return
   }

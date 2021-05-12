@@ -1,16 +1,20 @@
 export default {
   namespaced: true,
+
   state: {
     darkMode: null
   },
+
   getters: {
     darkMode: state => state.darkMode
   },
+
   mutations: {
     setDarkMode: (state, payload) => {
       state.darkMode = payload
     }
   },
+
   actions: {
     toggleDarkMode: ({ commit, state }) => {
       commit('setDarkMode', !state.darkMode)

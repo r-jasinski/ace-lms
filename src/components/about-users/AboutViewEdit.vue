@@ -62,7 +62,7 @@ export default {
     }),
 
     isAdmin() {
-      return this.user(this.authenticatedUser.uid).isAdmin
+      return this.user(this.authenticatedUser.uid)?.isAdmin
     },
 
     postInfo() {
@@ -84,6 +84,11 @@ export default {
   },
 
   methods: {
+    cancelAboutEdit() {
+      this.editable = false
+      this.about.content += ' '
+    },
+
     async createAbout() {
       if (this.about.length < 1) {
         this.editable = false
@@ -94,11 +99,6 @@ export default {
       this.about.creationTime = UTCStringCreationTime
       await createAbout(this.fixedID, this.about)
       this.editable = false
-    },
-
-    cancelAboutEdit() {
-      this.editable = false
-      this.about.content += ' '
     },
 
     initializeAbout() {

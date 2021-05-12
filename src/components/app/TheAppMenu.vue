@@ -110,8 +110,8 @@ export default {
     },
 
     async signOut() {
-      await signOut()
-      this.$router.replace({ name: 'SignInPage' })
+      const response = await signOut()
+      !response && this.$router.replace({ name: 'SignInPage' })
     }
   }
 }

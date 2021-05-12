@@ -1,3 +1,4 @@
+import { handleFirebaseErrors } from '@/services/errorsService'
 import {
   decrementAuthorRanking,
   incrementAuthenticatedUserRanking
@@ -10,42 +11,77 @@ const db = firebase.firestore()
 export const questionsCollection = db.collection('questions')
 
 export const createQuestion = async question => {
-  await questionsCollection.doc().set(question)
-  await incrementAuthenticatedUserRanking('question')
+  try {
+    await questionsCollection.doc().set(question)
+    await incrementAuthenticatedUserRanking('question')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const getQuestion = async questionId => {
-  const question = await questionsCollection.doc(questionId).get()
-  return question.data()
+  try {
+    const question = await questionsCollection.doc(questionId).get()
+    return question.data()
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const getQuestions = async () => {
-  const get = await questionsCollection.get()
-  return get.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }))
+  try {
+    const get = await questionsCollection.get()
+    return get.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const deleteQuestion = async (questionId, authorId) => {
-  await questionsCollection.doc(questionId).delete()
-  await decrementAuthorRanking(authorId, 'question')
+  try {
+    await questionsCollection.doc(questionId).delete()
+    await decrementAuthorRanking(authorId, 'question')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const updateQuestion = async (questionId, question) => {
-  await questionsCollection.doc(questionId).update(question)
+  try {
+    await questionsCollection.doc(questionId).update(question)
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const createAnswer = async (questionId, answer) => {
-  await questionsCollection.doc(questionId).update({
-    answers: firebase.firestore.FieldValue.arrayUnion(answer)
-  })
-  await incrementAuthenticatedUserRanking('answer')
+  try {
+    await questionsCollection.doc(questionId).update({
+      answers: firebase.firestore.FieldValue.arrayUnion(answer)
+    })
+    await incrementAuthenticatedUserRanking('answer')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const deleteAnswer = async (questionId, answer) => {
-  await questionsCollection.doc(questionId).update({
-    answers: firebase.firestore.FieldValue.arrayRemove(answer)
-  })
-  await decrementAuthorRanking(answer.author, 'answer')
+  try {
+    await questionsCollection.doc(questionId).update({
+      answers: firebase.firestore.FieldValue.arrayRemove(answer)
+    })
+    await decrementAuthorRanking(answer.author, 'answer')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }

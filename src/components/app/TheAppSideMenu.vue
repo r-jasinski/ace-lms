@@ -47,7 +47,10 @@
         class="app-side-menu__icon app-side-menu__button--sup"
       />
     </div>
-    <div class="app-side-menu__wrapper app-side-menu__button">
+    <div
+      class="app-side-menu__wrapper app-side-menu__button"
+      @click="callNotifications"
+    >
       <font-awesome-icon icon="bell" class="app-side-menu__icon" size="2x" />
     </div>
   </div>
@@ -63,6 +66,7 @@ export default {
 
   data() {
     return {
+      notificationToastId: null,
       percentLabel: 0,
       scrollBoddyPercent: 0
     }
@@ -114,6 +118,28 @@ export default {
         'miscellaneous/commitArticleFontSizeDecrease'
     }),
 
+    callNotifications() {
+      this.$toast.dismiss(this.notificationToastId)
+      const toastId = this.$toast('Nenhuma notificação nova', {
+        type: 'info',
+        maxToasts: 1
+      })
+      this.notificationToastId = toastId
+    },
+
+    handleScroll() {
+      let scrollTop = scrollY
+      let docBodyHeight = document.body.offsetHeight
+      let docHeight =
+        document.querySelector('.post-wrapper')?.offsetHeight ||
+        document.body.offsetHeight
+      let winHeight = innerHeight
+      let scrollPercent = scrollTop / (docHeight - winHeight)
+      let scrollPercentRounded = Math.round(scrollPercent * 100)
+      this.percentLabel = scrollPercentRounded
+      this.scrollBoddyPercent = scrollTop / (docBodyHeight - winHeight)
+    },
+
     scrollToBottom() {
       scroll({
         top: document.body.scrollHeight,
@@ -128,19 +154,6 @@ export default {
         left: 0,
         behavior: 'smooth'
       })
-    },
-
-    handleScroll() {
-      let scrollTop = scrollY
-      let docBodyHeight = document.body.offsetHeight
-      let docHeight =
-        document.querySelector('.post-wrapper')?.offsetHeight ||
-        document.body.offsetHeight
-      let winHeight = innerHeight
-      let scrollPercent = scrollTop / (docHeight - winHeight)
-      let scrollPercentRounded = Math.round(scrollPercent * 100)
-      this.percentLabel = scrollPercentRounded
-      this.scrollBoddyPercent = scrollTop / (docBodyHeight - winHeight)
     }
   }
 }
@@ -168,7 +181,6 @@ export default {
   justify-content: center;
   align-items: center;
   border-radius: 100vh;
-  background-color: var(--light);
 }
 
 .app-side-menu__icon {
