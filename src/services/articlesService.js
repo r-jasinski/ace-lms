@@ -1,3 +1,4 @@
+import { handleFirebaseErrors } from '@/services/errorsService'
 import {
   decrementAuthorRanking,
   incrementAuthenticatedUserRanking
@@ -10,42 +11,77 @@ const db = firebase.firestore()
 export const articlesCollection = db.collection('articles')
 
 export const createArticle = async article => {
-  await articlesCollection.doc().set(article)
-  await incrementAuthenticatedUserRanking('article')
+  try {
+    await articlesCollection.doc().set(article)
+    await incrementAuthenticatedUserRanking('article')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const getArticle = async articleId => {
-  const article = await articlesCollection.doc(articleId).get()
-  return article.data()
+  try {
+    const article = await articlesCollection.doc(articleId).get()
+    return article.data()
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const getArticles = async () => {
-  const get = await articlesCollection.get()
-  return get.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }))
+  try {
+    const get = await articlesCollection.get()
+    return get.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const deleteArticle = async (articleId, authorId) => {
-  await articlesCollection.doc(articleId).delete()
-  await decrementAuthorRanking(authorId, 'article')
+  try {
+    await articlesCollection.doc(articleId).delete()
+    await decrementAuthorRanking(authorId, 'article')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const updateArticle = async (articleId, article) => {
-  await articlesCollection.doc(articleId).update(article)
+  try {
+    await articlesCollection.doc(articleId).update(article)
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const createComment = async (articleId, comment) => {
-  await articlesCollection.doc(articleId).update({
-    comments: firebase.firestore.FieldValue.arrayUnion(comment)
-  })
-  await incrementAuthenticatedUserRanking('comment')
+  try {
+    await articlesCollection.doc(articleId).update({
+      comments: firebase.firestore.FieldValue.arrayUnion(comment)
+    })
+    await incrementAuthenticatedUserRanking('comment')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }
 
 export const deleteComment = async (articleId, comment) => {
-  await articlesCollection.doc(articleId).update({
-    comments: firebase.firestore.FieldValue.arrayRemove(comment)
-  })
-  await decrementAuthorRanking(comment.author, 'comment')
+  try {
+    await articlesCollection.doc(articleId).update({
+      comments: firebase.firestore.FieldValue.arrayRemove(comment)
+    })
+    await decrementAuthorRanking(comment.author, 'comment')
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
 }

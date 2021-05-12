@@ -1,6 +1,8 @@
+import { handleFirebaseErrors } from '@/services/errorsService'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/storage'
+import Vue from 'vue'
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -35,8 +37,14 @@ export const addUserWithLinkToEmail = async email => {
   await firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
 }
 
-export const sendPasswordResetEmail = async email =>
-  await firebase.auth().sendPasswordResetEmail(email)
+export const sendPasswordResetEmail = async email => {
+  try {
+    await firebase.auth().sendPasswordResetEmail(email)
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
 
 export const resetPassword = async (oobCode, password) => {
   if (await firebase.auth().verifyPasswordResetCode(oobCode)) {
@@ -44,17 +52,53 @@ export const resetPassword = async (oobCode, password) => {
   }
 }
 
-export const isSignInWithEmailLink = () =>
-  firebase.auth().isSignInWithEmailLink(window.location.href)
-
-export const confirmAccount = async (email, name, password) => {
-  await firebase.auth().signInWithEmailLink(email, window.location.href)
-  const user = firebase.auth().currentUser
-  await user.updateProfile({ displayName: name })
-  await user.updatePassword(password)
+export const isSignInWithEmailLink = () => {
+  return firebase.auth().isSignInWithEmailLink(window.location.href)
 }
 
-export const signIn = async (email, password) =>
-  await firebase.auth().signInWithEmailAndPassword(email, password)
+export const confirmAccount = async (email, name, password) => {
+  try {
+    await firebase.auth().signInWithEmailLink(email, window.location.href)
+    const user = firebase.auth().currentUser
+    await user.updateProfile({ displayName: name })
+    await user.updatePassword(password)
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
 
-export const signOut = async () => await firebase.auth().signOut()
+export const updateUser = async (user, profile) => {
+  try {
+    user.updateProfile({ ...profile })
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const signIn = async (email, password) => {
+  try {
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    const authenticatedUser = firebase.auth().currentUser
+    Vue.$toast(`Bem-vindo, ${authenticatedUser.displayName}`, {
+      type: 'info'
+    })
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const signOut = async () => {
+  try {
+    const authenticatedUser = firebase.auth().currentUser
+    await firebase.auth().signOut()
+    Vue.$toast(`Até mais, ${authenticatedUser.displayName}`, {
+      type: 'info'
+    })
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
