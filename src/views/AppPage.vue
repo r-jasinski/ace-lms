@@ -77,7 +77,6 @@ export default {
 <style>
 .app-page {
   width: 100%;
-  padding-right: 20px;
 }
 
 header {
@@ -88,7 +87,7 @@ header {
 
 article {
   display: flex;
-  margin-top: 0;
+  margin: 0 20px 0 0;
   min-height: 45vh;
   padding: 0 20%;
   z-index: 1;
