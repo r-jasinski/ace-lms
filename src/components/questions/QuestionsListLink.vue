@@ -52,6 +52,7 @@ export default {
 .question-list-link {
   padding: 0px 15px;
   transition: all 0.03s;
+  word-wrap: break-word;
 }
 
 .question-list-link:hover {

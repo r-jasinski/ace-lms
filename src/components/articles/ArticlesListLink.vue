@@ -52,6 +52,7 @@ export default {
 .article-list-link {
   padding: 0px 15px;
   transition: all 0.03s;
+  word-wrap: break-word;
 }
 
 .article-list-link:hover {

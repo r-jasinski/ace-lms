@@ -1,62 +1,62 @@
 <template>
   <div class="welcome-page">
-    <div>
-      <h1 v-if="!imageURL">
-        Bem-vindo!
-      </h1>
-      <h2 v-html="welcomeText" />
-      <p v-if="!imageURL">
-        <small
-          >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
-          poderá alterá-lo por sua foto a qualquer momento em "Perfil"
-        </small>
-      </p>
-      <form @submit.prevent>
-        <file-picker
-          v-model="file"
-          icon="image"
-          placeholder="Selecione uma imagem"
-          ref="inputFile"
+    <h1 v-if="!imageURL">
+      Bem-vindo!
+    </h1>
+    <h2 v-html="welcomeText" />
+    <p v-if="!imageURL">
+      <small
+        >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
+        poderá alterá-lo por sua foto a qualquer momento em "Perfil"
+      </small>
+    </p>
+    <form @submit.prevent>
+      <file-picker
+        v-model="file"
+        icon="image"
+        placeholder="Selecione uma imagem"
+        :v="$v.file"
+        name="file"
+        @input="$v.file.$touch()"
+        @picked="HTMLInputElement = $event"
+      />
+      <div class="welcome-page__buttons">
+        <confirm-button
+          class="welcome-page__submit-button"
+          label="Enviar"
+          :disabled="disabled"
+          @clicked="submitUserImage"
         />
-        <div class="welcome-page__buttons">
-          <confirm-button
-            class="welcome-page__submit-button"
-            label="Enviar"
-            @clicked="submitUserImage"
-          />
-          <confirm-button
-            class="welcome-page__submit-button"
-            label="Ir para home"
-            @clicked="goToHome()"
-          />
-        </div>
-      </form>
-      <img :src="imageURL" alt="" class="welcome-page__avatar" />
-      <p>
-        <small>
-          Para obter os melhores resultados:
-          <ul>
-            <li>
-              Use uma imagem clara e nítida onde seu rosto é o foco principal
-            </li>
-            <li>
-              Certifique-se de estar de frente para a câmera
-            </li>
-            <li>
-              Evite múltiplas faces (só processaremos a primeira que
-              encontrarmos)
-            </li>
-            <li>
-              Evite coisas que obscurecem seu rosto
-            </li>
-            <li>
-              Experimente diferentes fotos, pois todas têm um resultado
-              diferente
-            </li>
-          </ul>
-        </small>
-      </p>
-    </div>
+        <confirm-button
+          class="welcome-page__submit-button"
+          label="Ir para home"
+          @clicked="goToHome()"
+        />
+      </div>
+    </form>
+    <img :src="imageURL" alt="" class="welcome-page__avatar" />
+    <p>
+      <small>
+        Para obter os melhores resultados:
+        <ul>
+          <li>
+            Use uma imagem clara e nítida onde seu rosto é o foco principal
+          </li>
+          <li>
+            Certifique-se de estar de frente para a câmera
+          </li>
+          <li>
+            Evite múltiplas faces (só processaremos a primeira que encontrarmos)
+          </li>
+          <li>
+            Evite coisas que obscurecem seu rosto
+          </li>
+          <li>
+            Experimente diferentes fotos, pois todas têm um resultado diferente
+          </li>
+        </ul>
+      </small>
+    </p>
   </div>
 </template>
 
@@ -75,6 +75,8 @@ import {
   uploadBase64AsImage
 } from '@/services/firebaseService'
 import { updateUser } from '@/services/usersService'
+import { isLessThan2MB, isTrueImage } from '@/services/validatorsService'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'WelcomePage',
@@ -88,7 +90,18 @@ export default {
         finalizar, envie uma foto sua no estilo 3x4. Você vai gostar do resultado!
       `,
       imageURL: '',
-      file: null
+      file: null,
+      HTMLInputElement: null
+    }
+  },
+
+  validations: {
+    file: { required, isLessThan2MB, isTrueImage }
+  },
+
+  computed: {
+    disabled() {
+      return this.$v.$anyError || !this.$v.$anyDirty
     }
   },
 
@@ -102,21 +115,23 @@ export default {
     }),
 
     async submitUserImage() {
-      const userImage = this.$refs.inputFile.$el.children[2]
+      const userImage = this.HTMLInputElement
       const response = await toonifyImage(userImage)
-      if (response) {
+      if (!(response instanceof Error)) {
         const toonifiedUserImage = await getBase64FromExternalUrl(
           response.output_url
         )
         this.imageURL = response.output_url
-        let user = getAuthenticatedUser()
-        await uploadBase64AsImage(toonifiedUserImage, user.uid)
-        this.userPhotoURL = await getUserPhotoURL(user.uid)
-        await user.updateProfile({ photoURL: this.userPhotoURL })
         this.welcomeText = `
         Você está pronto! Este será seu avatar e também seu menu principal. Se não
         gostou do resultado, basta enviar outra foto!
       `
+        this.file = null
+        this.$v.$reset()
+        let user = getAuthenticatedUser()
+        await uploadBase64AsImage(toonifiedUserImage, user.uid)
+        this.userPhotoURL = await getUserPhotoURL(user.uid)
+        await user.updateProfile({ photoURL: this.userPhotoURL })
         await updateUser(user.uid, { photoURL: this.userPhotoURL })
       }
     },
@@ -156,13 +171,32 @@ export default {
   text-shadow: 0px 0px 20px var(--light);
 }
 
+.welcome-page__avatar {
+  width: 340px;
+  border-radius: 100vh;
+}
+
 .welcome-page h2 {
   text-shadow: 0px 0px 20px var(--light);
 }
 
-.welcome-page__avatar {
-  width: 340px;
-  border-radius: 100vh;
-  margin-top: 25px;
+.welcome-page form {
+  width: 100%;
+}
+
+.welcome-page p {
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  .welcome-page {
+    padding: 0 10%;
+  }
+}
+
+@media only screen and (max-width: 368px) {
+  .welcome-page {
+    padding: 0 5%;
+  }
 }
 </style>

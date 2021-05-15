@@ -86,7 +86,7 @@ body {
   --light: #2c3e50;
   --dark: #ffffff;
   --light-20: #2c3e5010;
-  --dark-20: #ffffff25;
+  --dark-20: #ffffff0c;
   --light-50: #2c3e5050;
   --dark-50: #ffffff50;
   --light-75: #2c3e5075;

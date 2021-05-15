@@ -1,3 +1,5 @@
+import { defaultToastOptions } from '@/services/miscellaneousService'
+import { vuelidateErrorExtractorOptions } from '@/services/validatorsService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -43,29 +45,16 @@ import 'firebase/auth'
 import Vue from 'vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import Vuelidate from 'vuelidate'
+import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 
-const defaultOptions = {
-  transition: 'Vue-Toastification__bounce',
-  maxToasts: 5,
-  newestOnTop: true,
-  position: 'bottom-right',
-  timeout: 5000,
-  closeOnClick: true,
-  pauseOnFocusLoss: true,
-  pauseOnHover: true,
-  draggable: true,
-  draggablePercent: 0.6,
-  showCloseButtonOnHover: false,
-  hideProgressBar: true,
-  closeButton: 'button',
-  icon: true,
-  rtl: false
-}
-
-Vue.use(Toast, defaultOptions)
+Vue.use(Toast, defaultToastOptions)
+Vue.use(Vuelidate)
+Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
+Vue.component('form-group', templates.singleErrorExtractor.foundation6)
 
 Vue.config.productionTip = false
 

@@ -7,38 +7,29 @@
     <div>
       <form-input
         class="sign-in-with-link-form__input"
-        type="email"
-        placeholder="Informe seu email"
-        autocomplete="email"
-        icon="at"
-        v-model="user.email"
-      />
-      <form-input
-        class="sign-in-with-link-form__input"
-        placeholder="Informe o seu usuário"
-        autocomplete="name"
-        icon="user"
-        v-model="user.displayName"
-      />
-      <form-input
-        class="sign-in-with-link-form__input"
-        type="password"
-        placeholder="Informe a senha"
-        autocomplete="new-password"
-        icon="key"
-        v-model="user.password"
-      />
-      <form-input
-        class="sign-in-with-link-form__input"
-        type="password"
-        placeholder="Confirme a senha"
-        autocomplete="new-password"
-        icon="key"
-        v-model="user.passwordConfirm"
+        v-for="({
+          type,
+          placeholder,
+          autocomplete,
+          icon,
+          meta,
+          validator,
+          name
+        },
+        index) in inputs"
+        :key="index"
+        :type="type"
+        :placeholder="placeholder"
+        :autocomplete="autocomplete"
+        :icon="icon"
+        :v="$v.user[validator]"
+        :name="name"
+        v-model="user[meta]"
       />
       <confirm-button
         class="sign-in-with-link-form__submit-button"
         label="Salvar"
+        :disabled="disabled"
         @clicked="submitUserProfile"
       />
     </div>
@@ -54,16 +45,58 @@ import {
   updateUser
 } from '@/services/firebaseService'
 import { createUser } from '@/services/usersService'
+import { noSpaces } from '@/services/validatorsService'
+import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 import { mapActions } from 'vuex'
+import {
+  email,
+  maxLength,
+  minLength,
+  required,
+  sameAs
+} from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignInWithLinkForm',
 
   components: { FormInput, ConfirmButton },
 
+  mixins: [profileFormInputsMixin],
+
   data() {
     return {
       user: {}
+    }
+  },
+
+  validations: {
+    user: {
+      displayName: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        required,
+        noSpaces
+      },
+      email: { required, email },
+      password: { maxLength: maxLength(24), minLength: minLength(6), required },
+      passwordConfirm: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        required,
+        sameAsPassword: sameAs('password')
+      }
+    }
+  },
+
+  computed: {
+    disabled() {
+      const hasError = this.$v.user.$pending || this.$v.user.$error
+      const isEmpty =
+        !this.user.email ||
+        !this.user.displayName ||
+        !this.user.password ||
+        !this.user.passwordConfirm
+      return hasError || isEmpty
     }
   },
 
@@ -77,6 +110,9 @@ export default {
     }),
 
     async submitUserProfile() {
+      if (this.disabled) {
+        return
+      }
       let { email, displayName, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
         //TODO: Remove alert and set up info system

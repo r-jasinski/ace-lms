@@ -2,9 +2,11 @@
   <div class="question-create">
     <div>
       <editor-title
+        tabindex="0"
         :placeholder="editorTitlePlaceholder"
         :editable="editable"
         @input="question.title = $event"
+        @title-has-error="titleHasError = $event"
       />
       <small class="question-create__label"
         >O título aparecerá na listagem inicial, portanto seja claro e
@@ -12,10 +14,13 @@
       >
     </div>
     <editor-body
+      tabindex="1"
       class="question-create__editor-body"
       :placeholder="editorBodyPlaceholder"
       :editable="editable"
       @input="question.content = $event"
+      @body-has-error="bodyHasError = $event"
+      @body-is-empty="isEmpty = $event"
     />
     <div>
       <small class="question-create__label">
@@ -23,7 +28,11 @@
         política de privacidade e política de Cookies</small
       >
       <div class="question-create__buttons">
-        <confirm-button :label="'Publicar'" @clicked="createQuestion" />
+        <confirm-button
+          :label="'Publicar'"
+          @clicked="createQuestion"
+          :disabled="hasError"
+        />
         <cancel-button
           :label="'Cancelar'"
           @clicked="$router.push({ name: 'QuestionsList' })"
@@ -48,10 +57,13 @@ export default {
 
   data() {
     return {
+      bodyHasError: true,
       editable: true,
-      editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
       editorBodyPlaceholder: 'Escreva aqui o conteúdo da sua pergunta...',
-      question: {}
+      editorTitlePlaceholder: 'Escreva aqui o título da pergunta...',
+      isEmpty: false,
+      question: {},
+      titleHasError: true
     }
   },
 
@@ -59,17 +71,20 @@ export default {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
-    })
+    }),
+    hasError() {
+      return this.bodyHasError || this.titleHasError || this.isEmpty
+    }
   },
 
   methods: {
     async createQuestion() {
-      if (this.question.title.length > 8 && this.question.content.length > 30) {
-        const UTCStringCreationTime = new Date().toUTCString()
-        this.question.answers = []
-        this.question.author = this.authenticatedUser.uid
-        this.question.creationTime = UTCStringCreationTime
-        await createQuestion(this.question)
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.question.answers = []
+      this.question.author = this.authenticatedUser.uid
+      this.question.creationTime = UTCStringCreationTime
+      const responseError = await createQuestion(this.question)
+      if (!responseError) {
         this.$router.push({ name: 'QuestionsList' })
       }
     }

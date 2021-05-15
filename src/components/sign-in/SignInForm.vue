@@ -14,24 +14,29 @@
     <div>
       <form-input
         class="sign-in-form__input"
-        type="email"
-        placeholder="E-mail"
+        type="text"
+        placeholder="Informe seu email"
         autocomplete="email"
         icon="at"
         v-model="user.email"
+        :v="$v.user.email"
+        name="email"
       />
       <form-input
         v-show="!forgotPasswordMode"
         class="sign-in-form__input"
         type="password"
-        placeholder="Senha"
+        placeholder="Informe sua senha"
         autocomplete="current-password"
         icon="key"
         v-model="user.password"
+        :v="$v.user.password"
+        name="password"
       />
       <confirm-button
         class="sign-in-form__submit-button"
         :label="submitButtonLabel"
+        :disabled="disabled"
         @clicked="onSubmit"
       />
     </div>
@@ -47,6 +52,7 @@ import ConfirmButton from '@/components/shared/ConfirmButton'
 import { getQuote } from '@/services/quotesService'
 import { mapActions } from 'vuex'
 import { sendPasswordResetEmail, signIn } from '@/services/firebaseService'
+import { email, maxLength, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignInForm',
@@ -56,10 +62,14 @@ export default {
   data() {
     return {
       forgotPasswordMode: false,
-      user: {
-        email: '',
-        password: ''
-      }
+      user: {}
+    }
+  },
+
+  validations: {
+    user: {
+      email: { required, email },
+      password: { maxLength: maxLength(24), minLength: minLength(6), required }
     }
   },
 
@@ -72,6 +82,11 @@ export default {
     },
     quote() {
       return getQuote()
+    },
+    disabled() {
+      const hasError = this.$v.user.$pending || this.$v.user.$error
+      const isEmpty = !this.user.email || !this.user.password
+      return isEmpty || hasError
     }
   },
 
@@ -88,6 +103,9 @@ export default {
     },
 
     async onSubmit() {
+      if (this.disabled) {
+        return
+      }
       const { email, password } = this.user
       if (!this.forgotPasswordMode) {
         const response = await signIn(email, password)
@@ -139,6 +157,7 @@ p {
 
 .sign-in-form__submit-button {
   width: 100%;
+  min-width: 300px;
   margin: 25px 0;
 }
 

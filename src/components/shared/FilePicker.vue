@@ -1,16 +1,19 @@
 <template>
-  <label class="file-picker">
-    <font-awesome-icon class="file-picker__icon" :icon="icon" />
-    <div class="file-picker__button">
-      <span>{{ (value && value.name) || placeholder }}</span>
-    </div>
-    <input
-      type="file"
-      name="avatar"
-      accept="image/png, image/jpeg"
-      @change="handleFileChange"
-    />
-  </label>
+  <form-group :validator="v" :name="name">
+    <label :class="['file-picker', { 'file-picker__error': v.$error }]">
+      <font-awesome-icon class="file-picker__icon" :icon="icon" />
+      <div class="file-picker__button">
+        <span>{{ (value && value.name) || placeholder }}</span>
+      </div>
+      <input
+        type="file"
+        name="avatar"
+        accept="image/png, image/jpeg"
+        @change="handleFileChange"
+        ref="inputFile"
+      />
+    </label>
+  </form-group>
 </template>
 
 <script>
@@ -19,23 +22,27 @@ export default {
 
   props: {
     icon: { type: String, default: 'meh-blank' },
+    name: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },
+    v: { type: Object, required: true },
     value: { type: File, default: null }
   },
 
   methods: {
     handleFileChange(e) {
       this.$emit('input', e.target.files[0])
+      this.$emit('picked', this.$refs.inputFile)
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
 .file-picker {
   display: flex;
   align-items: center;
+  width: 100%;
   min-height: 50px;
   color: var(--dark);
   background-color: transparent;
@@ -43,6 +50,20 @@ export default {
   border: 1px solid var(--dark-50);
   outline: none;
   overflow: hidden;
+}
+
+.file-picker__error {
+  border: 1px solid var(--danger) !important;
+}
+
+.form-error,
+.is-visible {
+  display: flex;
+  flex-direction: column;
+  color: var(--danger);
+  font-size: 0.8em;
+  margin-left: 16px;
+  max-width: 268px;
 }
 
 .file-picker:hover {

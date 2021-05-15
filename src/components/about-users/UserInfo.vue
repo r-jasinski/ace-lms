@@ -1,8 +1,10 @@
 <template>
   <div class="user-info">
     <div
-      class="user-info__avatar"
-      :class="{ 'user-info__avatar--inactive': user.deletedAt }"
+      :class="[
+        'user-info__avatar',
+        { 'user-info__avatar--inactive': user.deletedAt }
+      ]"
       :style="{ backgroundImage: `url(${user.photoURL})` }"
     />
     <div class="user-info__indicator">

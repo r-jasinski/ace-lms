@@ -2,9 +2,11 @@
   <div class="article-create">
     <div>
       <editor-title
+        tabindex="0"
         :placeholder="editorTitlePlaceholder"
         :editable="editable"
         @input="article.title = $event"
+        @title-has-error="titleHasError = $event"
       />
       <small class="article-create__label"
         >O título aparecerá na página inicial, portanto inclua um texto que
@@ -12,10 +14,13 @@
       >
     </div>
     <editor-body
+      tabindex="1"
       class="article-create__editor-body"
       :placeholder="editorBodyPlaceholder"
       :editable="editable"
       @input="article.content = $event"
+      @body-has-error="bodyHasError = $event"
+      @body-is-empty="isEmpty = $event"
     />
     <div>
       <small class="article-create__label">
@@ -23,7 +28,11 @@
         política de privacidade e política de Cookies</small
       >
       <div class="article-create__buttons">
-        <confirm-button :label="'Publicar'" @clicked="createArticle" />
+        <confirm-button
+          :label="'Publicar'"
+          @clicked="createArticle"
+          :disabled="hasError"
+        />
         <cancel-button
           :label="'Cancelar'"
           @clicked="$router.push({ name: 'ArticlesList' })"
@@ -48,10 +57,13 @@ export default {
 
   data() {
     return {
+      article: {},
+      bodyHasError: true,
       editable: true,
-      editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
-      article: {}
+      editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
+      isEmpty: false,
+      titleHasError: true
     }
   },
 
@@ -59,17 +71,20 @@ export default {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
-    })
+    }),
+    hasError() {
+      return this.bodyHasError || this.titleHasError || this.isEmpty
+    }
   },
 
   methods: {
     async createArticle() {
-      if (this.article.title?.length > 8 && this.article.content?.length > 30) {
-        const UTCStringCreationTime = new Date().toUTCString()
-        this.article.author = this.authenticatedUser.uid
-        this.article.comments = []
-        this.article.creationTime = UTCStringCreationTime
-        await createArticle(this.article)
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.article.author = this.authenticatedUser.uid
+      this.article.comments = []
+      this.article.creationTime = UTCStringCreationTime
+      const responseError = await createArticle(this.article)
+      if (!responseError) {
         this.$router.push({ name: 'ArticlesList' })
       }
     }
