@@ -1,7 +1,12 @@
 <template>
   <button
-    :class="['confirm-button', { 'confirm-button--active': active }]"
+    :class="[
+      'confirm-button',
+      { 'confirm-button--active': active },
+      { 'confirm-button--disabled': disabled }
+    ]"
     @click.prevent="$emit('clicked')"
+    :disabled="disabled"
   >
     <div class="confirm-button__label">
       {{ label }}
@@ -15,6 +20,7 @@ export default {
 
   props: {
     active: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
     label: { type: String, default: '' }
   }
 }
@@ -49,6 +55,13 @@ export default {
   transform: scale(1.05);
   transition: all 0.05s;
   font-weight: 900;
+}
+
+.confirm-button--disabled {
+  opacity: 0.5;
+  cursor: default !important;
+  transform: scale(1) !important;
+  background-color: var(--primary) !important;
 }
 
 .confirm-button__label {
