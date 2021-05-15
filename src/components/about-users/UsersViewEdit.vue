@@ -3,17 +3,15 @@
     <form class="admin-user__filters" @submit.prevent>
       <filter-input />
       <form-input
-        v-if="authenticatedUser.uid === 'MqJSZr9ODNWWlxCa67BhaUyTu343'"
         type="email"
         placeholder="E-mail do usuário"
         autocomplete="email"
         icon="at"
         v-model="newUser.email"
+        :v="$v.newUser.email"
+        name="email"
       />
-      <add-button
-        @clicked="addUserWithLinkToEmail"
-        v-if="authenticatedUser.uid === 'MqJSZr9ODNWWlxCa67BhaUyTu343'"
-      />
+      <add-button @clicked="addUserWithLinkToEmail" :disabled="disabled" />
     </form>
     <div v-for="user in users" :key="user.id">
       <user-info :user="user" @changed="toggleAdminRole(user.id, $event)">
@@ -39,6 +37,7 @@ import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
 import { mapGetters } from 'vuex'
 import { updateUser, usersCollection } from '@/services/usersService'
+import { email, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'UsersViewEdit',
@@ -60,11 +59,20 @@ export default {
     }
   },
 
+  validations: {
+    newUser: {
+      email: { required, email }
+    }
+  },
+
   computed: {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
-    })
+    }),
+    disabled() {
+      return this.$v.newUser.$anyError || !this.$v.newUser.$anyDirty
+    }
   },
 
   mounted() {
@@ -80,6 +88,7 @@ export default {
       if (this.newUser.email) {
         await addUserWithLinkToEmail(this.newUser.email)
         this.newUser.email = ''
+        this.$v.$reset()
       }
     },
 

@@ -8,6 +8,7 @@
           :content="question.title"
           :editable="questionIsEditable"
           @input="question.title = $event"
+          @title-has-error="questionHasError = $event"
         />
         <small v-if="questionIsEditable" class="question-view-edit__label"
           >O título aparecerá na listagem inicial, portanto seja claro e
@@ -21,6 +22,7 @@
         :content="question.content"
         :editable="questionIsEditable"
         @input="question.content = $event"
+        @body-has-error="questionHasError = $event"
       />
       <div v-if="!questionIsEditable" class="question-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="question-view-edit__buttons">
@@ -35,7 +37,11 @@
           política de privacidade e política de Cookies</small
         >
         <div class="question-view-edit__buttons">
-          <confirm-button :label="'Publicar'" @clicked="updateQuestion" />
+          <confirm-button
+            :label="'Publicar'"
+            @clicked="updateQuestion"
+            :disabled="questionHasError"
+          />
           <cancel-button :label="'Cancelar'" @clicked="cancelQuestionEdit" />
         </div>
       </div>
@@ -54,6 +60,7 @@
           :content="answer.content"
           :editable="answerIsEditabled(index)"
           @input="question.answers[index].content = $event"
+          @body-has-error="answerHasError = $event"
         />
         <div
           v-if="
@@ -74,6 +81,7 @@
             <confirm-button
               :label="'Publicar'"
               @clicked="updateAnswer(index)"
+              :disabled="answerHasError"
             />
             <cancel-button
               :label="'Cancelar'"
@@ -87,13 +95,20 @@
       :content="newAnswer.content"
       :placeholder="editorAnswerPlaceholder"
       @input="newAnswer.content = $event"
+      @body-has-error="newAnswerHasError = $event"
+      @body-is-empty="isEmpty = $event"
     />
+
     <small class="question-view-edit__label">
       *Ao clicar em “Publicar”, você concorda com os termos de serviço, política
       de privacidade e política de Cookies
     </small>
     <div class="question-view-edit__buttons">
-      <confirm-button :label="'Publicar'" @clicked="createAnswer" />
+      <confirm-button
+        :label="'Publicar'"
+        @clicked="createAnswer"
+        :disabled="newAnswerHasError || isEmpty"
+      />
     </div>
   </div>
 </template>
@@ -133,15 +148,19 @@ export default {
 
   data() {
     return {
-      question: {},
-      questionIsEditable: false,
+      answerHasError: false,
       answerIsEditable: false,
-      editableQuestion: {},
       editableAnswer: {},
-      editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
+      editableQuestion: {},
       editorAnswerPlaceholder: 'Escreva aqui o seu comentário...',
+      editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
-      newAnswer: {}
+      isEmpty: false,
+      newAnswer: {},
+      newAnswerHasError: false,
+      question: {},
+      questionHasError: false,
+      questionIsEditable: false
     }
   },
 
@@ -211,11 +230,11 @@ export default {
     },
 
     async createAnswer() {
-      if (this.newAnswer.content?.length > 10) {
-        const UTCStringCreationTime = new Date().toUTCString()
-        this.newAnswer.author = this.authenticatedUser.uid
-        this.newAnswer.creationTime = UTCStringCreationTime
-        await createAnswer(this.question.id, this.newAnswer)
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.newAnswer.author = this.authenticatedUser.uid
+      this.newAnswer.creationTime = UTCStringCreationTime
+      const responseError = await createAnswer(this.question.id, this.newAnswer)
+      if (!responseError) {
         this.newAnswer = {}
       }
     },
@@ -250,8 +269,13 @@ export default {
     },
 
     async removeQuestion() {
-      await deleteQuestion(this.question.id, this.question.author)
-      this.$router.push({ name: 'QuestionsList' })
+      const responseError = await deleteQuestion(
+        this.question.id,
+        this.question.author
+      )
+      if (!responseError) {
+        this.$router.push({ name: 'QuestionsList' })
+      }
     },
 
     async removeAnswer(answer) {
@@ -259,26 +283,27 @@ export default {
     },
 
     async updateQuestion() {
-      if (
-        this.question.content.length < 10 ||
-        this.question.title.length < 10
-      ) {
-        return
-      }
       const UTCStringCreationTime = new Date().toUTCString()
       this.question.author = this.authenticatedUser.uid
       this.question.creationTime = UTCStringCreationTime
-      await updateQuestion(this.question.id, this.question)
-      this.questionIsEditable = false
+      const responseError = await updateQuestion(
+        this.question.id,
+        this.question
+      )
+      if (!responseError) {
+        this.questionIsEditable = false
+      }
     },
 
     async updateAnswer(answerId) {
       const UTCStringCreationTime = new Date().toUTCString()
       this.question.answers[answerId].creationTime = UTCStringCreationTime
-      await updateQuestion(this.question.id, {
+      const responseError = await updateQuestion(this.question.id, {
         answers: this.question.answers
       })
-      this.answerIsEditable = false
+      if (!responseError) {
+        this.answerIsEditable = false
+      }
     }
   }
 }

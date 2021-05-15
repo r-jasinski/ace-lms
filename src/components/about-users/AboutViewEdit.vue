@@ -6,14 +6,15 @@
       <editor-body
         :placeholder="editorBodyPlaceholder"
         :content="about.content"
-        :editable="editable"
+        :editable="aboutIsEditable"
         @input="about.content = $event"
+        @body-has-error="aboutHasError = $event"
       />
-      <div v-if="!editable" class="admin-about__edit-button">
+      <div v-if="!aboutIsEditable" class="admin-about__edit-button">
         <edit-button
           v-if="isAdmin"
           class="admin-about__buttons"
-          @clicked="editable = true"
+          @clicked="editAbout"
         />
       </div>
       <div v-else>
@@ -22,7 +23,11 @@
           política de privacidade e política de Cookies</small
         >
         <div class="admin-about__buttons">
-          <confirm-button :label="'Publicar'" @clicked="createAbout" />
+          <confirm-button
+            :label="'Publicar'"
+            @clicked="createAbout"
+            :disabled="aboutHasError"
+          />
           <cancel-button :label="'Cancelar'" @clicked="cancelAboutEdit" />
         </div>
       </div>
@@ -47,9 +52,11 @@ export default {
 
   data() {
     return {
-      editable: false,
-      editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
       about: {},
+      aboutHasError: false,
+      aboutIsEditable: false,
+      editableAbout: {},
+      editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
       fixedID: 'NPtCmqzUQrL32G7kEHnT',
       unsubscribe: null
     }
@@ -85,27 +92,32 @@ export default {
 
   methods: {
     cancelAboutEdit() {
-      this.editable = false
-      this.about.content += ' '
+      this.aboutIsEditable = false
+      this.about = this.editableAbout
     },
 
     async createAbout() {
       if (this.about.length < 1) {
-        this.editable = false
+        this.aboutIsEditable = false
         return
       }
       const UTCStringCreationTime = new Date().toUTCString()
       this.about.author = this.authenticatedUser.uid
       this.about.creationTime = UTCStringCreationTime
       await createAbout(this.fixedID, this.about)
-      this.editable = false
+      this.aboutIsEditable = false
+    },
+
+    editAbout() {
+      this.aboutIsEditable = true
+      this.editableAbout = { ...this.about }
     },
 
     initializeAbout() {
       this.unsubscribe = aboutCollection.doc(this.fixedID).onSnapshot(doc => {
         this.about = { ...doc.data() }
         if (!this.about.content) {
-          this.editable = true
+          this.aboutIsEditable = true
         }
       })
     }

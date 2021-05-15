@@ -2,7 +2,7 @@
   <div class="profile-view-edit">
     <div
       class="profile-view-edit__avatar"
-      :style="{ backgroundImage: `url(${authenticatedUser.displayImage})` }"
+      :style="{ backgroundImage: `url(${displayImage})` }"
     >
       <remove-button
         v-if="userHasPhoto"
@@ -12,25 +12,39 @@
     </div>
     <form class="profile-view-edit__form" @submit.prevent>
       <form-input
-        v-for="({ type, placeholder, autocomplete, icon, meta },
+        v-for="({
+          type,
+          placeholder,
+          autocomplete,
+          icon,
+          meta,
+          validator,
+          name
+        },
         index) in inputs"
         :key="index"
         :type="type"
         :placeholder="placeholder"
         :autocomplete="autocomplete"
         :icon="icon"
+        :v="$v.user[validator]"
+        :name="name"
         v-model="user[meta]"
       />
       <file-picker
-        v-model="user.file"
+        v-model="file"
         icon="image"
         placeholder="Selecione uma imagem"
-        ref="inputFile"
+        :v="$v.file"
+        name="file"
+        @input="$v.file.$touch()"
+        @picked="HTMLInputElement = $event"
       />
       <confirm-button
         class="profile-view-edit__save-button"
         label="Salvar"
         @clicked="submitProfileForm(authenticatedUser)"
+        :disabled="disabled"
       />
     </form>
   </div>
@@ -48,12 +62,28 @@ import {
   getUserPhotoURL,
   uploadBase64AsImage
 } from '@/services/firebaseService'
-import { updateUser } from '@/services/usersService'
+import {
+  updateUser,
+  updateUserEmail,
+  updateUserPassword
+} from '@/services/usersService'
 import {
   getBase64FromExternalUrl,
   initializeToonify,
   toonifyImage
 } from '@/services/toonifyService'
+import {
+  email,
+  maxLength,
+  minLength,
+  required,
+  sameAs
+} from 'vuelidate/lib/validators'
+import {
+  isLessThan2MB,
+  isTrueImage,
+  noSpaces
+} from '@/services/validatorsService'
 
 export default {
   name: 'ProfileViewEdit',
@@ -64,17 +94,42 @@ export default {
 
   data() {
     return {
+      file: null,
+      HTMLInputElement: null,
       user: {}
+    }
+  },
+
+  validations: {
+    file: { required, isLessThan2MB, isTrueImage },
+    user: {
+      displayName: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        required,
+        noSpaces
+      },
+      email: { required, email },
+      password: { maxLength: maxLength(24), minLength: minLength(6) },
+      passwordConfirm: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        sameAsPassword: sameAs('password')
+      }
     }
   },
 
   computed: {
     ...mapGetters({
-      authenticatedUser: 'authenticatedUser/authenticatedUser'
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      displayImage: 'authenticatedUser/displayImage'
     }),
+    disabled() {
+      return this.$v.$anyError || !this.$v.$anyDirty
+    },
     userHasPhoto() {
       return (
-        this.authenticatedUser.displayImage !==
+        this.displayImage !==
         `https://robohash.org/${this.authenticatedUser.uid}.png`
       )
     }
@@ -98,41 +153,50 @@ export default {
     },
 
     async toonifyUserImage() {
-      const userImage = this.$refs.inputFile.$el.children[2]
+      const userImage = this.HTMLInputElement
       const response = await toonifyImage(userImage)
-      const toonifiedBase64UserImage = await getBase64FromExternalUrl(
-        response.output_url
-      )
-      return toonifiedBase64UserImage
+      if (!(response instanceof Error)) {
+        const toonifiedBase64UserImage = await getBase64FromExternalUrl(
+          response.output_url
+        )
+        return toonifiedBase64UserImage
+      }
     },
 
     async submitProfileForm(user) {
-      //TODO: Remove conditionals and set up Vuelidate
-      let userProfile = {}
-      if (
-        this.user.displayName &&
-        this.user.displayName !== this.authenticatedUser.displayName
-      ) {
-        userProfile.displayName = this.user.displayName
+      const displayNameIsReady =
+        this.$v.user.displayName.$dirty && !this.$v.user.displayName.$error
+      const fileIsReady = this.$v.file.$dirty && !this.$v.file.$error
+      const emailIsReady =
+        this.$v.user.email.$dirty && !this.$v.user.email.$error
+      const passwordIsReady =
+        this.$v.user.password.$dirty && !this.$v.user.password.$error
+      if (displayNameIsReady) {
+        await user.updateProfile({ displayName: this.user.displayName })
+        this.$v.$reset()
       }
-      if (this.user.file) {
-        const toonifiedUserImage = await this.toonifyUserImage()
-        await uploadBase64AsImage(toonifiedUserImage, user.uid)
-        const photoURL = await getUserPhotoURL(user.uid)
-        userProfile.photoURL = photoURL
-        this.user.file = null
+      if (fileIsReady) {
+        const userImage = this.HTMLInputElement
+        const response = await toonifyImage(userImage)
+        if (!(response instanceof Error)) {
+          const toonifiedUserImage = await getBase64FromExternalUrl(
+            response.output_url
+          )
+          this.file = null
+          this.$v.$reset()
+          await uploadBase64AsImage(toonifiedUserImage, user.uid)
+          const photoURL = await getUserPhotoURL(user.uid)
+          await user.updateProfile({ photoURL: photoURL })
+          this.reloadData()
+        }
       }
-      if (Object.keys(userProfile).length) {
-        await user.updateProfile(userProfile)
+      if (emailIsReady) {
+        await updateUserEmail(user, this.user.email)
+        this.$v.$reset()
       }
-      if (this.user.email && this.user.email !== this.authenticatedUser.email) {
-        await user.updateEmail(this.user.email)
-      }
-      if (
-        this.user.password &&
-        this.user.password === this.user.confirmPassword
-      ) {
-        await user.updatePassword(this.user.password)
+      if (passwordIsReady) {
+        await updateUserPassword(user, this.user.password)
+        this.$v.$reset()
       }
       const { displayName, email, photoURL, uid } = user
       await updateUser(uid, { displayName, email, photoURL })

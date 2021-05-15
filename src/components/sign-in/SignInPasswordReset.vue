@@ -12,6 +12,8 @@
         autocomplete="new-password"
         icon="key"
         v-model="user.password"
+        :v="$v.user.password"
+        name="password"
       />
       <form-input
         class="sign-in-with-link-form__input"
@@ -20,11 +22,14 @@
         autocomplete="new-password"
         icon="key"
         v-model="user.passwordConfirm"
+        :v="$v.user.passwordConfirm"
+        name="password"
       />
       <confirm-button
         class="sign-in-with-link-form__submit-button"
         label="Salvar"
         @clicked="submitUserPassword"
+        :disabled="disabled"
       />
     </div>
   </form>
@@ -34,6 +39,12 @@
 import FormInput from '@/components/shared/FormInput'
 import ConfirmButton from '@/components/shared/ConfirmButton'
 import { mapActions } from 'vuex'
+import {
+  maxLength,
+  minLength,
+  required,
+  sameAs
+} from 'vuelidate/lib/validators'
 import { resetPassword } from '@/services/firebaseService'
 
 export default {
@@ -44,6 +55,30 @@ export default {
   data() {
     return {
       user: {}
+    }
+  },
+
+  validations: {
+    user: {
+      password: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        required
+      },
+      passwordConfirm: {
+        maxLength: maxLength(24),
+        minLength: minLength(6),
+        required,
+        sameAsPassword: sameAs('password')
+      }
+    }
+  },
+
+  computed: {
+    disabled() {
+      const hasError = this.$v.user.$pending || this.$v.user.$error
+      const isEmpty = !this.user.password || !this.user.passwordConfirm
+      return hasError || isEmpty
     }
   },
 

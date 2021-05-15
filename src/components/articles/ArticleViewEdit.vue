@@ -8,6 +8,7 @@
           :content="article.title"
           :editable="articleIsEditable"
           @input="article.title = $event"
+          @title-has-error="articleHasError = $event"
         />
         <small v-if="articleIsEditable" class="article-view-edit__label"
           >O título aparecerá na listagem inicial, portanto seja claro e
@@ -21,6 +22,7 @@
         :content="article.content"
         :editable="articleIsEditable"
         @input="article.content = $event"
+        @body-has-error="articleHasError = $event"
       />
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
@@ -35,7 +37,11 @@
           política de privacidade e política de Cookies</small
         >
         <div class="article-view-edit__buttons">
-          <confirm-button :label="'Publicar'" @clicked="updateArticle" />
+          <confirm-button
+            :label="'Publicar'"
+            @clicked="updateArticle"
+            :disabled="articleHasError"
+          />
           <cancel-button :label="'Cancelar'" @clicked="cancelArticleEdit" />
         </div>
       </div>
@@ -54,6 +60,7 @@
           :content="comment.content"
           :editable="commentIsEditabled(index)"
           @input="article.comments[index].content = $event"
+          @body-has-error="commentHasError = $event"
         />
         <div
           v-if="
@@ -74,6 +81,7 @@
             <confirm-button
               :label="'Publicar'"
               @clicked="updateComment(index)"
+              :disabled="commentHasError"
             />
             <cancel-button
               :label="'Cancelar'"
@@ -87,13 +95,19 @@
       :content="newComment.content"
       :placeholder="editorCommentPlaceholder"
       @input="newComment.content = $event"
+      @body-has-error="newCommentHasError = $event"
+      @body-is-empty="isEmpty = $event"
     />
     <small class="article-view-edit__label">
       *Ao clicar em “Publicar”, você concorda com os termos de serviço, política
       de privacidade e política de Cookies
     </small>
     <div class="article-view-edit__buttons">
-      <confirm-button :label="'Publicar'" @clicked="createComment" />
+      <confirm-button
+        :label="'Publicar'"
+        @clicked="createComment"
+        :disabled="newCommentHasError || isEmpty"
+      />
     </div>
   </div>
 </template>
@@ -134,14 +148,18 @@ export default {
   data() {
     return {
       article: {},
+      articleHasError: false,
       articleIsEditable: false,
+      commentHasError: false,
       commentIsEditable: false,
       editableArticle: {},
       editableComment: {},
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
-      newComment: {}
+      isEmpty: false,
+      newComment: {},
+      newCommentHasError: false
     }
   },
 
@@ -211,11 +229,14 @@ export default {
     },
 
     async createComment() {
-      if (this.newComment.content?.length > 10) {
-        const UTCStringCreationTime = new Date().toUTCString()
-        this.newComment.author = this.authenticatedUser.uid
-        this.newComment.creationTime = UTCStringCreationTime
-        await createComment(this.article.id, this.newComment)
+      const UTCStringCreationTime = new Date().toUTCString()
+      this.newComment.author = this.authenticatedUser.uid
+      this.newComment.creationTime = UTCStringCreationTime
+      const responseError = await createComment(
+        this.article.id,
+        this.newComment
+      )
+      if (!responseError) {
         this.newComment = {}
       }
     },
@@ -250,8 +271,13 @@ export default {
     },
 
     async removeArticle() {
-      await deleteArticle(this.article.id, this.article.author)
-      this.$router.push({ name: 'ArticlesList' })
+      const responseError = await deleteArticle(
+        this.article.id,
+        this.article.author
+      )
+      if (!responseError) {
+        this.$router.push({ name: 'ArticlesList' })
+      }
     },
 
     async removeComment(comment) {
@@ -259,23 +285,24 @@ export default {
     },
 
     async updateArticle() {
-      if (this.article.content.length < 10 || this.article.title.length < 10) {
-        return
-      }
       const UTCStringCreationTime = new Date().toUTCString()
       this.article.author = this.authenticatedUser.uid
       this.article.creationTime = UTCStringCreationTime
-      await updateArticle(this.article.id, this.article)
-      this.articleIsEditable = false
+      const responseError = await updateArticle(this.article.id, this.article)
+      if (!responseError) {
+        this.articleIsEditable = false
+      }
     },
 
     async updateComment(commentId) {
       const UTCStringCreationTime = new Date().toUTCString()
       this.article.comments[commentId].creationTime = UTCStringCreationTime
-      await updateArticle(this.article.id, {
+      const responseError = await updateArticle(this.article.id, {
         comments: this.article.comments
       })
-      this.commentIsEditable = false
+      if (!responseError) {
+        this.commentIsEditable = false
+      }
     }
   }
 }
