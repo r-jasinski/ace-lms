@@ -2,11 +2,13 @@ export default {
   namespaced: true,
 
   state: {
-    authenticatedUser: {}
+    authenticatedUser: {},
+    displayImage: null
   },
 
   getters: {
-    authenticatedUser: state => state.authenticatedUser
+    authenticatedUser: state => state.authenticatedUser,
+    displayImage: state => state.displayImage
   },
 
   mutations: {
@@ -15,9 +17,9 @@ export default {
   },
 
   actions: {
-    commitAuthenticatedUser: ({ commit }, authenticatedUser) => {
+    commitAuthenticatedUser: ({ commit, state }, authenticatedUser) => {
       const { photoURL } = authenticatedUser
-      authenticatedUser.displayImage = photoURL
+      state.displayImage = photoURL
       commit('setAuthenticatedUser', authenticatedUser)
     },
     commitResetAuthenticatedUser: ({ commit }) => {

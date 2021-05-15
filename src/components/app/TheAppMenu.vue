@@ -5,7 +5,7 @@
       id="app-menu__button"
       aria-label="Toggle Main Menu"
       @click="menuHandler"
-      :style="{ backgroundImage: `url(${authenticatedUser.displayImage})` }"
+      :style="{ backgroundImage: `url(${displayImage})` }"
     />
     <div
       class="app-menu__wrapper"
