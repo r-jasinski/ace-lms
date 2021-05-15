@@ -1,5 +1,5 @@
 <template>
-  <div class="ranking-user" :class="{ 'ranking-user--current': currentUser }">
+  <div :class="['ranking-user', { 'ranking-user--current': currentUser }]">
     <span class="ranking-user__position">
       <slot name="ranking-user-position" />
     </span>

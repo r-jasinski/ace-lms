@@ -8,8 +8,7 @@
       :style="{ backgroundImage: `url(${displayImage})` }"
     />
     <div
-      class="app-menu__wrapper"
-      :class="{ 'app-menu__wrapper--opened': opened }"
+      :class="['app-menu__wrapper', { 'app-menu__wrapper--opened': opened }]"
       id="app-menu__wrapper"
     >
       <ul>
@@ -91,7 +90,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      authenticatedUser: 'authenticatedUser/authenticatedUser'
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      displayImage: 'authenticatedUser/displayImage'
     })
   },
 
