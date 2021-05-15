@@ -1,13 +1,17 @@
 <template>
-  <div class="form-input">
-    <font-awesome-icon class="form-input__icon" :icon="icon" />
-    <input
-      :type="type"
-      :placeholder="placeholder"
-      v-model="inputModel"
-      :autocomplete="autocomplete"
-    />
-  </div>
+  <form-group :validator="v" :name="name">
+    <div class="form-input">
+      <font-awesome-icon class="form-input__icon" :icon="icon" />
+      <input
+        :class="{ 'form-input__error': v.$error }"
+        :type="type"
+        :placeholder="placeholder"
+        v-model.trim="inputModel"
+        @input="v.$touch()"
+        :autocomplete="autocomplete"
+      />
+    </div>
+  </form-group>
 </template>
 
 <script>
@@ -17,8 +21,10 @@ export default {
   props: {
     autocomplete: { type: String, default: 'off' },
     icon: { type: String, default: 'meh-blank' },
+    name: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },
+    v: { type: Object, required: true },
     value: { type: [String, Number, Date], default: '' }
   },
 
@@ -35,10 +41,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .form-input {
   display: flex;
   align-items: center;
+  max-width: 300px;
+}
+
+.form-input__error {
+  border: 1px solid var(--danger) !important;
+  color: var(--danger);
+}
+
+.form-error,
+.is-visible {
+  display: flex;
+  flex-direction: column;
+  color: var(--danger);
+  font-size: 0.8em;
+  margin-left: 16px;
+  max-width: 268px;
 }
 
 .form-input input {

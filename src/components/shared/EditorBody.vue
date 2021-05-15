@@ -1,37 +1,47 @@
 <template>
-  <div class="editor" :class="{ 'editor--editable': editable }">
-    <editor-menu-bar
-      v-if="editable"
-      :editor="editor"
-      v-slot="{ commands, isActive }"
+  <form-group :validator="$v.html" name="body" :messages="localMessages">
+    <div
+      :class="[
+        'editor',
+        { 'editor--editable': editable, editor__error: $v.$error }
+      ]"
     >
-      <div class="editor__menubar">
-        <button
-          class="editor__button"
-          @click="showImagePrompt(commands.image)"
-          :class="{ 'is-active': isActive.image() }"
-        >
-          <font-awesome-icon icon="image" />
-        </button>
-        <button
-          v-for="({ active, command, icon, level }, index) in menuBarButtons"
-          :key="`${index}-${icon}`"
-          class="editor__button"
-          :class="{
-            'is-active': active && isActive[active]()
-          }"
-          @click="commands[command]({ level })"
-        >
-          <font-awesome-icon :icon="icon" />
-        </button>
-      </div>
-    </editor-menu-bar>
-    <editor-content class="editor__content" :editor="editor" />
-  </div>
+      <editor-menu-bar
+        v-if="editable"
+        :editor="editor"
+        v-slot="{ commands, isActive }"
+      >
+        <div class="editor__menubar">
+          <button
+            @click="showImagePrompt(commands.image)"
+            :class="['editor__button', { 'is-active': isActive.image() }]"
+          >
+            <font-awesome-icon icon="image" />
+          </button>
+          <button
+            v-for="({ active, command, icon, level }, index) in menuBarButtons"
+            :key="`${index}-${icon}`"
+            :class="[
+              'editor__button',
+              {
+                'is-active': active && isActive[active]()
+              }
+            ]"
+            @click="commands[command]({ level })"
+          >
+            <font-awesome-icon :icon="icon" />
+          </button>
+        </div>
+      </editor-menu-bar>
+      <editor-content class="editor__content" :editor="editor" />
+    </div>
+  </form-group>
 </template>
 
 <script>
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import { htmlToText } from 'html-to-text'
+import { maxLength, minLength, required } from 'vuelidate/lib/validators'
 import menuBarButtonsMixin from '@/mixins/menuBarButtonsMixin'
 import {
   Blockquote,
@@ -76,6 +86,9 @@ export default {
   data() {
     return {
       html: '',
+      localMessages: {
+        minLength: '{attribute} deve ter pelo menos 32 caracteres!'
+      },
       editor: new Editor({
         editable: true,
         extensions: [
@@ -112,6 +125,9 @@ export default {
         autoFocus: false,
         onTransaction: ({ getHTML }) => {
           this.html = getHTML()
+          if (this.html !== '<p></p>' && this.editable) {
+            this.$v.html.$touch()
+          }
         },
         onBlur: () => {
           if (this.html) {
@@ -122,12 +138,45 @@ export default {
     }
   },
 
+  computed: {
+    hasError() {
+      return this.$v.$error
+    },
+    isEmpty() {
+      return this.html === '<p></p>'
+    },
+    tagsLength() {
+      const htmlLength = this.html.length
+      const textLength = htmlToText(this.html).length
+      return htmlLength - textLength
+    }
+  },
+
+  validations() {
+    return {
+      html: {
+        maxLength: maxLength(30000),
+        minLength: minLength(32 + this.tagsLength),
+        required
+      }
+    }
+  },
+
   watch: {
     editable() {
       this.editor.setOptions({ editable: this.editable })
     },
     content() {
       this.editor.setContent(this.content)
+      if (this.isEmpty) {
+        this.$v.$reset()
+      }
+    },
+    hasError() {
+      this.$emit('body-has-error', this.hasError)
+    },
+    isEmpty() {
+      this.$emit('body-is-empty', this.isEmpty)
     }
   },
 
@@ -152,11 +201,26 @@ export default {
 
 <style>
 .editor {
+  min-height: 300px;
   border-radius: 18px;
   border: none;
   margin-top: 25px;
   padding: 10px;
   user-select: text;
+}
+
+.editor__error {
+  border: 1px solid var(--danger) !important;
+}
+
+.form-error,
+.is-visible {
+  display: flex;
+  flex-direction: column;
+  color: var(--danger);
+  font-size: 0.8em;
+  margin-left: 16px;
+  max-width: 268px;
 }
 
 .editor--editable {
