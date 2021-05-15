@@ -7,28 +7,36 @@ export default {
           placeholder: 'Usuário',
           autocomplete: 'given-name',
           icon: 'user',
-          meta: 'displayName'
+          meta: 'displayName',
+          validator: 'displayName',
+          name: 'user'
         },
         {
           type: 'email',
           placeholder: 'E-mail',
           autocomplete: 'email',
           icon: 'at',
-          meta: 'email'
+          meta: 'email',
+          validator: 'email',
+          name: 'email'
         },
         {
           type: 'password',
           placeholder: 'Senha',
           autocomplete: 'new-password',
           icon: 'key',
-          meta: 'password'
+          meta: 'password',
+          validator: 'password',
+          name: 'password'
         },
         {
           type: 'password',
           placeholder: 'Confirmar Senha',
           autocomplete: 'new-password',
           icon: 'key',
-          meta: 'passwordConfirm'
+          meta: 'passwordConfirm',
+          validator: 'passwordConfirm',
+          name: 'password'
         }
       ]
     }
