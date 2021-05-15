@@ -36,3 +36,23 @@ export const updateUser = async (userId, user) => {
     return error
   }
 }
+
+export const updateUserEmail = async (user, email) => {
+  try {
+    await user.updateEmail(email)
+  } catch (error) {
+    handleFirebaseErrors(error.code, 'atualizar email')
+    console.log(error.code)
+    return error
+  }
+}
+
+export const updateUserPassword = async (user, password) => {
+  try {
+    await user.updatePassword(password)
+  } catch (error) {
+    handleFirebaseErrors(error.code, 'atualizar senha')
+    console.log(error.code)
+    return error
+  }
+}
