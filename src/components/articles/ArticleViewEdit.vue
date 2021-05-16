@@ -16,6 +16,7 @@
         >
       </div>
       <post-info :post-info="postInfo" />
+
       <editor-body
         class="article-view-edit__body"
         :placeholder="editorBodyPlaceholder"
@@ -24,6 +25,10 @@
         @input="article.content = $event"
         @body-has-error="articleHasError = $event"
       />
+      <div class="article-view-edit__likes" @click="toggleLike">
+        <like-button :active="liked" />
+        <small>{{ likesCount }}</small>
+      </div>
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
           <edit-button @clicked="editArticle" />
@@ -119,6 +124,7 @@ import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '@/components/shared/EditorTitle.vue'
+import LikeButton from '@/components/shared/LikeButton'
 import PostInfo from '@/components/shared/PostInfo'
 import RemoveButton from '@/components/shared/RemoveButton'
 import { htmlToText } from 'html-to-text'
@@ -128,6 +134,8 @@ import {
   createComment,
   deleteArticle,
   deleteComment,
+  like,
+  dislike,
   updateArticle
 } from '@/services/articlesService'
 
@@ -141,6 +149,7 @@ export default {
     EditButton,
     EditorBody,
     EditorTitle,
+    LikeButton,
     PostInfo,
     RemoveButton
   },
@@ -184,6 +193,14 @@ export default {
         ...user,
         creationTime
       }
+    },
+
+    liked() {
+      return this.article?.likes?.includes(this.authenticatedUser.uid) || false
+    },
+
+    likesCount() {
+      return this.article?.likes?.length || 0
     }
   },
 
@@ -284,6 +301,14 @@ export default {
       await deleteComment(this.article.id, comment)
     },
 
+    async toggleLike() {
+      if (!this.liked) {
+        like(this.article.id, this.authenticatedUser.uid)
+        return
+      }
+      dislike(this.article.id, this.authenticatedUser.uid)
+    },
+
     async updateArticle() {
       const UTCStringCreationTime = new Date().toUTCString()
       this.article.author = this.authenticatedUser.uid
@@ -348,5 +373,16 @@ export default {
   border-top: 1px dotted var(--primary);
   opacity: 0.5;
   width: 50%;
+}
+
+.article-view-edit__likes {
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.article-view-edit__likes small {
+  opacity: 0.5;
 }
 </style>
