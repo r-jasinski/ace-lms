@@ -1,4 +1,7 @@
 module.exports = {
+  devServer: {
+    port: 1337
+  },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0].title = 'ACE LMS'

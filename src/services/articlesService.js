@@ -85,3 +85,25 @@ export const deleteComment = async (articleId, comment) => {
     return error
   }
 }
+
+export const like = async (articleId, userId) => {
+  try {
+    await articlesCollection.doc(articleId).update({
+      likes: firebase.firestore.FieldValue.arrayUnion(userId)
+    })
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const dislike = async (articleId, userId) => {
+  try {
+    await articlesCollection.doc(articleId).update({
+      likes: firebase.firestore.FieldValue.arrayRemove(userId)
+    })
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
