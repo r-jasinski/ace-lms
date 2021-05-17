@@ -26,7 +26,7 @@
         @body-has-error="articleHasError = $event"
       />
       <div class="article-view-edit__likes" @click="toggleLike">
-        <like-button :active="liked" />
+        <like-button :active="liked" v-tooltip.top-start="whoLiked" />
         <small>{{ likesCount }}</small>
       </div>
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
@@ -167,6 +167,7 @@ export default {
       editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
+      maxNamesToShow: 5,
       newComment: {},
       newCommentHasError: false
     }
@@ -201,6 +202,20 @@ export default {
 
     likesCount() {
       return this.article?.likes?.length || 0
+    },
+
+    whoLiked() {
+      let whoLikedList = ''
+      let whoLiked = ''
+      this.article?.likes?.forEach((element, index) => {
+        if (index < this.maxNamesToShow) {
+          whoLikedList += `${this.user(element).displayName} <br>`
+        }
+      })
+      const namesLeft = this.likesCount - this.maxNamesToShow
+      const quantity = namesLeft === 1 ? 'pessoa' : 'pessoas'
+      whoLiked = namesLeft < 1 ? '' : `e mais ${namesLeft} ${quantity}<br>`
+      return whoLikedList + whoLiked
     }
   },
 
@@ -302,11 +317,13 @@ export default {
     },
 
     async toggleLike() {
+      const article = this.article
+      const user = this.authenticatedUser.uid
       if (!this.liked) {
-        like(this.article.id, this.authenticatedUser.uid)
+        like(article, user)
         return
       }
-      dislike(this.article.id, this.authenticatedUser.uid)
+      dislike(article, user)
     },
 
     async updateArticle() {
