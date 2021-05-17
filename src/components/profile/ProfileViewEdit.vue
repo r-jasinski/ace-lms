@@ -1,52 +1,57 @@
 <template>
-  <div class="profile-view-edit">
-    <div
-      class="profile-view-edit__avatar"
-      :style="{ backgroundImage: `url(${displayImage})` }"
-    >
-      <remove-button
-        v-if="userHasPhoto"
-        @clicked="removePhoto(authenticatedUser)"
-        class="profile-view-edit__remove-button"
-      />
+  <div>
+    <div class="profile-view-edit__overlay" v-if="loading">
+      <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
     </div>
-    <form class="profile-view-edit__form" @submit.prevent>
-      <form-input
-        v-for="({
-          type,
-          placeholder,
-          autocomplete,
-          icon,
-          meta,
-          validator,
-          name
-        },
-        index) in inputs"
-        :key="index"
-        :type="type"
-        :placeholder="placeholder"
-        :autocomplete="autocomplete"
-        :icon="icon"
-        :v="$v.user[validator]"
-        :name="name"
-        v-model="user[meta]"
-      />
-      <file-picker
-        v-model="file"
-        icon="image"
-        placeholder="Selecione uma imagem"
-        :v="$v.file"
-        name="file"
-        @input="$v.file.$touch()"
-        @picked="HTMLInputElement = $event"
-      />
-      <confirm-button
-        class="profile-view-edit__save-button"
-        label="Salvar"
-        @clicked="submitProfileForm(authenticatedUser)"
-        :disabled="disabled"
-      />
-    </form>
+    <div :class="['profile-view-edit', { 'profile-view-edit--blur': loading }]">
+      <div
+        class="profile-view-edit__avatar"
+        :style="{ backgroundImage: `url(${displayImage})` }"
+      >
+        <remove-button
+          v-if="userHasPhoto"
+          @clicked="removePhoto(authenticatedUser)"
+          class="profile-view-edit__remove-button"
+        />
+      </div>
+      <form class="profile-view-edit__form" @submit.prevent>
+        <form-input
+          v-for="({
+            type,
+            placeholder,
+            autocomplete,
+            icon,
+            meta,
+            validator,
+            name
+          },
+          index) in inputs"
+          :key="index"
+          :type="type"
+          :placeholder="placeholder"
+          :autocomplete="autocomplete"
+          :icon="icon"
+          :v="$v.user[validator]"
+          :name="name"
+          v-model="user[meta]"
+        />
+        <file-picker
+          v-model="file"
+          icon="image"
+          placeholder="Selecione uma imagem"
+          :v="$v.file"
+          name="file"
+          @input="$v.file.$touch()"
+          @picked="HTMLInputElement = $event"
+        />
+        <confirm-button
+          class="profile-view-edit__save-button"
+          label="Salvar"
+          @clicked="submitProfileForm(authenticatedUser)"
+          :disabled="disabled"
+        />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -84,11 +89,12 @@ import {
   isTrueImage,
   noSpaces
 } from '@/services/validatorsService'
+import DotLoader from 'vue-spinner/src/DotLoader.vue'
 
 export default {
   name: 'ProfileViewEdit',
 
-  components: { FilePicker, FormInput, RemoveButton, ConfirmButton },
+  components: { FilePicker, ConfirmButton, DotLoader, FormInput, RemoveButton },
 
   mixins: [profileFormInputsMixin],
 
@@ -96,6 +102,7 @@ export default {
     return {
       file: null,
       HTMLInputElement: null,
+      loading: false,
       user: {}
     }
   },
@@ -176,8 +183,10 @@ export default {
         this.$v.$reset()
       }
       if (fileIsReady) {
+        this.loading = true
         const userImage = this.HTMLInputElement
         const response = await toonifyImage(userImage)
+        this.loading = false
         if (!(response instanceof Error)) {
           const toonifiedUserImage = await getBase64FromExternalUrl(
             response.output_url
@@ -220,37 +229,58 @@ export default {
 
 <style scoped>
 .profile-view-edit {
-  margin: 0 6%;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
+  margin: 0 6%;
+}
+
+.profile-view-edit--blur {
+  -moz-filter: blur(1px);
+  -ms-filter: blur(1px);
+  -o-filter: blur(1px);
+  -webkit-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.profile-view-edit__overlay {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.644);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .profile-view-edit__avatar {
-  height: 275px;
-  width: 275px;
   background-position: center;
   background-size: cover;
   border-radius: 100vh;
   box-shadow: #24292e2a 0px 0px 2px 2px;
+  height: 275px;
+  width: 275px;
 }
 
 .profile-view-edit__form {
-  max-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-width: 300px;
 }
 
 .profile-view-edit__save-button {
-  min-width: 300px;
   margin-top: 20px;
+  min-width: 300px;
 }
 
 .profile-view-edit__remove-button {
+  left: 240px;
   position: relative;
   top: 50px;
-  left: 240px;
 }
 </style>
