@@ -62,8 +62,6 @@ export default {
   min-width: 100px;
   height: 100px;
   border-radius: 999px;
-  margin-left: 20px;
-  margin-right: 20px;
   background-position: center;
   background-size: cover;
 }
@@ -71,7 +69,6 @@ export default {
 .ranking-user__name {
   font-size: 1.5em;
   font-weight: 900;
-  margin-right: 40px;
 }
 
 .ranking-user ul {
@@ -83,7 +80,6 @@ export default {
 .ranking-user__indicator {
   font-size: 1em;
   opacity: 0.4;
-  padding-left: 5px;
   color: var(--light);
   text-shadow: 0 0 0 var(--dark);
 }

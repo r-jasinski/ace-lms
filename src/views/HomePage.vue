@@ -24,6 +24,7 @@ export default {
 }
 
 .home-page h4 {
+  margin-top: 110px;
   text-align: center;
 }
 </style>

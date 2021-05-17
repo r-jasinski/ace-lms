@@ -1,6 +1,8 @@
 import { handleFirebaseErrors } from '@/services/errorsService'
 import {
+  decrementArticleAuthorRanking,
   decrementAuthorRanking,
+  incrementArticleAuthorRanking,
   incrementAuthenticatedUserRanking
 } from '@/services/rankingService'
 import firebase from 'firebase/app'
@@ -86,22 +88,24 @@ export const deleteComment = async (articleId, comment) => {
   }
 }
 
-export const like = async (articleId, userId) => {
+export const like = async (article, userId) => {
   try {
-    await articlesCollection.doc(articleId).update({
+    await articlesCollection.doc(article.id).update({
       likes: firebase.firestore.FieldValue.arrayUnion(userId)
     })
+    await incrementArticleAuthorRanking(article.author, 'like')
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error
   }
 }
 
-export const dislike = async (articleId, userId) => {
+export const dislike = async (article, userId) => {
   try {
-    await articlesCollection.doc(articleId).update({
+    await articlesCollection.doc(article.id).update({
       likes: firebase.firestore.FieldValue.arrayRemove(userId)
     })
+    await decrementArticleAuthorRanking(article.author, 'like')
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error

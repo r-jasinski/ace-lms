@@ -43,6 +43,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
@@ -55,6 +56,9 @@ import store from './store'
 Vue.use(Toast, defaultToastOptions)
 Vue.use(Vuelidate)
 Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
+Vue.use(VTooltip)
+VTooltip.enabled = window.innerWidth > 768
+
 Vue.component('form-group', templates.singleErrorExtractor.foundation6)
 
 Vue.config.productionTip = false
