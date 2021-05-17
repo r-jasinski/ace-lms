@@ -169,14 +169,13 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1px;
-  font-size: 16px;
+  font-size: 18px;
   z-index: 3;
 }
 
 .app-side-menu__wrapper {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,7 +242,7 @@ export default {
 
 @media only screen and (max-width: 768px) {
   .app-side-menu {
-    right: 1px;
+    right: 3px;
   }
 }
 </style>
