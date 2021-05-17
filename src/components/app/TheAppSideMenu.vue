@@ -234,7 +234,9 @@ export default {
 }
 
 .app-side-menu small {
+  width: 42px;
   font-size: 10px;
+  text-align: center;
   opacity: 0.4;
   text-shadow: -1px 0 var(--light), 0 1px var(--light), 1px 0 var(--light),
     0 -1px var(--light);
