@@ -1,62 +1,69 @@
 <template>
-  <div class="welcome-page">
-    <h1 v-if="!imageURL">
-      Bem-vindo!
-    </h1>
-    <h2 v-html="welcomeText" />
-    <p v-if="!imageURL">
-      <small
-        >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
-        poderá alterá-lo por sua foto a qualquer momento em "Perfil"
-      </small>
-    </p>
-    <form @submit.prevent>
-      <file-picker
-        v-model="file"
-        icon="image"
-        placeholder="Selecione uma imagem"
-        :v="$v.file"
-        name="file"
-        @input="$v.file.$touch()"
-        @picked="HTMLInputElement = $event"
-      />
-      <div class="welcome-page__buttons">
-        <confirm-button
-          class="welcome-page__submit-button"
-          label="Enviar"
-          :disabled="disabled"
-          @clicked="submitUserImage"
+  <div>
+    <div class="welcome-page__overlay" v-if="loading">
+      <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+    </div>
+    <div :class="['welcome-page', { 'welcome-page--blur': loading }]">
+      <h1 v-if="!imageURL">
+        Bem-vindo!
+      </h1>
+      <h2 v-html="welcomeText" />
+      <p v-if="!imageURL">
+        <small
+          >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
+          poderá alterá-lo por sua foto a qualquer momento em "Perfil"
+        </small>
+      </p>
+      <form @submit.prevent>
+        <file-picker
+          v-model="file"
+          icon="image"
+          placeholder="Selecione uma imagem"
+          :v="$v.file"
+          name="file"
+          @input="$v.file.$touch()"
+          @picked="HTMLInputElement = $event"
         />
-        <confirm-button
-          class="welcome-page__submit-button"
-          label="Ir para home"
-          @clicked="goToHome()"
-        />
-      </div>
-    </form>
-    <img :src="imageURL" alt="" class="welcome-page__avatar" />
-    <p>
-      <small>
-        Para obter os melhores resultados:
-        <ul>
-          <li>
-            Use uma imagem clara e nítida onde seu rosto é o foco principal
-          </li>
-          <li>
-            Certifique-se de estar de frente para a câmera
-          </li>
-          <li>
-            Evite múltiplas faces (só processaremos a primeira que encontrarmos)
-          </li>
-          <li>
-            Evite coisas que obscurecem seu rosto
-          </li>
-          <li>
-            Experimente diferentes fotos, pois todas têm um resultado diferente
-          </li>
-        </ul>
-      </small>
-    </p>
+        <div class="welcome-page__buttons">
+          <confirm-button
+            class="welcome-page__submit-button"
+            label="Enviar"
+            :disabled="disabled"
+            @clicked="submitUserImage"
+          />
+          <confirm-button
+            class="welcome-page__submit-button"
+            label="Ir para home"
+            @clicked="goToHome()"
+          />
+        </div>
+      </form>
+      <img :src="imageURL" alt="" class="welcome-page__avatar" />
+      <p>
+        <small>
+          Para obter os melhores resultados:
+          <ul>
+            <li>
+              Use uma imagem clara e nítida onde seu rosto é o foco principal
+            </li>
+            <li>
+              Certifique-se de estar de frente para a câmera
+            </li>
+            <li>
+              Evite múltiplas faces (só processaremos a primeira que
+              encontrarmos)
+            </li>
+            <li>
+              Evite coisas que obscurecem seu rosto
+            </li>
+            <li>
+              Experimente diferentes fotos, pois todas têm um resultado
+              diferente
+            </li>
+          </ul>
+        </small>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -77,21 +84,23 @@ import {
 import { updateUser } from '@/services/usersService'
 import { isLessThan2MB, isTrueImage } from '@/services/validatorsService'
 import { required } from 'vuelidate/lib/validators'
+import DotLoader from 'vue-spinner/src/DotLoader.vue'
 
 export default {
   name: 'WelcomePage',
 
-  components: { FilePicker, ConfirmButton },
+  components: { FilePicker, ConfirmButton, DotLoader },
 
   data() {
     return {
+      HTMLInputElement: null,
+      file: null,
+      imageURL: '',
+      loading: false,
       welcomeText: `
         Parabéns por escolher <span style='text-transform: uppercase'>aprender, compartilhar e evoluir</span>. Para
         finalizar, envie uma foto sua no estilo 3x4. Você vai gostar do resultado!
-      `,
-      imageURL: '',
-      file: null,
-      HTMLInputElement: null
+      `
     }
   },
 
@@ -115,8 +124,10 @@ export default {
     }),
 
     async submitUserImage() {
+      this.loading = true
       const userImage = this.HTMLInputElement
       const response = await toonifyImage(userImage)
+      this.loading = false
       if (!(response instanceof Error)) {
         const toonifiedUserImage = await getBase64FromExternalUrl(
           response.output_url
@@ -147,33 +158,54 @@ export default {
 
 <style scoped>
 .welcome-page {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 0 30%;
   background: url('../assets/clouds.svg') no-repeat;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 30%;
+  width: 100%;
+}
+
+.welcome-page--blur {
+  -moz-filter: blur(1px);
+  -ms-filter: blur(1px);
+  -o-filter: blur(1px);
+  -webkit-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.welcome-page__overlay {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.644);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 }
 
 .welcome-page__buttons {
   display: flex;
   flex-direction: row;
+  gap: 10px;
   justify-content: center;
   margin-top: 25px;
-  gap: 10px;
 }
 
 .welcome-page h1 {
-  font-weight: 900;
   font-size: 3.5em;
+  font-weight: 900;
   text-shadow: 0px 0px 20px var(--light);
 }
 
 .welcome-page__avatar {
-  width: 340px;
   border-radius: 100vh;
+  width: 340px;
 }
 
 .welcome-page h2 {
