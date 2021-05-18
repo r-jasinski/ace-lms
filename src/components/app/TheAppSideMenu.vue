@@ -68,7 +68,9 @@ export default {
     return {
       notificationToastId: null,
       percentLabel: 0,
-      scrollBoddyPercent: 0
+      scrollBoddyPercent: 0,
+      showTopMenu: false,
+      a: 0
     }
   },
 
@@ -115,7 +117,8 @@ export default {
       commitArticleFontSizeIncrease:
         'miscellaneous/commitArticleFontSizeIncrease',
       commitArticleFontSizeDecrease:
-        'miscellaneous/commitArticleFontSizeDecrease'
+        'miscellaneous/commitArticleFontSizeDecrease',
+      commitShowTopMenu: 'miscellaneous/commitShowTopMenu'
     }),
 
     callNotifications() {
@@ -138,6 +141,14 @@ export default {
       let scrollPercentRounded = Math.round(scrollPercent * 100)
       this.percentLabel = scrollPercentRounded
       this.scrollBoddyPercent = scrollTop / (docBodyHeight - winHeight)
+      if (scrollTop > 350 && !this.showTopMenu) {
+        this.showTopMenu = true
+        this.commitShowTopMenu(this.showTopMenu)
+      }
+      if (scrollTop < 350 && this.showTopMenu) {
+        this.showTopMenu = false
+        this.commitShowTopMenu(this.showTopMenu)
+      }
     },
 
     scrollToBottom() {

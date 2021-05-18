@@ -1,5 +1,8 @@
 <template>
   <div class="app-page">
+    <nav>
+      <the-app-nav-bar v-if="showTopMenu" />
+    </nav>
     <the-app-side-menu />
     <header v-once>
       <the-app-header />
@@ -23,11 +26,18 @@ import TheAppFooter from '@/components/app/TheAppFooter'
 import TheAppHeader from '@/components/app/TheAppHeader'
 import TheAppMenu from '@/components/app/TheAppMenu'
 import TheAppSideMenu from '@/components/app/TheAppSideMenu'
+import TheAppNavBar from '@/components/app/TheAppNavBar'
 import { mapGetters, mapActions } from 'vuex'
 import { usersCollection } from '@/services/usersService'
 
 export default {
-  components: { TheAppFooter, TheAppHeader, TheAppMenu, TheAppSideMenu },
+  components: {
+    TheAppFooter,
+    TheAppHeader,
+    TheAppMenu,
+    TheAppSideMenu,
+    TheAppNavBar
+  },
 
   data() {
     return {
@@ -37,7 +47,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      articleFontSize: 'miscellaneous/articleFontSize'
+      articleFontSize: 'miscellaneous/articleFontSize',
+      showTopMenu: 'miscellaneous/showTopMenu'
     })
   },
 
@@ -47,11 +58,13 @@ export default {
 
   destroyed() {
     this.unsubscribe()
+    this.commitShowTopMenu(false)
   },
 
   methods: {
     ...mapActions({
-      commitUsers: 'users/commitUsers'
+      commitUsers: 'users/commitUsers',
+      commitShowTopMenu: 'miscellaneous/commitShowTopMenu'
     }),
 
     initializeApp() {
