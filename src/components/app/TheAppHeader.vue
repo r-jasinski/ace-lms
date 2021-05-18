@@ -13,5 +13,6 @@ export default {
   height: 25vh;
   background: url('../../assets/bg-header.svg') no-repeat center top;
   background-size: cover;
+  opacity: 0.7;
 }
 </style>

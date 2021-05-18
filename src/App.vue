@@ -61,7 +61,6 @@ html {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  /* scroll-behavior: smooth; */
 }
 
 body {
@@ -117,7 +116,7 @@ body {
 
 .tooltip {
   display: block !important;
-  z-index: 10000;
+  z-index: 999;
   font-size: 0.8em;
   opacity: 0.9 !important;
 }
