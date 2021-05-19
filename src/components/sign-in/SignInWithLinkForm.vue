@@ -72,8 +72,8 @@ export default {
   validations: {
     user: {
       displayName: {
-        maxLength: maxLength(24),
-        minLength: minLength(6),
+        maxLength: maxLength(16),
+        minLength: minLength(4),
         required,
         noSpaces
       },
@@ -115,8 +115,6 @@ export default {
       }
       let { email, displayName, password, passwordConfirm } = this.user
       if (password !== passwordConfirm) {
-        //TODO: Remove alert and set up info system
-        alert('Senhas não conferem!')
         return
       }
       const confirmAccountError = await confirmAccount(
