@@ -60,6 +60,7 @@ import FilePicker from '@/components/shared/FilePicker'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
 import ConfirmButton from '@/components/shared/ConfirmButton'
+import DotLoader from '@/components/shared/DotLoader'
 import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -89,7 +90,6 @@ import {
   isTrueImage,
   noSpaces
 } from '@/services/validatorsService'
-import DotLoader from 'vue-spinner/src/DotLoader.vue'
 
 export default {
   name: 'ProfileViewEdit',
@@ -254,7 +254,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 100000;
 }
 
 .profile-view-edit__avatar {

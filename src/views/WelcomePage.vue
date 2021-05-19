@@ -69,6 +69,7 @@
 
 <script>
 import ConfirmButton from '@/components/shared/ConfirmButton'
+import DotLoader from '@/components/shared/DotLoader'
 import FilePicker from '@/components/shared/FilePicker'
 import { mapActions } from 'vuex'
 import {
@@ -84,7 +85,6 @@ import {
 import { updateUser } from '@/services/usersService'
 import { isLessThan2MB, isTrueImage } from '@/services/validatorsService'
 import { required } from 'vuelidate/lib/validators'
-import DotLoader from 'vue-spinner/src/DotLoader.vue'
 
 export default {
   name: 'WelcomePage',
