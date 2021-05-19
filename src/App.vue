@@ -221,4 +221,66 @@ body {
   opacity: 1;
   transition: opacity 0.15s;
 }
+
+.dg-backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+.dg-content-body {
+  border-bottom: none;
+}
+
+.dg-content-footer {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+  margin-top: 50px;
+  padding: 0;
+}
+
+.dg-main-content {
+  background-color: #ffffffe8;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  overflow: hidden;
+  padding: 15px;
+  text-justify: inter-word;
+  word-wrap: break-word;
+}
+
+.dg-btn--ok,
+.dg-btn--cancel {
+  align-items: center;
+  background-color: var(--primary);
+  border-radius: 100vh;
+  border: none;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  min-height: 50px;
+  outline: none;
+  padding: 10px;
+  transform: scale(1);
+  transition: all 0.05s;
+  width: 150px;
+}
+
+.dg-btn--ok:hover,
+.dg-btn--cancel:hover {
+  background-color: var(--primary-plus);
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.05s;
+}
+
+.dg-btn--cancel {
+  background-color: var(--danger);
+}
+
+.dg-btn--cancel:hover {
+  background-color: var(--danger-plus);
+}
 </style>
