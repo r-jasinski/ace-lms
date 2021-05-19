@@ -68,6 +68,10 @@ export default {
 </script>
 
 <style scoped>
+.questions-list {
+  margin: 0 20px 0 0;
+}
+
 .questions-list__filters {
   display: flex;
   align-items: center;

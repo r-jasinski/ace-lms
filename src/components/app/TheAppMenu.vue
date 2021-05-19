@@ -127,7 +127,7 @@ export default {
 .app-menu {
   position: absolute;
   height: 15em;
-  top: 47px;
+  top: 10px;
   left: 50%;
 }
 
@@ -376,7 +376,7 @@ export default {
 
 @media only screen and (max-width: 550px) {
   .app-menu {
-    top: -25px;
+    top: -60px;
   }
   .app-menu__wrapper {
     font-size: 0.68em;

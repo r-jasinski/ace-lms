@@ -126,6 +126,10 @@ export default {
 </script>
 
 <style>
+.admin-about {
+  margin: 0 20px 0 0;
+}
+
 .admin-about__title {
   margin-bottom: 10px;
 }

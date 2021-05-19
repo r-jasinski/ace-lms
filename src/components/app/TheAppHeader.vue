@@ -10,8 +10,8 @@ export default {
 
 <style scoped>
 .app-header {
-  height: 25vh;
-  background: url('../../assets/bg-header.svg') no-repeat center top;
+  height: 16vh;
+  background: url('../../assets/bg-header.svg') no-repeat center bottom;
   background-size: cover;
   opacity: 0.7;
 }

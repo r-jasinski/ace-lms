@@ -351,6 +351,10 @@ export default {
 </script>
 
 <style scoped>
+.article-view-edit {
+  margin: 0 20px 0 0;
+}
+
 .article-view-edit__title {
   margin-bottom: 10px;
 }

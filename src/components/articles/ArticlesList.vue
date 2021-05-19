@@ -67,6 +67,10 @@ export default {
 </script>
 
 <style scoped>
+.articles-list {
+  margin: 0 20px 0 0;
+}
+
 .articles-list__filters {
   display: flex;
   align-items: center;
