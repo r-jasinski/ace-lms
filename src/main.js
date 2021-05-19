@@ -1,4 +1,7 @@
-import { defaultToastOptions } from '@/services/miscellaneousService'
+import {
+  defaultDialogOptions,
+  defaultToastOptions
+} from '@/services/miscellaneousService'
 import { vuelidateErrorExtractorOptions } from '@/services/validatorsService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
@@ -47,6 +50,8 @@ import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
+import VuejsDialog from 'vuejs-dialog'
+import 'vuejs-dialog/dist/vuejs-dialog.min.css'
 import Vuelidate from 'vuelidate'
 import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor'
 import App from './App.vue'
@@ -58,7 +63,7 @@ Vue.use(Vuelidate)
 Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
 Vue.use(VTooltip)
 VTooltip.enabled = window.innerWidth > 768
-
+Vue.use(VuejsDialog, defaultDialogOptions)
 Vue.component('form-group', templates.singleErrorExtractor.foundation6)
 
 Vue.config.productionTip = false
