@@ -1,57 +1,53 @@
 <template>
-  <div>
-    <div class="profile-view-edit__overlay" v-if="loading">
-      <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+  <div class="profile-view-edit">
+    <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+    <div
+      class="profile-view-edit__avatar"
+      :style="{ backgroundImage: `url(${displayImage})` }"
+    >
+      <remove-button
+        v-if="userHasPhoto"
+        @clicked="openPhotoDeleteConfirm()"
+        class="profile-view-edit__remove-button"
+      />
     </div>
-    <div :class="['profile-view-edit', { 'profile-view-edit--blur': loading }]">
-      <div
-        class="profile-view-edit__avatar"
-        :style="{ backgroundImage: `url(${displayImage})` }"
-      >
-        <remove-button
-          v-if="userHasPhoto"
-          @clicked="removePhoto(authenticatedUser)"
-          class="profile-view-edit__remove-button"
-        />
-      </div>
-      <form class="profile-view-edit__form" @submit.prevent>
-        <form-input
-          v-for="({
-            type,
-            placeholder,
-            autocomplete,
-            icon,
-            meta,
-            validator,
-            name
-          },
-          index) in inputs"
-          :key="index"
-          :type="type"
-          :placeholder="placeholder"
-          :autocomplete="autocomplete"
-          :icon="icon"
-          :v="$v.user[validator]"
-          :name="name"
-          v-model="user[meta]"
-        />
-        <file-picker
-          v-model="file"
-          icon="image"
-          placeholder="Selecione uma imagem"
-          :v="$v.file"
-          name="file"
-          @input="$v.file.$touch()"
-          @picked="HTMLInputElement = $event"
-        />
-        <confirm-button
-          class="profile-view-edit__save-button"
-          label="Salvar"
-          @clicked="submitProfileForm(authenticatedUser)"
-          :disabled="disabled"
-        />
-      </form>
-    </div>
+    <form class="profile-view-edit__form" @submit.prevent>
+      <form-input
+        v-for="({
+          type,
+          placeholder,
+          autocomplete,
+          icon,
+          meta,
+          validator,
+          name
+        },
+        index) in inputs"
+        :key="index"
+        :type="type"
+        :placeholder="placeholder"
+        :autocomplete="autocomplete"
+        :icon="icon"
+        :v="$v.user[validator]"
+        :name="name"
+        v-model="user[meta]"
+      />
+      <file-picker
+        v-model="file"
+        icon="image"
+        placeholder="Selecione uma imagem"
+        :v="$v.file"
+        name="file"
+        @input="$v.file.$touch()"
+        @picked="HTMLInputElement = $event"
+      />
+      <confirm-button
+        class="profile-view-edit__save-button"
+        label="Salvar"
+        @clicked="submitProfileForm(authenticatedUser)"
+        :disabled="disabled"
+      />
+    </form>
   </div>
 </template>
 
@@ -60,6 +56,7 @@ import FilePicker from '@/components/shared/FilePicker'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
 import ConfirmButton from '@/components/shared/ConfirmButton'
+import DotLoader from '@/components/shared/DotLoader'
 import profileFormInputsMixin from '@/mixins/profileFormInputsMixin'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -89,7 +86,6 @@ import {
   isTrueImage,
   noSpaces
 } from '@/services/validatorsService'
-import DotLoader from 'vue-spinner/src/DotLoader.vue'
 
 export default {
   name: 'ProfileViewEdit',
@@ -159,18 +155,31 @@ export default {
       }
     },
 
-    async toonifyUserImage() {
-      const userImage = this.HTMLInputElement
-      const response = await toonifyImage(userImage)
-      if (!(response instanceof Error)) {
-        const toonifiedBase64UserImage = await getBase64FromExternalUrl(
-          response.output_url
-        )
-        return toonifiedBase64UserImage
+    async openPhotoDeleteConfirm() {
+      const message = `Tem certeza que deseja remover sua bela imagem do perfil?`
+      try {
+        await this.$dialog.confirm(message)
+        this.removePhoto()
+      } catch {
+        return
       }
     },
 
+    async reloadData() {
+      let user = await getAuthenticatedUser()
+      this.commitAuthenticatedUser(user)
+    },
+
+    async removePhoto() {
+      const user = this.authenticatedUser
+      const defaultPhotoURL = `https://robohash.org/${user.uid}.png`
+      await user.updateProfile({ photoURL: defaultPhotoURL })
+      await updateUser(user.uid, { photoURL: defaultPhotoURL })
+      this.reloadData()
+    },
+
     async submitProfileForm(user) {
+      const updatesArray = []
       const displayNameIsReady =
         this.$v.user.displayName.$dirty && !this.$v.user.displayName.$error
       const fileIsReady = this.$v.file.$dirty && !this.$v.file.$error
@@ -179,8 +188,13 @@ export default {
       const passwordIsReady =
         this.$v.user.password.$dirty && !this.$v.user.password.$error
       if (displayNameIsReady) {
-        await user.updateProfile({ displayName: this.user.displayName })
+        const responseError = await user.updateProfile({
+          displayName: this.user.displayName
+        })
         this.$v.$reset()
+        if (!responseError) {
+          updatesArray.push('Usuário')
+        }
       }
       if (fileIsReady) {
         this.loading = true
@@ -197,31 +211,42 @@ export default {
           const photoURL = await getUserPhotoURL(user.uid)
           await user.updateProfile({ photoURL: photoURL })
           this.reloadData()
+          updatesArray.push('Foto')
         }
       }
       if (emailIsReady) {
-        await updateUserEmail(user, this.user.email)
+        const responseError = await updateUserEmail(user, this.user.email)
         this.$v.$reset()
+        if (!responseError) {
+          updatesArray.push('Email')
+        }
       }
       if (passwordIsReady) {
-        await updateUserPassword(user, this.user.password)
+        const responseError = await updateUserPassword(user, this.user.password)
         this.$v.$reset()
+        if (!responseError) {
+          updatesArray.push('Senha')
+        }
       }
       const { displayName, email, photoURL, uid } = user
       await updateUser(uid, { displayName, email, photoURL })
       this.reloadData()
+      if (updatesArray.length) {
+        const verbAgreement = updatesArray.length === 1 ? '' : 's'
+        const message = `${updatesArray} atualizado${verbAgreement} com sucesso!`
+        this.$toast(message, { type: 'info' })
+      }
     },
 
-    async reloadData() {
-      let user = await getAuthenticatedUser()
-      this.commitAuthenticatedUser(user)
-    },
-
-    async removePhoto(user) {
-      const defaultPhotoURL = `https://robohash.org/${user.uid}.png`
-      await user.updateProfile({ photoURL: defaultPhotoURL })
-      await updateUser(user.uid, { photoURL: defaultPhotoURL })
-      this.reloadData()
+    async toonifyUserImage() {
+      const userImage = this.HTMLInputElement
+      const response = await toonifyImage(userImage)
+      if (!(response instanceof Error)) {
+        const toonifiedBase64UserImage = await getBase64FromExternalUrl(
+          response.output_url
+        )
+        return toonifiedBase64UserImage
+      }
     }
   }
 }
@@ -234,27 +259,6 @@ export default {
   flex-direction: column;
   gap: 10px;
   margin: 0 6%;
-}
-
-.profile-view-edit--blur {
-  -moz-filter: blur(1px);
-  -ms-filter: blur(1px);
-  -o-filter: blur(1px);
-  -webkit-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.profile-view-edit__overlay {
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.644);
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
 }
 
 .profile-view-edit__avatar {

@@ -14,13 +14,13 @@
       <add-button @clicked="addUserWithLinkToEmail" :disabled="disabled" />
     </form>
     <div v-for="user in users" :key="user.id">
-      <user-info :user="user" @changed="toggleAdminRole(user.id, $event)">
+      <user-info :user="user" @changed="toggleAdminRole(user, $event)">
         <template slot="selected-user">
           <reactivate-button
             v-if="user.deletedAt"
-            @clicked="reactivateUser(user.id)"
+            @clicked="openReactivateUserConfirm(user)"
           />
-          <remove-button v-else @clicked="deactivateUser(user.id)" />
+          <remove-button v-else @clicked="openDeactivateUserConfirm(user)" />
         </template>
       </user-info>
     </div>
@@ -86,15 +86,25 @@ export default {
   methods: {
     async addUserWithLinkToEmail() {
       if (this.newUser.email) {
-        await addUserWithLinkToEmail(this.newUser.email)
-        this.newUser.email = ''
-        this.$v.$reset()
+        const errorResponse = await addUserWithLinkToEmail(this.newUser.email)
+        if (!errorResponse) {
+          const message = `Convite enviado com sucesso pra o email ${this.newUser.email}!`
+          this.$toast(message, { type: 'info' })
+          this.newUser.email = ''
+          this.$v.$reset()
+        }
       }
     },
 
-    async deactivateUser(userId) {
+    async deactivateUser(user) {
       const UTCStringDeletionTime = new Date().toUTCString()
-      await updateUser(userId, { deletedAt: UTCStringDeletionTime })
+      const errorResponse = await updateUser(user.id, {
+        deletedAt: UTCStringDeletionTime
+      })
+      if (!errorResponse) {
+        const message = `Usuário ${user.displayName} desativado com sucesso!`
+        this.$toast(message, { type: 'info' })
+      }
     },
 
     initializeUsers() {
@@ -106,12 +116,43 @@ export default {
       })
     },
 
-    async reactivateUser(userId) {
-      await updateUser(userId, { deletedAt: null })
+    async openDeactivateUserConfirm(user) {
+      let message = `Tem certeza que deseja remover o usuário ${user.displayName}?`
+      try {
+        await this.$dialog.confirm(message)
+        this.deactivateUser(user)
+      } catch {
+        return
+      }
+    },
+
+    async openReactivateUserConfirm(user) {
+      let message = `Tem certeza que deseja reativar o usuário ${user.displayName}?`
+      try {
+        await this.$dialog.confirm(message)
+        this.reactivateUser(user)
+      } catch {
+        return
+      }
+    },
+
+    async reactivateUser(user) {
+      const errorResponse = await updateUser(user.id, { deletedAt: null })
+      if (!errorResponse) {
+        const message = `Usuário ${user.displayName} reativado com sucesso!`
+        this.$toast(message, { type: 'info' })
+      }
     },
 
     async toggleAdminRole(user, value) {
-      await updateUser(user, { isAdmin: value })
+      const errorResponse = await updateUser(user.id, { isAdmin: value })
+      if (!errorResponse) {
+        const roleMessage = value
+          ? 'agora é administrador!'
+          : 'não é mais administrador!'
+        const message = `Usuário ${user.displayName} ${roleMessage}`
+        this.$toast(message, { type: 'info' })
+      }
     }
   }
 }

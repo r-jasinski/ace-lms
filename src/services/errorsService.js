@@ -9,7 +9,7 @@ const firebaseErrorsCode = {
   'auth/argument-error': 'O link de cadastro é inválido!',
   'auth/weak-password': 'A senha deve conter pelo menos 6 caracteres',
   'auth/requires-recent-login':
-    'Atualizar a senha é confidencial e requer autenticação recente. Faça login e tente novamente!'
+    'Esta operação é confidencial e requer autenticação recente. Faça login e tente novamente!'
 }
 
 export const handleFirebaseErrors = (errorCode, action) => {
@@ -17,15 +17,11 @@ export const handleFirebaseErrors = (errorCode, action) => {
   const errorMessage = firebaseErrorsCode[errorCode]
     ? `Erro! ${firebaseErrorsCode[errorCode]}`
     : `Erro ao ${actionText}. ${firebaseErrorsCode.defaultError}`
-  Vue.$toast(errorMessage, {
-    type: 'error'
-  })
+  Vue.$toast(errorMessage, { type: 'error' })
 }
 
 export const handleToonifyErrors = () => {
   const errorMessage =
     'Erro ao processar a imagem. Por favor, envie um arquivo conforme os requisitos'
-  Vue.$toast(errorMessage, {
-    type: 'error'
-  })
+  Vue.$toast(errorMessage, { type: 'error' })
 }

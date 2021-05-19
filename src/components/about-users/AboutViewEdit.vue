@@ -104,8 +104,12 @@ export default {
       const UTCStringCreationTime = new Date().toUTCString()
       this.about.author = this.authenticatedUser.uid
       this.about.creationTime = UTCStringCreationTime
-      await createAbout(this.fixedID, this.about)
-      this.aboutIsEditable = false
+      const errorResponse = await createAbout(this.fixedID, this.about)
+      if (!errorResponse) {
+        const message = `Sobre salvo com sucesso!`
+        this.$toast(message, { type: 'info' })
+        this.aboutIsEditable = false
+      }
     },
 
     editAbout() {

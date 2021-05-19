@@ -115,7 +115,11 @@ export default {
       }
       const response = await sendPasswordResetEmail(email)
       if (!response) {
+        const message = `Instruções para recuperar sua senha enviadas para ${email}!`
+        this.$toast(message, { type: 'info' })
         this.forgotPasswordMode = false
+        this.user = {}
+        this.$v.$reset()
         this.commitDocumentTitle('ACE LMS')
       }
     }

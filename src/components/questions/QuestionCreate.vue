@@ -85,6 +85,8 @@ export default {
       this.question.creationTime = UTCStringCreationTime
       const responseError = await createQuestion(this.question)
       if (!responseError) {
+        const message = `Pergunta criada com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.$router.push({ name: 'QuestionsList' })
       }
     }
