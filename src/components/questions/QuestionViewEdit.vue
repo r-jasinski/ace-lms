@@ -27,7 +27,7 @@
       <div v-if="!questionIsEditable" class="question-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="question-view-edit__buttons">
           <edit-button @clicked="editQuestion" />
-          <remove-button @clicked="removeQuestion" />
+          <remove-button @clicked="openQuestionDeleteConfirm" />
         </div>
         <back-button @clicked="$router.go(-1)" />
       </div>
@@ -70,7 +70,7 @@
           class="question-view-edit__buttons"
         >
           <edit-button @clicked="editAnswer(answer, index)" />
-          <remove-button @clicked="removeAnswer(answer)" />
+          <remove-button @clicked="openAnswerDeleteConfirm(answer)" />
         </div>
         <div v-if="answerIsEditabled(index)">
           <small class="question-view-edit__label">
@@ -249,6 +249,16 @@ export default {
       this.editableAnswer = { ...answer }
     },
 
+    ellipsizeHTML(text, length) {
+      let commentText = htmlToText(text, {
+        tags: { h1: { options: { uppercase: false } } }
+      })
+      if (commentText.length > length) {
+        commentText = `${commentText.slice(0, 90)}...`
+      }
+      return commentText
+    },
+
     getAnswerInfo(answer) {
       let user = this.user(answer.author)
       let creationTime = answer.creationTime
@@ -266,6 +276,28 @@ export default {
           this.question = { ...doc.data() }
           this.question.id = doc.id
         })
+    },
+
+    async openQuestionDeleteConfirm() {
+      const questionTitleText = this.ellipsizeHTML(this.question.title, 90)
+      const message = `Tem certeza que deseja remover a pergunta <b>${questionTitleText}</b>?`
+      try {
+        await this.$dialog.confirm(message)
+        this.removeQuestion()
+      } catch {
+        return
+      }
+    },
+
+    async openAnswerDeleteConfirm(answer) {
+      const answerText = this.ellipsizeHTML(answer.content, 90)
+      const message = `Tem certeza que deseja remover a resposta <b>${answerText}</b>?`
+      try {
+        await this.$dialog.confirm(message)
+        this.removeAnswer(answer)
+      } catch {
+        return
+      }
     },
 
     async removeQuestion() {
