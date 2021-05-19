@@ -1,69 +1,63 @@
 <template>
-  <div>
-    <div class="welcome-page__overlay" v-if="loading">
-      <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
-    </div>
-    <div :class="['welcome-page', { 'welcome-page--blur': loading }]">
-      <h1 v-if="!imageURL">
-        Bem-vindo!
-      </h1>
-      <h2 v-html="welcomeText" />
-      <p v-if="!imageURL">
-        <small
-          >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
-          poderá alterá-lo por sua foto a qualquer momento em "Perfil"
-        </small>
-      </p>
-      <form @submit.prevent>
-        <file-picker
-          v-model="file"
-          icon="image"
-          placeholder="Selecione uma imagem"
-          :v="$v.file"
-          name="file"
-          @input="$v.file.$touch()"
-          @picked="HTMLInputElement = $event"
+  <div class="welcome-page">
+    <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+    <h1 v-if="!imageURL">
+      Bem-vindo!
+    </h1>
+    <h2 v-html="welcomeText" />
+    <p v-if="!imageURL">
+      <small
+        >*Caso não deseje fazer isso agora, você ganhará um avatar surpresa e
+        poderá alterá-lo por sua foto a qualquer momento em "Perfil"
+      </small>
+    </p>
+    <form @submit.prevent>
+      <file-picker
+        v-model="file"
+        icon="image"
+        placeholder="Selecione uma imagem"
+        :v="$v.file"
+        name="file"
+        @input="$v.file.$touch()"
+        @picked="HTMLInputElement = $event"
+      />
+      <div class="welcome-page__buttons">
+        <confirm-button
+          class="welcome-page__submit-button"
+          label="Enviar"
+          :disabled="disabled"
+          @clicked="submitUserImage"
         />
-        <div class="welcome-page__buttons">
-          <confirm-button
-            class="welcome-page__submit-button"
-            label="Enviar"
-            :disabled="disabled"
-            @clicked="submitUserImage"
-          />
-          <confirm-button
-            class="welcome-page__submit-button"
-            label="Ir para home"
-            @clicked="goToHome()"
-          />
-        </div>
-      </form>
-      <img :src="imageURL" alt="" class="welcome-page__avatar" />
-      <p>
-        <small>
-          Para obter os melhores resultados:
-          <ul>
-            <li>
-              Use uma imagem clara e nítida onde seu rosto é o foco principal
-            </li>
-            <li>
-              Certifique-se de estar de frente para a câmera
-            </li>
-            <li>
-              Evite múltiplas faces (só processaremos a primeira que
-              encontrarmos)
-            </li>
-            <li>
-              Evite coisas que obscurecem seu rosto
-            </li>
-            <li>
-              Experimente diferentes fotos, pois todas têm um resultado
-              diferente
-            </li>
-          </ul>
-        </small>
-      </p>
-    </div>
+        <confirm-button
+          class="welcome-page__submit-button"
+          label="Ir para home"
+          @clicked="goToHome()"
+        />
+      </div>
+    </form>
+    <img :src="imageURL" alt="" class="welcome-page__avatar" />
+    <p>
+      <small>
+        Para obter os melhores resultados:
+        <ul>
+          <li>
+            Use uma imagem clara e nítida onde seu rosto é o foco principal
+          </li>
+          <li>
+            Certifique-se de estar de frente para a câmera
+          </li>
+          <li>
+            Evite múltiplas faces (só processaremos a primeira que encontrarmos)
+          </li>
+          <li>
+            Evite coisas que obscurecem seu rosto
+          </li>
+          <li>
+            Experimente diferentes fotos, pois todas têm um resultado diferente
+          </li>
+        </ul>
+      </small>
+    </p>
   </div>
 </template>
 
@@ -166,27 +160,6 @@ export default {
   min-height: 100vh;
   padding: 0 30%;
   width: 100%;
-}
-
-.welcome-page--blur {
-  -moz-filter: blur(1px);
-  -ms-filter: blur(1px);
-  -o-filter: blur(1px);
-  -webkit-filter: blur(1px);
-  filter: blur(1px);
-}
-
-.welcome-page__overlay {
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.644);
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
 }
 
 .welcome-page__buttons {
