@@ -46,6 +46,7 @@ export default {
 
 <style scoped>
 .ranking-page {
+  margin: 0 20px 0 0;
   width: 100%;
 }
 

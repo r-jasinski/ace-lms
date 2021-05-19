@@ -141,11 +141,11 @@ export default {
       let scrollPercentRounded = Math.round(scrollPercent * 100)
       this.percentLabel = scrollPercentRounded
       this.scrollBoddyPercent = scrollTop / (docBodyHeight - winHeight)
-      if (scrollTop > 350 && !this.showTopMenu) {
+      if (scrollTop > 300 && !this.showTopMenu) {
         this.showTopMenu = true
         this.commitShowTopMenu(this.showTopMenu)
       }
-      if (scrollTop < 350 && this.showTopMenu) {
+      if (scrollTop < 300 && this.showTopMenu) {
         this.showTopMenu = false
         this.commitShowTopMenu(this.showTopMenu)
       }

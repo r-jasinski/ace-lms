@@ -309,6 +309,10 @@ export default {
 }
 </script>
 <style scoped>
+.question-view-edit {
+  margin: 0 20px 0 0;
+}
+
 .question-view-edit__title {
   margin-bottom: 10px;
 }
