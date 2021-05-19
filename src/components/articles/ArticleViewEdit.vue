@@ -32,7 +32,7 @@
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
           <edit-button @clicked="editArticle" />
-          <remove-button @clicked="removeArticle" />
+          <remove-button @clicked="openArticleDeleteConfirm" />
         </div>
         <back-button @clicked="$router.go(-1)" />
       </div>
@@ -75,7 +75,7 @@
           class="article-view-edit__buttons"
         >
           <edit-button @clicked="editComment(comment, index)" />
-          <remove-button @clicked="removeComment(comment)" />
+          <remove-button @clicked="openCommentDeleteConfirm(comment)" />
         </div>
         <div v-if="commentIsEditabled(index)">
           <small class="article-view-edit__label">
@@ -283,6 +283,16 @@ export default {
       this.editableComment = { ...comment }
     },
 
+    ellipsizeHTML(text, length) {
+      let commentText = htmlToText(text, {
+        tags: { h1: { options: { uppercase: false } } }
+      })
+      if (commentText.length > length) {
+        commentText = `${commentText.slice(0, 90)}...`
+      }
+      return commentText
+    },
+
     getCommentInfo(comment) {
       let user = this.user(comment.author)
       let creationTime = comment.creationTime
@@ -300,6 +310,28 @@ export default {
           this.article = { ...doc.data() }
           this.article.id = doc.id
         })
+    },
+
+    async openArticleDeleteConfirm() {
+      const articleTitleText = this.ellipsizeHTML(this.article.title, 90)
+      const message = `Tem certeza que deseja remover o artigo <b>${articleTitleText}</b>?`
+      try {
+        await this.$dialog.confirm(message)
+        this.removeArticle()
+      } catch {
+        return
+      }
+    },
+
+    async openCommentDeleteConfirm(comment) {
+      const commentText = this.ellipsizeHTML(comment.content, 90)
+      const message = `Tem certeza que deseja remover o comentário <b>${commentText}</b>?`
+      try {
+        await this.$dialog.confirm(message)
+        this.removeComment(comment)
+      } catch {
+        return
+      }
     },
 
     async removeArticle() {
