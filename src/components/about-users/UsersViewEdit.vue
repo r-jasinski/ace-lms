@@ -86,15 +86,25 @@ export default {
   methods: {
     async addUserWithLinkToEmail() {
       if (this.newUser.email) {
-        await addUserWithLinkToEmail(this.newUser.email)
-        this.newUser.email = ''
-        this.$v.$reset()
+        const errorResponse = await addUserWithLinkToEmail(this.newUser.email)
+        if (!errorResponse) {
+          const message = `Convite enviado com sucesso pra o email ${this.newUser.email}!`
+          this.$toast(message, { type: 'info' })
+          this.newUser.email = ''
+          this.$v.$reset()
+        }
       }
     },
 
-    async deactivateUser(userId) {
+    async deactivateUser(user) {
       const UTCStringDeletionTime = new Date().toUTCString()
-      await updateUser(userId, { deletedAt: UTCStringDeletionTime })
+      const errorResponse = await updateUser(user.id, {
+        deletedAt: UTCStringDeletionTime
+      })
+      if (!errorResponse) {
+        const message = `Usuário ${user.displayName} desativado com sucesso!`
+        this.$toast(message, { type: 'info' })
+      }
     },
 
     initializeUsers() {

@@ -340,6 +340,8 @@ export default {
         this.article.author
       )
       if (!responseError) {
+        const message = `Artigo removido com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.$router.push({ name: 'ArticlesList' })
       }
     },
@@ -364,6 +366,8 @@ export default {
       this.article.creationTime = UTCStringCreationTime
       const responseError = await updateArticle(this.article.id, this.article)
       if (!responseError) {
+        const message = `Artigo atualizado com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.articleIsEditable = false
       }
     },

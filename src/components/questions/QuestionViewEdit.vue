@@ -306,6 +306,8 @@ export default {
         this.question.author
       )
       if (!responseError) {
+        const message = `Pergunta removida com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.$router.push({ name: 'QuestionsList' })
       }
     },
@@ -323,6 +325,8 @@ export default {
         this.question
       )
       if (!responseError) {
+        const message = `Pergunta atualizada com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.questionIsEditable = false
       }
     },

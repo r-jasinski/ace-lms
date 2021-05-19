@@ -85,6 +85,8 @@ export default {
       this.article.creationTime = UTCStringCreationTime
       const responseError = await createArticle(this.article)
       if (!responseError) {
+        const message = `Artigo criado com sucesso!`
+        this.$toast(message, { type: 'info' })
         this.$router.push({ name: 'ArticlesList' })
       }
     }
