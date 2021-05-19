@@ -40,7 +40,18 @@ export default {
 </script>
 
 <style>
-.dot-loader .v-dot {
+.dot-loader {
+  align-items: center;
+  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10000;
 }
 
 .dot-loader .v-dot1 {

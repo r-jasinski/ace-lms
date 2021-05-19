@@ -100,7 +100,7 @@ export default {
   box-shadow: 0 10px 10px var(--light);
   color: var(--dark-75) !important;
   display: flex;
-  height: 70px;
+  height: 60px;
   justify-content: space-around;
   left: 0;
   opacity: 0.97;
@@ -118,7 +118,6 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  font-weight: 600;
   justify-content: center;
   text-decoration: none;
 }
@@ -127,7 +126,6 @@ export default {
   align-items: center;
   display: flex;
   flex-direction: column;
-  font-weight: 600;
   justify-content: center;
 }
 
