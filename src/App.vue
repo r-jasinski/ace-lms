@@ -229,9 +229,15 @@ body {
 
 .dg-content-body {
   border-bottom: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  padding-bottom: 0;
 }
 
 .dg-content-footer {
+  background-color: transparent !important;
   display: flex;
   gap: 5px;
   justify-content: flex-end;
@@ -259,10 +265,10 @@ body {
   border: none;
   color: #fff;
   display: flex;
+  font-weight: 300;
   justify-content: center;
   min-height: 50px;
   outline: none;
-  padding: 10px;
   transform: scale(1);
   transition: all 0.05s;
   width: 150px;
@@ -282,5 +288,22 @@ body {
 
 .dg-btn--cancel:hover {
   background-color: var(--danger-plus);
+}
+
+.dg-form {
+  border: none !important;
+  background-color: transparent;
+}
+
+#dg-input-elem {
+  background-color: transparent;
+  border-radius: 100vh !important;
+  border: 1px solid var(--dark-50) !important;
+  min-height: 50px;
+  outline: none;
+}
+
+#dg-input-elem:focus {
+  border: 1px solid var(--dark) !important;
 }
 </style>
