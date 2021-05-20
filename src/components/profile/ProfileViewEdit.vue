@@ -230,7 +230,6 @@ export default {
       }
       const { displayName, email, photoURL, uid } = user
       await updateUser(uid, { displayName, email, photoURL })
-      this.reloadData()
       if (updatesArray.length) {
         const verbAgreement = updatesArray.length === 1 ? '' : 's'
         const message = `${updatesArray} atualizado${verbAgreement} com sucesso!`

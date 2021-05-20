@@ -35,13 +35,18 @@
       </editor-menu-bar>
       <editor-content class="editor__content" :editor="editor" />
     </div>
+    <form-group
+      :validator="$v.imageSource"
+      name="url"
+      :messages="localMessages"
+    />
   </form-group>
 </template>
 
 <script>
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { htmlToText } from 'html-to-text'
-import { maxLength, minLength, required } from 'vuelidate/lib/validators'
+import { maxLength, minLength, required, url } from 'vuelidate/lib/validators'
 import menuBarButtonsMixin from '@/mixins/menuBarButtonsMixin'
 import {
   Blockquote,
@@ -86,8 +91,10 @@ export default {
   data() {
     return {
       html: '',
+      imageSource: '',
       localMessages: {
-        minLength: '{attribute} deve ter pelo menos 32 caracteres!'
+        minLength: '{attribute} deve ter pelo menos 32 caracteres!',
+        url: '{attribute} da imagem parece não ser válida!'
       },
       editor: new Editor({
         editable: true,
@@ -158,6 +165,9 @@ export default {
         maxLength: maxLength(30000),
         minLength: minLength(32 + this.tagsLength),
         required
+      },
+      imageSource: {
+        url
       }
     }
   },
@@ -191,9 +201,22 @@ export default {
   },
 
   methods: {
-    showImagePrompt() {
-      const src = prompt('Enter the url of your image here')
-      src && this.editor.commands.image({ src })
+    async showImagePrompt() {
+      try {
+        const response = await this.$dialog.prompt(
+          { body: 'Informe a URL da imagem:' },
+          { promptHelp: '', backdropClose: false }
+        )
+        this.$v.imageSource.$touch()
+        this.imageSource = response.data
+        const src = response.data
+        this.editor.commands.image({ src })
+        setTimeout(() => {
+          this.$v.imageSource.$reset()
+        }, 5000)
+      } catch {
+        return
+      }
     }
   }
 }
@@ -270,8 +293,12 @@ export default {
 }
 
 .editor__content img {
-  height: 100%;
-  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 100%;
+  max-width: 100%;
+  width: 50%;
 }
 
 .editor__content pre {

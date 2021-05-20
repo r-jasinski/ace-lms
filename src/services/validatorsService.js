@@ -20,21 +20,23 @@ export const vuelidateErrorExtractorOptions = {
   i18n: false,
   messages: {
     email: '{attribute} não é válido!',
+    isLessThan2MB: '{attribute} deve ser menor que 2MB!',
     isTrueImage: '{attribute} deve ser uma imagem!',
     maxLength: '{attribute} deve ter no máximo {max} caracteres!',
     minLength: '{attribute} deve ter pelo menos {min} caracteres!',
     noSpaces: '{attribute} não deve conter espaços!',
     required: '{attribute} é obrigatório!',
     sameAsPassword: 'Senhas devem ser iguais!',
-    isLessThan2MB: '{attribute} deve ser menor que 2MB!'
+    url: '{attribute} inválida!'
   },
   attributes: {
+    body: 'Conteúdo',
     email: 'Email',
     file: 'Arquivo',
     password: 'Senha',
     passwordConfirm: 'Confirme a senha',
     title: 'Título',
-    body: 'Conteúdo',
+    url: 'URL',
     user: 'Usuário'
   }
 }

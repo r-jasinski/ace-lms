@@ -94,7 +94,7 @@ export default {
 
 header {
   position: relative;
-  min-height: 400px;
+  min-height: 350px;
   z-index: 0;
 }
 

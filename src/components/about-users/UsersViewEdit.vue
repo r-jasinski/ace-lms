@@ -117,7 +117,7 @@ export default {
     },
 
     async openDeactivateUserConfirm(user) {
-      let message = `Tem certeza que deseja remover o usuário ${user.displayName}?`
+      let message = `Tem certeza que deseja remover o usuário <b>${user.displayName}</b>?`
       try {
         await this.$dialog.confirm(message)
         this.deactivateUser(user)
@@ -127,7 +127,7 @@ export default {
     },
 
     async openReactivateUserConfirm(user) {
-      let message = `Tem certeza que deseja reativar o usuário ${user.displayName}?`
+      let message = `Tem certeza que deseja reativar o usuário <b>${user.displayName}</b>?`
       try {
         await this.$dialog.confirm(message)
         this.reactivateUser(user)

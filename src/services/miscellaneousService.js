@@ -26,6 +26,7 @@ export const defaultDialogOptions = {
   type: 'basic', // coming soon: 'soft', 'hard'
   verification: 'soft', // for hard confirm, user will be prompted to type this to enable the proceed button
   verificationHelp: 'Type "[+:verification]" below to confirm', // Verification help text. [+:verification] will be matched with 'options.verification' (i.e 'Type "continue" below to confirm')
+  promptHelp: '',
   clicksCount: 3, // for soft confirm, user will be asked to click on "proceed" btn 3 times before actually proceeding
   backdropClose: true, // set to true to close the dialog when clicking outside of the dialog window, i.e. click landing on the mask
   customClass: '' // Custom class to be injected into the parent node for the current dialog instance
