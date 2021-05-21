@@ -1,5 +1,10 @@
 <template>
   <form class="sign-in-form" @submit.prevent>
+    <img
+      class="sign-in-form__book"
+      src="../../assets/book-animated.svg"
+      alt="livro voando"
+    />
     <div class="sign-in-form__title">
       <span>APRENDA </span>
       <span>COMPARTILHE</span>
@@ -146,6 +151,15 @@ export default {
   text-align: center;
   font-weight: 900;
   font-size: 3em;
+}
+
+.sign-in-form__book {
+  width: 15%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  opacity: 0.8;
+  display: none;
 }
 
 .sign-in-form span,

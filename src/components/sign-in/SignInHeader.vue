@@ -2,7 +2,7 @@
   <div class="sign-in-header">
     <img
       class="sign-in-header__image"
-      src="../../assets/people-on-world.svg"
+      src="../../assets/people-on-world-animated.svg"
       alt="pessoas sentadas no mundo"
     />
   </div>

@@ -48,18 +48,21 @@ export default {
   --danger-plus: #db5175;
 }
 
-* {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
   -webkit-tap-highlight-color: transparent;
 }
 
 html {
-  overflow-x: hidden;
-  margin-right: calc(-1 * (100vw - 100%));
-  -webkit-user-select: none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   -moz-user-select: none;
   -ms-user-select: none;
+  -webkit-user-select: none;
+  margin-right: calc(-1 * (100vw - 100%));
+  overflow-x: hidden;
   user-select: none;
 }
 
