@@ -89,6 +89,10 @@ export default {
       return getQuote()
     },
     disabled() {
+      if (this.forgotPasswordMode) {
+        const emailError = this.$v.user.email.$error
+        return emailError
+      }
       const hasError = this.$v.user.$pending || this.$v.user.$error
       const isEmpty = !this.user.email || !this.user.password
       return isEmpty || hasError
@@ -105,6 +109,10 @@ export default {
         !this.forgotPasswordMode ? 'Recuperar Senha' : 'ACE LMS'
       )
       this.forgotPasswordMode = !this.forgotPasswordMode
+      this.user.password = ''
+      if (!this.forgotPasswordMode) {
+        this.$v.$reset()
+      }
     },
 
     async onSubmit() {
@@ -120,11 +128,10 @@ export default {
       }
       const response = await sendPasswordResetEmail(email)
       if (!response) {
+        this.$v.$reset()
         const message = `Instruções para recuperar sua senha enviadas para ${email}!`
         this.$toast(message, { type: 'info' })
         this.forgotPasswordMode = false
-        this.user = {}
-        this.$v.$reset()
         this.commitDocumentTitle('ACE LMS')
       }
     }
