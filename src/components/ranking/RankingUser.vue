@@ -40,9 +40,10 @@ export default {
 
 <style scoped>
 .ranking-user {
+  align-items: center;
+  backdrop-filter: blur(2px);
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   margin-top: 20px;
   padding: 5px 15px;
 }
