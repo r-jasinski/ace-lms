@@ -346,6 +346,7 @@ export default {
 </script>
 <style scoped>
 .question-view-edit {
+  backdrop-filter: blur(2px);
   margin: 0 20px 0 0;
 }
 

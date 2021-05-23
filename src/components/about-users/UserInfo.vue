@@ -45,12 +45,13 @@ export default {
 
 <style scoped>
 .user-info {
+  align-items: center;
+  backdrop-filter: blur(2px);
+  border-radius: 5px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   margin-top: 20px;
   padding: 5px;
-  border-radius: 5px;
   transition: all 0.03s;
 }
 
