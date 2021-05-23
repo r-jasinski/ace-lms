@@ -211,7 +211,7 @@ export default {
           const photoURL = await getUserPhotoURL(user.uid)
           await user.updateProfile({ photoURL: photoURL })
           this.reloadData()
-          updatesArray.push('Foto')
+          updatesArray.push('Avatar')
         }
       }
       if (emailIsReady) {
