@@ -109,10 +109,10 @@ export default {
 }
 
 .articles-list__filters {
-  display: flex;
   align-items: center;
-  justify-content: flex-end;
+  display: flex;
   gap: 20px;
+  justify-content: flex-end;
 }
 
 .articles-list__add-button {
@@ -129,6 +129,15 @@ export default {
 
 .articles-list__add-button:hover {
   opacity: 1;
+}
+
+.articles-list__loader {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
 }
 
 .articles-list a {
@@ -151,14 +160,5 @@ export default {
   -webkit-line-clamp: 1;
   display: -webkit-box;
   overflow: hidden;
-}
-
-.articles-list__loader {
-  align-items: center;
-  display: flex;
-  height: 100px;
-  justify-content: center;
-  width: 100%;
-  position: absolute;
 }
 </style>
