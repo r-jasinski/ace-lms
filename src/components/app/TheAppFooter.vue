@@ -41,6 +41,7 @@ export default {
   height: 15vh;
   background: url('../../assets/bg-footer.svg') no-repeat center top;
   background-size: cover;
+  opacity: 0.9;
 }
 
 .app-footer__wrapper {
