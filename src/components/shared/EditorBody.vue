@@ -184,7 +184,6 @@ export default {
     },
     hasError() {
       this.$emit('body-has-error', this.hasError)
-      console.log('body-has-error', this.hasError)
     },
     isEmpty() {
       this.$emit('body-is-empty', this.isEmpty)
