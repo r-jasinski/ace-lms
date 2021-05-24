@@ -93,7 +93,7 @@ export default {
       html: '',
       imageSource: '',
       localMessages: {
-        minLength: '{attribute} deve ter pelo menos 32 caracteres!',
+        minLength: '{attribute} deve ter pelo menos 16 caracteres!',
         url: '{attribute} da imagem parece não ser válida!'
       },
       editor: new Editor({
@@ -147,7 +147,7 @@ export default {
 
   computed: {
     hasError() {
-      return this.$v.$error
+      return this.$v.$anyError
     },
     isEmpty() {
       return this.html === '<p></p>'
@@ -163,7 +163,7 @@ export default {
     return {
       html: {
         maxLength: maxLength(30000),
-        minLength: minLength(32 + this.tagsLength),
+        minLength: minLength(16 + this.tagsLength),
         required
       },
       imageSource: {
@@ -184,6 +184,7 @@ export default {
     },
     hasError() {
       this.$emit('body-has-error', this.hasError)
+      console.log('body-has-error', this.hasError)
     },
     isEmpty() {
       this.$emit('body-is-empty', this.isEmpty)
