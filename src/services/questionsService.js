@@ -30,9 +30,13 @@ export const getQuestion = async questionId => {
   }
 }
 
-export const getQuestions = async () => {
+export const getQuestions = async (lastVisible, limit) => {
   try {
-    const get = await questionsCollection.get()
+    const get = await questionsCollection
+      .orderBy('creationTime')
+      .startAfter(lastVisible)
+      .limit(limit)
+      .get()
     return get.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
