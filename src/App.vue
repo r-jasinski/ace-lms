@@ -81,7 +81,7 @@ body {
 }
 
 .app--light-mode {
-  background-image: url('./assets/stars.svg');
+  background: fixed url('./assets/stars.svg') center center;
 }
 
 .app--dark-mode {
@@ -93,7 +93,7 @@ body {
   --dark-50: #ffffff50;
   --light-75: #2c3e5075;
   --dark-75: #ffffffad;
-  background-image: url('./assets/stars.svg');
+  background: fixed url('./assets/stars.svg') center center;
 }
 
 .Vue-Toastification__toast--default {
