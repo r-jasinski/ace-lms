@@ -1,6 +1,6 @@
 <template>
   <div class="profile-view-edit">
-    <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+    <dot-loader :loading="loading" />
     <div
       class="profile-view-edit__avatar"
       :style="{ backgroundImage: `url(${displayImage})` }"
