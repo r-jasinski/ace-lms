@@ -57,14 +57,16 @@ export default {
   },
 
   destroyed() {
-    this.unsubscribe()
+    this.commitIsEndOfScroll(false)
     this.commitShowTopMenu(false)
+    this.unsubscribe()
   },
 
   methods: {
     ...mapActions({
-      commitUsers: 'users/commitUsers',
-      commitShowTopMenu: 'miscellaneous/commitShowTopMenu'
+      commitIsEndOfScroll: 'miscellaneous/commitIsEndOfScroll',
+      commitShowTopMenu: 'miscellaneous/commitShowTopMenu',
+      commitUsers: 'users/commitUsers'
     }),
 
     initializeApp() {
@@ -100,13 +102,14 @@ header {
 
 article {
   display: flex;
-  min-height: 54vh;
+  min-height: 55vh;
   padding: 0 20%;
   z-index: 1;
 }
 
 footer {
-  margin-top: 10%;
+  min-height: 5vh;
+  padding-top: 25%;
 }
 
 a,
