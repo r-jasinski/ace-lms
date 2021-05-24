@@ -1,3 +1,4 @@
+import DotSpinner from '@/components/shared/DotSpinner'
 import {
   defaultDialogOptions,
   defaultToastOptions
@@ -65,6 +66,7 @@ Vue.use(VTooltip)
 VTooltip.enabled = window.innerWidth > 768
 Vue.use(VuejsDialog, defaultDialogOptions)
 Vue.component('form-group', templates.singleErrorExtractor.foundation6)
+Vue.component('dot-spinner', DotSpinner)
 
 Vue.config.productionTip = false
 
