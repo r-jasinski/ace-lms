@@ -32,9 +32,13 @@ export const getArticle = async articleId => {
   }
 }
 
-export const getArticles = async () => {
+export const getArticles = async (lastVisible, limit) => {
   try {
-    const get = await articlesCollection.get()
+    const get = await articlesCollection
+      .orderBy('creationTime')
+      .startAfter(lastVisible)
+      .limit(limit)
+      .get()
     return get.docs.map(doc => ({
       id: doc.id,
       ...doc.data()

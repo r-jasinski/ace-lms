@@ -162,15 +162,6 @@ export default {
         this.showTopMenu = false
         this.commitShowTopMenu(this.showTopMenu)
       }
-
-      // if (this.showScrollToBottomButton > 300 && !this.isEndOfScroll) {
-      //   this.isEndOfScroll = true
-      //   // this.commitisEndOfScroll(this.isEndOfScroll)
-      // }
-      // if (this.showScrollToBottomButton < 300 && this.isEndOfScroll) {
-      //   this.isEndOfScroll = false
-      //   // this.commitisEndOfScroll(this.isEndOfScroll)
-      // }
     },
 
     scrollToBottom() {
