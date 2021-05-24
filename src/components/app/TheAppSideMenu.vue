@@ -69,8 +69,7 @@ export default {
       notificationToastId: null,
       percentLabel: 0,
       scrollBoddyPercent: 0,
-      showTopMenu: false,
-      a: 0
+      showTopMenu: false
     }
   },
 
@@ -103,6 +102,19 @@ export default {
     }
   },
 
+  watch: {
+    showScrollToBottomButton() {
+      let isEndOfScroll
+      if (this.showScrollToBottomButton) {
+        isEndOfScroll = false
+        this.commitIsEndOfScroll(isEndOfScroll)
+        return
+      }
+      isEndOfScroll = true
+      this.commitIsEndOfScroll(isEndOfScroll)
+    }
+  },
+
   mounted() {
     addEventListener('scroll', this.handleScroll)
   },
@@ -118,6 +130,7 @@ export default {
         'miscellaneous/commitArticleFontSizeIncrease',
       commitArticleFontSizeDecrease:
         'miscellaneous/commitArticleFontSizeDecrease',
+      commitIsEndOfScroll: 'miscellaneous/commitIsEndOfScroll',
       commitShowTopMenu: 'miscellaneous/commitShowTopMenu'
     }),
 
@@ -149,6 +162,15 @@ export default {
         this.showTopMenu = false
         this.commitShowTopMenu(this.showTopMenu)
       }
+
+      // if (this.showScrollToBottomButton > 300 && !this.isEndOfScroll) {
+      //   this.isEndOfScroll = true
+      //   // this.commitisEndOfScroll(this.isEndOfScroll)
+      // }
+      // if (this.showScrollToBottomButton < 300 && this.isEndOfScroll) {
+      //   this.isEndOfScroll = false
+      //   // this.commitisEndOfScroll(this.isEndOfScroll)
+      // }
     },
 
     scrollToBottom() {
