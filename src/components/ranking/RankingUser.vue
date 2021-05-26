@@ -41,7 +41,7 @@ export default {
 <style scoped>
 .ranking-user {
   align-items: center;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;

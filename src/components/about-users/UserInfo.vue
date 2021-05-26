@@ -46,7 +46,7 @@ export default {
 <style scoped>
 .user-info {
   align-items: center;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   border-radius: 5px;
   display: flex;
   flex-wrap: wrap;

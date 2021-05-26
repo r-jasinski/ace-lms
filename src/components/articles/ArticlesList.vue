@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .articles-list {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   margin: 0 20px 0 0;
 }
 

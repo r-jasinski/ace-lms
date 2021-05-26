@@ -137,7 +137,7 @@ export default {
 
 <style>
 .admin-about {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   margin: 0 20px 0 0;
 }
 

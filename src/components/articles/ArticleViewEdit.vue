@@ -395,7 +395,7 @@ export default {
 
 <style scoped>
 .article-view-edit {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   margin: 0 20px 0 0;
 }
 
