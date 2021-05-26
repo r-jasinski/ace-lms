@@ -13,25 +13,28 @@ export default {
 
   props: {
     color: { type: String, default: 'var(--primary)' },
-    size: { type: String, default: '80px' },
     margin: { type: String, default: '2px' },
-    radius: { type: String, default: '100%' }
+    opacity: { type: Number, default: 1 },
+    radius: { type: String, default: '100%' },
+    size: { type: String, default: '80px' }
   },
 
   computed: {
     spinnerStyle() {
       return {
         backgroundColor: this.color,
+        borderRadius: this.radius,
         height: parseFloat(this.size) / 2 + 'px',
-        width: parseFloat(this.size) / 2 + 'px',
-        borderRadius: this.radius
+        opacity: this.opacity,
+        width: parseFloat(this.size) / 2 + 'px'
       }
     },
     spinnerBasicStyle() {
       return {
         height: this.size,
-        width: this.size,
-        position: 'relative'
+        opacity: this.opacity,
+        position: 'relative',
+        width: this.size
       }
     }
   }
