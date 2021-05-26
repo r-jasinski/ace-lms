@@ -1,6 +1,9 @@
 <template>
   <div class="article-view-edit">
     <hr />
+    <div class="article-view-edit__loader" v-if="loading">
+      <dot-spinner :size="'40px'" :opacity="0.5" />
+    </div>
     <div class="post-wrapper">
       <div class="article-view-edit__title">
         <editor-title
@@ -34,7 +37,14 @@
           <edit-button @clicked="editArticle" />
           <remove-button @clicked="openArticleDeleteConfirm" />
         </div>
-        <back-button @clicked="$router.go(-1)" />
+        <back-button
+          @clicked="
+            $router.push({
+              name: 'ArticlesList',
+              params: { savedPosition: false }
+            })
+          "
+        />
       </div>
       <div v-else>
         <small class="article-view-edit__label">
@@ -167,6 +177,7 @@ export default {
       editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
+      loading: false,
       maxNamesToShow: 5,
       newComment: {},
       newCommentHasError: false
@@ -231,7 +242,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.initializeArticle()
   },
 
@@ -261,9 +272,7 @@ export default {
     },
 
     async createComment() {
-      const UTCStringCreationTime = new Date().toUTCString()
       this.newComment.author = this.authenticatedUser.uid
-      this.newComment.creationTime = UTCStringCreationTime
       const responseError = await createComment(
         this.article.id,
         this.newComment
@@ -303,12 +312,14 @@ export default {
     },
 
     initializeArticle() {
+      this.loading = true
       this.commitShowScrollPercentage(true)
       this.unsubscribe = articlesCollection
         .doc(this.$route.params.id)
         .onSnapshot(doc => {
           this.article = { ...doc.data() }
           this.article.id = doc.id
+          this.loading = false
         })
     },
 
@@ -361,9 +372,7 @@ export default {
     },
 
     async updateArticle() {
-      const UTCStringCreationTime = new Date().toUTCString()
       this.article.author = this.authenticatedUser.uid
-      this.article.creationTime = UTCStringCreationTime
       const responseError = await updateArticle(this.article.id, this.article)
       if (!responseError) {
         const message = `Artigo atualizado com sucesso!`
@@ -372,9 +381,7 @@ export default {
       }
     },
 
-    async updateComment(commentId) {
-      const UTCStringCreationTime = new Date().toUTCString()
-      this.article.comments[commentId].creationTime = UTCStringCreationTime
+    async updateComment() {
       const responseError = await updateArticle(this.article.id, {
         comments: this.article.comments
       })
@@ -390,6 +397,12 @@ export default {
 .article-view-edit {
   backdrop-filter: blur(2px);
   margin: 0 20px 0 0;
+}
+
+.article-view-edit__loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .article-view-edit__title {

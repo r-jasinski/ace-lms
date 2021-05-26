@@ -2,6 +2,9 @@
   <div>
     <div class="admin-about">
       <hr />
+      <div class="admin-about__loader" v-if="loading">
+        <dot-spinner :size="'40px'" :opacity="0.5" />
+      </div>
       <post-info :post-info="postInfo" />
       <editor-body
         :placeholder="editorBodyPlaceholder"
@@ -58,6 +61,7 @@ export default {
       editableAbout: {},
       editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
       fixedID: 'NPtCmqzUQrL32G7kEHnT',
+      loading: false,
       unsubscribe: null
     }
   },
@@ -82,7 +86,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.initializeAbout()
   },
 
@@ -118,8 +122,10 @@ export default {
     },
 
     initializeAbout() {
+      this.loading = true
       this.unsubscribe = aboutCollection.doc(this.fixedID).onSnapshot(doc => {
         this.about = { ...doc.data() }
+        this.loading = false
         if (!this.about.content) {
           this.aboutIsEditable = true
         }
@@ -133,6 +139,12 @@ export default {
 .admin-about {
   backdrop-filter: blur(2px);
   margin: 0 20px 0 0;
+}
+
+.admin-about__loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .admin-about__title {
