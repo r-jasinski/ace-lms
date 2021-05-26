@@ -14,7 +14,8 @@ export const articlesCollection = db.collection('articles')
 
 export const createArticle = async article => {
   try {
-    await articlesCollection.doc().set(article)
+    const creationTime = firebase.firestore.FieldValue.serverTimestamp()
+    await articlesCollection.doc().set({ ...article, creationTime })
     await incrementAuthenticatedUserRanking('article')
   } catch (error) {
     handleFirebaseErrors(error.code)
@@ -32,14 +33,38 @@ export const getArticle = async articleId => {
   }
 }
 
-export const getArticles = async (lastVisible, limit) => {
+let lastVisible
+
+export const getArticles = async (orderBy = 'creationTime', limit = 1000) => {
   try {
-    const get = await articlesCollection
-      .orderBy('creationTime')
+    const articles = await articlesCollection
+      .orderBy(orderBy, 'desc')
+      .limit(limit)
+      .get()
+    lastVisible = articles.docs[articles.size - 1]
+    return articles.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const getNextArticles = async (
+  orderBy = 'creationTime',
+  limit = 1000
+) => {
+  try {
+    const nextArticles = await articlesCollection
+      .orderBy(orderBy, 'desc')
       .startAfter(lastVisible)
       .limit(limit)
       .get()
-    return get.docs.map(doc => ({
+    lastVisible = nextArticles.docs[nextArticles.size - 1] || lastVisible
+
+    return nextArticles.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }))
@@ -70,8 +95,12 @@ export const updateArticle = async (articleId, article) => {
 
 export const createComment = async (articleId, comment) => {
   try {
+    const creationTime = new Date()
     await articlesCollection.doc(articleId).update({
-      comments: firebase.firestore.FieldValue.arrayUnion(comment)
+      comments: firebase.firestore.FieldValue.arrayUnion({
+        ...comment,
+        creationTime
+      })
     })
     await incrementAuthenticatedUserRanking('comment')
   } catch (error) {
