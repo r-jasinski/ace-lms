@@ -98,7 +98,7 @@ export default {
     },
 
     showScrollToBottomButton() {
-      return this.scrollBoddyPercent < 0.99
+      return this.scrollBoddyPercent < 0.9
     }
   },
 

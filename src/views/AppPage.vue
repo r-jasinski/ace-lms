@@ -109,7 +109,7 @@ article {
 
 footer {
   min-height: 5vh;
-  padding-top: 25%;
+  padding-top: 20%;
 }
 
 a,
