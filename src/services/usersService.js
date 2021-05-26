@@ -15,10 +15,48 @@ export const createUser = async (userId, user) => {
   }
 }
 
-export const getUsers = async () => {
+export const getUser = async userId => {
   try {
-    const get = await usersCollection.get()
-    return get.docs.map(doc => ({
+    const user = await usersCollection.doc(userId).get()
+    return {
+      id: user.id,
+      ...user.data()
+    }
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+let lastVisible
+
+export const getUsers = async (orderBy = 'creationTime', limit = 1000) => {
+  try {
+    const users = await usersCollection
+      .orderBy(orderBy, 'desc')
+      .limit(limit)
+      .get()
+    lastVisible = users.docs[users.size - 1]
+    return users.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const getNextUsers = async (orderBy = 'creationTime', limit = 1000) => {
+  try {
+    const nextUsers = await usersCollection
+      .orderBy(orderBy, 'desc')
+      .startAfter(lastVisible)
+      .limit(limit)
+      .get()
+    lastVisible = nextUsers.docs[nextUsers.size - 1] || lastVisible
+
+    return nextUsers.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }))
