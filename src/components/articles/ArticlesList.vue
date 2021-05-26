@@ -17,10 +17,10 @@
     </router-link>
     <div class="articles-list__loader">
       <small v-if="noMoreArticles && !loading"
-        >Parece que não há mais artigos publicados. :(
+        >Não há mais artigos publicados. :(
         <p @click="addArticle">Que tal publicar o seu!?</p>
       </small>
-      <dot-spinner :size="'40px'" v-if="loading" />
+      <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@
 import AddButton from '@/components/shared/AddButton'
 import ArticlesListLink from './ArticlesListLink.vue'
 import FilterInput from '@/components/shared/FilterInput'
-import { getArticles } from '@/services/articlesService'
+import { getArticles, getNextArticles } from '@/services/articlesService'
 import { mapGetters } from 'vuex'
 import { slugify } from '@/services/slugsService'
 
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       articles: [],
-      itemsPerPage: 2,
+      itemsPerPage: 4,
       loading: false,
       noMoreArticles: false
     }
@@ -50,16 +50,14 @@ export default {
   computed: {
     ...mapGetters({
       isEndOfScroll: 'miscellaneous/isEndOfScroll'
-    }),
-
-    lastVisible() {
-      return this.articles.length
-    }
+    })
   },
 
   watch: {
     async isEndOfScroll() {
-      this.getNextArticles()
+      if (this.isEndOfScroll) {
+        this.getNextArticles()
+      }
     }
   },
 
@@ -72,27 +70,22 @@ export default {
       this.$router.push({ name: 'ArticleCreate' })
     },
 
-    async getArticles() {
+    async initializeArticles() {
       this.loading = true
-      const articles = await getArticles(this.lastVisible, this.itemsPerPage)
+      this.articles = await getArticles('creationTime', this.itemsPerPage)
       this.loading = false
-      return articles
     },
 
     async getNextArticles() {
-      if (this.isEndOfScroll) {
-        const moreData = await this.getArticles()
-        if (!moreData.length) {
-          this.noMoreArticles = true
-          return
-        }
-        this.articles.push(...moreData)
-        this.noMoreArticles = false
+      this.loading = true
+      const moreData = await getNextArticles('creationTime', this.itemsPerPage)
+      this.loading = false
+      if (!moreData.length) {
+        this.noMoreArticles = true
+        return
       }
-    },
-
-    async initializeArticles() {
-      this.articles = await this.getArticles()
+      this.articles.push(...moreData)
+      this.noMoreArticles = false
     },
 
     slugifyArticleTitle(articleTitle) {

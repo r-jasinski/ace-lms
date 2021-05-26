@@ -18,10 +18,10 @@
     </router-link>
     <div class="questions-list__loader">
       <small v-if="noMoreQuestions && !loading"
-        >Parece que não há mais perguntas publicadas. :(
+        >Não há mais perguntas publicadas. :(
         <p @click="addQuestion">Que tal publicar a sua!?</p>
       </small>
-      <dot-spinner :size="'40px'" v-if="loading" />
+      <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
 import QuestionsListLink from './QuestionsListLink.vue'
-import { getQuestions } from '@/services/questionsService'
+import { getNextQuestions, getQuestions } from '@/services/questionsService'
 import { mapGetters } from 'vuex'
 import { slugify } from '@/services/slugsService'
 
@@ -41,30 +41,28 @@ export default {
 
   data() {
     return {
-      questions: [],
-      itemsPerPage: 2,
+      itemsPerPage: 4,
       loading: false,
-      noMoreQuestions: false
+      noMoreQuestions: false,
+      questions: []
     }
   },
 
   computed: {
     ...mapGetters({
       isEndOfScroll: 'miscellaneous/isEndOfScroll'
-    }),
-
-    lastVisible() {
-      return this.questions.length
-    }
+    })
   },
 
   watch: {
     async isEndOfScroll() {
-      this.getNextQuestions()
+      if (this.isEndOfScroll) {
+        this.getNextQuestions()
+      }
     }
   },
 
-  mounted() {
+  async created() {
     this.initializeQuestions()
   },
 
@@ -73,27 +71,22 @@ export default {
       this.$router.push({ name: 'QuestionCreate' })
     },
 
-    async getQuestions() {
+    async initializeQuestions() {
       this.loading = true
-      const questions = await getQuestions(this.lastVisible, this.itemsPerPage)
+      this.questions = await getQuestions('creationTime', this.itemsPerPage)
       this.loading = false
-      return questions
     },
 
     async getNextQuestions() {
-      if (this.isEndOfScroll) {
-        const moreData = await this.getQuestions()
-        if (!moreData.length) {
-          this.noMoreQuestions = true
-          return
-        }
-        this.questions.push(...moreData)
-        this.noMoreQuestions = false
+      this.loading = true
+      const moreData = await getNextQuestions('creationTime', this.itemsPerPage)
+      this.loading = false
+      if (!moreData.length) {
+        this.noMoreQuestions = true
+        return
       }
-    },
-
-    async initializeQuestions() {
-      this.questions = await this.getQuestions()
+      this.questions.push(...moreData)
+      this.noMoreQuestions = false
     },
 
     slugifyQuestionTitle(questionTitle) {
