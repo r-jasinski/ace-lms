@@ -15,7 +15,7 @@
         <li v-if="user.deletedAt">data de exclusão: {{ user.deletedAt }}</li>
         <li>
           <form-checkbox
-            :disabled="user.deletedAt"
+            :disabled="!!user.deletedAt"
             label="Admin"
             v-model="user.isAdmin"
             @change="$emit('changed', $event)"

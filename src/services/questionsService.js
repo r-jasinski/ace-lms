@@ -12,7 +12,8 @@ export const questionsCollection = db.collection('questions')
 
 export const createQuestion = async question => {
   try {
-    await questionsCollection.doc().set(question)
+    const creationTime = firebase.firestore.FieldValue.serverTimestamp()
+    await questionsCollection.doc().set({ ...question, creationTime })
     await incrementAuthenticatedUserRanking('question')
   } catch (error) {
     handleFirebaseErrors(error.code)
@@ -30,10 +31,38 @@ export const getQuestion = async questionId => {
   }
 }
 
-export const getQuestions = async () => {
+let lastVisible
+
+export const getQuestions = async (orderBy = 'creationTime', limit = 1000) => {
   try {
-    const get = await questionsCollection.get()
-    return get.docs.map(doc => ({
+    const questions = await questionsCollection
+      .orderBy(orderBy, 'desc')
+      .limit(limit)
+      .get()
+    lastVisible = questions.docs[questions.size - 1]
+    return questions.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+export const getNextQuestions = async (
+  orderBy = 'creationTime',
+  limit = 1000
+) => {
+  try {
+    const nextQuestions = await questionsCollection
+      .orderBy(orderBy, 'desc')
+      .startAfter(lastVisible)
+      .limit(limit)
+      .get()
+    lastVisible = nextQuestions.docs[nextQuestions.size - 1] || lastVisible
+
+    return nextQuestions.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }))
@@ -64,8 +93,12 @@ export const updateQuestion = async (questionId, question) => {
 
 export const createAnswer = async (questionId, answer) => {
   try {
+    const creationTime = new Date()
     await questionsCollection.doc(questionId).update({
-      answers: firebase.firestore.FieldValue.arrayUnion(answer)
+      answers: firebase.firestore.FieldValue.arrayUnion({
+        ...answer,
+        creationTime
+      })
     })
     await incrementAuthenticatedUserRanking('answer')
   } catch (error) {

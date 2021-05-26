@@ -15,6 +15,13 @@
     >
       <articles-list-link :article="article" />
     </router-link>
+    <div class="articles-list__loader">
+      <small v-if="noMoreArticles && !loading"
+        >Não há mais artigos publicados. :(
+        <p @click="addArticle">Que tal publicar o seu!?</p>
+      </small>
+      <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
+    </div>
   </div>
 </template>
 
@@ -22,7 +29,8 @@
 import AddButton from '@/components/shared/AddButton'
 import ArticlesListLink from './ArticlesListLink.vue'
 import FilterInput from '@/components/shared/FilterInput'
-import { articlesCollection } from '@/services/articlesService'
+import { getArticles, getNextArticles } from '@/services/articlesService'
+import { mapGetters } from 'vuex'
 import { slugify } from '@/services/slugsService'
 
 export default {
@@ -33,16 +41,28 @@ export default {
   data() {
     return {
       articles: [],
-      unsubscribe: null
+      itemsPerPage: 4,
+      loading: false,
+      noMoreArticles: false
     }
   },
 
-  mounted() {
-    this.initializeArticles()
+  computed: {
+    ...mapGetters({
+      isEndOfScroll: 'miscellaneous/isEndOfScroll'
+    })
   },
 
-  destroyed() {
-    this.unsubscribe()
+  watch: {
+    async isEndOfScroll() {
+      if (this.isEndOfScroll) {
+        this.getNextArticles()
+      }
+    }
+  },
+
+  async created() {
+    await this.initializeArticles()
   },
 
   methods: {
@@ -50,13 +70,22 @@ export default {
       this.$router.push({ name: 'ArticleCreate' })
     },
 
-    initializeArticles() {
-      this.unsubscribe = articlesCollection.onSnapshot(snapshot => {
-        this.articles = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-      })
+    async initializeArticles() {
+      this.loading = true
+      this.articles = await getArticles('creationTime', this.itemsPerPage)
+      this.loading = false
+    },
+
+    async getNextArticles() {
+      this.loading = true
+      const moreData = await getNextArticles('creationTime', this.itemsPerPage)
+      this.loading = false
+      if (!moreData.length) {
+        this.noMoreArticles = true
+        return
+      }
+      this.articles.push(...moreData)
+      this.noMoreArticles = false
     },
 
     slugifyArticleTitle(articleTitle) {
@@ -73,26 +102,35 @@ export default {
 }
 
 .articles-list__filters {
-  display: flex;
   align-items: center;
-  justify-content: flex-end;
+  display: flex;
   gap: 20px;
+  justify-content: flex-end;
 }
 
 .articles-list__add-button {
-  min-width: 39px;
-  min-height: 36px;
-  padding: 10px;
-  color: var(--light);
   background-color: var(--primary);
-  opacity: 0.75;
-  border: none;
   border-radius: 100vh;
+  border: none;
+  color: var(--light);
+  min-height: 36px;
+  min-width: 39px;
+  opacity: 0.75;
   outline: none;
+  padding: 10px;
 }
 
 .articles-list__add-button:hover {
   opacity: 1;
+}
+
+.articles-list__loader {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
 }
 
 .articles-list a {
@@ -100,10 +138,20 @@ export default {
   text-decoration: none;
 }
 
+.articles-list small {
+  text-align: center;
+}
+
+.articles-list p {
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .articles-list__filters a {
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+  display: -webkit-box;
   overflow: hidden;
 }
 </style>

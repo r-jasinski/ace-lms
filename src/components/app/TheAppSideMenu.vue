@@ -69,8 +69,7 @@ export default {
       notificationToastId: null,
       percentLabel: 0,
       scrollBoddyPercent: 0,
-      showTopMenu: false,
-      a: 0
+      showTopMenu: false
     }
   },
 
@@ -99,7 +98,20 @@ export default {
     },
 
     showScrollToBottomButton() {
-      return this.scrollBoddyPercent < 0.99
+      return this.scrollBoddyPercent < 0.9
+    }
+  },
+
+  watch: {
+    showScrollToBottomButton() {
+      let isEndOfScroll
+      if (this.showScrollToBottomButton) {
+        isEndOfScroll = false
+        this.commitIsEndOfScroll(isEndOfScroll)
+        return
+      }
+      isEndOfScroll = true
+      this.commitIsEndOfScroll(isEndOfScroll)
     }
   },
 
@@ -118,6 +130,7 @@ export default {
         'miscellaneous/commitArticleFontSizeIncrease',
       commitArticleFontSizeDecrease:
         'miscellaneous/commitArticleFontSizeDecrease',
+      commitIsEndOfScroll: 'miscellaneous/commitIsEndOfScroll',
       commitShowTopMenu: 'miscellaneous/commitShowTopMenu'
     }),
 

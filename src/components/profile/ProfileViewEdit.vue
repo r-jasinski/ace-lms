@@ -1,6 +1,6 @@
 <template>
   <div class="profile-view-edit">
-    <dot-loader :loading="loading" :color="'#81bfe2'" :size="'80px'" />
+    <dot-loader :loading="loading" />
     <div
       class="profile-view-edit__avatar"
       :style="{ backgroundImage: `url(${displayImage})` }"
@@ -231,8 +231,8 @@ export default {
       const { displayName, email, photoURL, uid } = user
       await updateUser(uid, { displayName, email, photoURL })
       if (updatesArray.length) {
-        const verbAgreement = updatesArray.length === 1 ? '' : 's'
-        const message = `${updatesArray} atualizado${verbAgreement} com sucesso!`
+        const numberAgreement = updatesArray.length === 1 ? '' : 's'
+        const message = `${updatesArray} atualizado${numberAgreement} com sucesso!`
         this.$toast(message, { type: 'info' })
       }
     },

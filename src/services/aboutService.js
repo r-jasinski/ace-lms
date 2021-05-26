@@ -27,8 +27,8 @@ export const getAbout = async user => {
 
 export const getAbouts = async () => {
   try {
-    const get = await aboutCollection.get()
-    return get.docs.map(doc => ({
+    const abouts = await aboutCollection.get()
+    return abouts.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }))

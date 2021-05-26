@@ -1,6 +1,9 @@
 <template>
   <div class="question-view-edit">
     <hr />
+    <div class="question-view-edit__loader" v-if="loading">
+      <dot-spinner :size="'40px'" :opacity="0.5" />
+    </div>
     <div class="post-wrapper">
       <div class="question-view-edit__title">
         <editor-title
@@ -29,7 +32,14 @@
           <edit-button @clicked="editQuestion" />
           <remove-button @clicked="openQuestionDeleteConfirm" />
         </div>
-        <back-button @clicked="$router.go(-1)" />
+        <back-button
+          @clicked="
+            $router.push({
+              name: 'QuestionsList',
+              params: { savedPosition: false }
+            })
+          "
+        />
       </div>
       <div v-else>
         <small class="question-view-edit__label">
@@ -156,6 +166,7 @@ export default {
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
+      loading: false,
       newAnswer: {},
       newAnswerHasError: false,
       question: {},
@@ -200,7 +211,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.initializeQuestion()
   },
 
@@ -230,9 +241,7 @@ export default {
     },
 
     async createAnswer() {
-      const UTCStringCreationTime = new Date().toUTCString()
       this.newAnswer.author = this.authenticatedUser.uid
-      this.newAnswer.creationTime = UTCStringCreationTime
       const responseError = await createAnswer(this.question.id, this.newAnswer)
       if (!responseError) {
         this.newAnswer = {}
@@ -269,12 +278,14 @@ export default {
     },
 
     initializeQuestion() {
+      this.loading = true
       this.commitShowScrollPercentage(true)
       this.unsubscribe = questionsCollection
         .doc(this.$route.params.id)
         .onSnapshot(doc => {
           this.question = { ...doc.data() }
           this.question.id = doc.id
+          this.loading = false
         })
     },
 
@@ -317,9 +328,7 @@ export default {
     },
 
     async updateQuestion() {
-      const UTCStringCreationTime = new Date().toUTCString()
       this.question.author = this.authenticatedUser.uid
-      this.question.creationTime = UTCStringCreationTime
       const responseError = await updateQuestion(
         this.question.id,
         this.question
@@ -331,9 +340,7 @@ export default {
       }
     },
 
-    async updateAnswer(answerId) {
-      const UTCStringCreationTime = new Date().toUTCString()
-      this.question.answers[answerId].creationTime = UTCStringCreationTime
+    async updateAnswer() {
       const responseError = await updateQuestion(this.question.id, {
         answers: this.question.answers
       })
@@ -348,6 +355,12 @@ export default {
 .question-view-edit {
   backdrop-filter: blur(2px);
   margin: 0 20px 0 0;
+}
+
+.question-view-edit__loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .question-view-edit__title {

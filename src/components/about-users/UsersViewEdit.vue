@@ -24,6 +24,10 @@
         </template>
       </user-info>
     </div>
+    <div class="admin-user__loader">
+      <small v-if="noMoreUsers && !loading">Não há mais usuários. </small>
+      <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
+    </div>
   </div>
 </template>
 
@@ -35,8 +39,9 @@ import ReactivateButton from '@/components/shared/ReactivateButton'
 import RemoveButton from '@/components/shared/RemoveButton'
 import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
+import { getUser, getUsers, getNextUsers } from '@/services/usersService'
 import { mapGetters } from 'vuex'
-import { updateUser, usersCollection } from '@/services/usersService'
+import { updateUser } from '@/services/usersService'
 import { email, required } from 'vuelidate/lib/validators'
 
 export default {
@@ -55,7 +60,9 @@ export default {
     return {
       newUser: {},
       users: [],
-      unsubscribe: null
+      itemsPerPage: 4,
+      loading: false,
+      noMoreUsers: false
     }
   },
 
@@ -68,19 +75,25 @@ export default {
   computed: {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser',
+      isEndOfScroll: 'miscellaneous/isEndOfScroll',
       user: 'users/user'
     }),
+
     disabled() {
       return this.$v.newUser.$anyError || !this.$v.newUser.$anyDirty
     }
   },
 
-  mounted() {
-    this.initializeUsers()
+  watch: {
+    async isEndOfScroll() {
+      if (this.isEndOfScroll) {
+        this.getNextUsers()
+      }
+    }
   },
 
-  destroyed() {
-    this.unsubscribe()
+  async created() {
+    await this.initializeUsers()
   },
 
   methods: {
@@ -97,23 +110,40 @@ export default {
     },
 
     async deactivateUser(user) {
-      const UTCStringDeletionTime = new Date().toUTCString()
       const errorResponse = await updateUser(user.id, {
-        deletedAt: UTCStringDeletionTime
+        deletedAt: new Date()
       })
       if (!errorResponse) {
+        this.reloadData(user.id)
         const message = `Usuário ${user.displayName} desativado com sucesso!`
         this.$toast(message, { type: 'info' })
       }
     },
 
-    initializeUsers() {
-      this.unsubscribe = usersCollection.onSnapshot(snapshot => {
-        this.users = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-      })
+    async initializeUsers() {
+      this.loading = true
+      this.users = await getUsers('creationTime', this.itemsPerPage)
+      this.loading = false
+    },
+
+    async reloadData(id) {
+      const index = this.users.findIndex(item => item.id === id)
+      const updatedUser = await getUser(id)
+      const updatedUsers = [...this.users]
+      updatedUsers[index] = updatedUser
+      this.users = updatedUsers
+    },
+
+    async getNextUsers() {
+      this.loading = true
+      const moreData = await getNextUsers('creationTime', this.itemsPerPage)
+      this.loading = false
+      if (!moreData.length) {
+        this.noMoreUsers = true
+        return
+      }
+      this.users.push(...moreData)
+      this.noMoreUsers = false
     },
 
     async openDeactivateUserConfirm(user) {
@@ -139,6 +169,7 @@ export default {
     async reactivateUser(user) {
       const errorResponse = await updateUser(user.id, { deletedAt: null })
       if (!errorResponse) {
+        this.reloadData(user.id)
         const message = `Usuário ${user.displayName} reativado com sucesso!`
         this.$toast(message, { type: 'info' })
       }
@@ -159,6 +190,14 @@ export default {
 </script>
 
 <style scoped>
+.admin-user__loader {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+}
+
 .admin-user__filters {
   display: flex;
   align-items: baseline;

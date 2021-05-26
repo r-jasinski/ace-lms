@@ -16,6 +16,13 @@
     >
       <questions-list-link :question="question" />
     </router-link>
+    <div class="questions-list__loader">
+      <small v-if="noMoreQuestions && !loading"
+        >Não há mais perguntas publicadas. :(
+        <p @click="addQuestion">Que tal publicar a sua!?</p>
+      </small>
+      <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
+    </div>
   </div>
 </template>
 
@@ -23,7 +30,8 @@
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
 import QuestionsListLink from './QuestionsListLink.vue'
-import { questionsCollection } from '@/services/questionsService'
+import { getNextQuestions, getQuestions } from '@/services/questionsService'
+import { mapGetters } from 'vuex'
 import { slugify } from '@/services/slugsService'
 
 export default {
@@ -33,17 +41,29 @@ export default {
 
   data() {
     return {
-      questions: [],
-      unsubscribe: null
+      itemsPerPage: 4,
+      loading: false,
+      noMoreQuestions: false,
+      questions: []
     }
   },
 
-  mounted() {
-    this.initializeQuestions()
+  computed: {
+    ...mapGetters({
+      isEndOfScroll: 'miscellaneous/isEndOfScroll'
+    })
   },
 
-  destroyed() {
-    this.unsubscribe()
+  watch: {
+    async isEndOfScroll() {
+      if (this.isEndOfScroll) {
+        this.getNextQuestions()
+      }
+    }
+  },
+
+  async created() {
+    this.initializeQuestions()
   },
 
   methods: {
@@ -51,13 +71,22 @@ export default {
       this.$router.push({ name: 'QuestionCreate' })
     },
 
-    initializeQuestions() {
-      this.unsubscribe = questionsCollection.onSnapshot(snapshot => {
-        this.questions = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-      })
+    async initializeQuestions() {
+      this.loading = true
+      this.questions = await getQuestions('creationTime', this.itemsPerPage)
+      this.loading = false
+    },
+
+    async getNextQuestions() {
+      this.loading = true
+      const moreData = await getNextQuestions('creationTime', this.itemsPerPage)
+      this.loading = false
+      if (!moreData.length) {
+        this.noMoreQuestions = true
+        return
+      }
+      this.questions.push(...moreData)
+      this.noMoreQuestions = false
     },
 
     slugifyQuestionTitle(questionTitle) {
@@ -74,31 +103,57 @@ export default {
 }
 
 .questions-list__filters {
-  display: flex;
   align-items: center;
-  justify-content: flex-end;
+  display: flex;
   gap: 20px;
+  justify-content: flex-end;
 }
 
 .questions-list__add-button {
-  min-width: 39px;
-  min-height: 36px;
-  padding: 10px;
-  color: var(--light);
   background-color: var(--primary);
-  opacity: 0.75;
-  border: none;
   border-radius: 100vh;
-  outline: none;
+  border: none;
+  color: var(--light);
   font-weight: 900;
+  min-height: 36px;
+  min-width: 39px;
+  opacity: 0.75;
+  outline: none;
+  padding: 10px;
 }
 
 .questions-list__add-button:hover {
   opacity: 1;
 }
 
+.questions-list__loader {
+  align-items: center;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+}
+
 .questions-list a {
   color: var(--dark);
   text-decoration: none;
+}
+
+.questions-list small {
+  text-align: center;
+}
+
+.questions-list p {
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.questions-list__filters a {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow: hidden;
 }
 </style>

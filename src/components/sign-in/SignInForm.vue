@@ -90,10 +90,10 @@ export default {
     },
     disabled() {
       if (this.forgotPasswordMode) {
-        const emailError = this.$v.user.email.$error
+        const emailError = this.$v.user.email.$error || !this.user.email
         return emailError
       }
-      const hasError = this.$v.user.$pending || this.$v.user.$error
+      const hasError = this.$v.user.$pending || this.$v.user.$anyError
       const isEmpty = !this.user.email || !this.user.password
       return isEmpty || hasError
     }
@@ -131,8 +131,7 @@ export default {
         this.$v.$reset()
         const message = `Instruções para recuperar sua senha enviadas para ${email}!`
         this.$toast(message, { type: 'info' })
-        this.forgotPasswordMode = false
-        this.commitDocumentTitle('ACE LMS')
+        this.forgotPasswordModeToggle()
       }
     }
   }
