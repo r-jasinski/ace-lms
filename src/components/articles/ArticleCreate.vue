@@ -79,10 +79,8 @@ export default {
 
   methods: {
     async createArticle() {
-      const UTCStringCreationTime = new Date().toUTCString()
       this.article.author = this.authenticatedUser.uid
       this.article.comments = []
-      this.article.creationTime = UTCStringCreationTime
       const responseError = await createArticle(this.article)
       if (!responseError) {
         const message = `Artigo criado com sucesso!`
