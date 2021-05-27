@@ -33,6 +33,8 @@ import {
   faQuoteRight,
   faRedo,
   faSearch,
+  faSortDown,
+  faSortUp,
   faStrikethrough,
   faTerminal,
   faThumbsUp,
@@ -59,7 +61,6 @@ import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 Vue.use(Toast, defaultToastOptions)
 Vue.use(Vuelidate)
 Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
@@ -116,6 +117,8 @@ library.add(
   faQuestion,
   faQuoteRight,
   faSearch,
+  faSortDown,
+  faSortUp,
   faRedo,
   faStrikethrough,
   faTerminal,
