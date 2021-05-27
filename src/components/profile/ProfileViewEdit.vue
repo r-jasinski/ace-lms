@@ -189,7 +189,7 @@ export default {
         this.$v.user.password.$dirty && !this.$v.user.password.$error
       if (displayNameIsReady) {
         const responseError = await user.updateProfile({
-          displayName: this.user.displayName
+          displayName: this.user.displayName.toLowerCase()
         })
         this.$v.$reset()
         if (!responseError) {
