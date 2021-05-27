@@ -28,12 +28,33 @@ export const getUser = async userId => {
   }
 }
 
-let lastVisible
-
-export const getUsers = async (orderBy = 'creationTime', limit = 1000) => {
+export const filterUsersBy = async (field, value) => {
   try {
     const users = await usersCollection
-      .orderBy(orderBy, 'desc')
+      .orderBy(field)
+      .where(field, '>=', value)
+      .where(field, '<=', value + '\uf8ff')
+      .get()
+    return users.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+let lastVisible
+
+export const getUsers = async (
+  orderBy = 'creationTime',
+  sort = 'desc',
+  limit = 1000
+) => {
+  try {
+    const users = await usersCollection
+      .orderBy(orderBy, sort)
       .limit(limit)
       .get()
     lastVisible = users.docs[users.size - 1]
@@ -47,10 +68,14 @@ export const getUsers = async (orderBy = 'creationTime', limit = 1000) => {
   }
 }
 
-export const getNextUsers = async (orderBy = 'creationTime', limit = 1000) => {
+export const getNextUsers = async (
+  orderBy = 'creationTime',
+  sort = 'desc',
+  limit = 1000
+) => {
   try {
     const nextUsers = await usersCollection
-      .orderBy(orderBy, 'desc')
+      .orderBy(orderBy, sort)
       .startAfter(lastVisible)
       .limit(limit)
       .get()
