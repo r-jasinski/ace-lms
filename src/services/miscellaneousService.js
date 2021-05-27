@@ -1,3 +1,6 @@
+import TimeAgo from 'javascript-time-ago'
+import pt from 'javascript-time-ago/locale/pt'
+
 export const defaultToastOptions = {
   transition: 'Vue-Toastification__bounce',
   maxToasts: 5,
@@ -31,3 +34,6 @@ export const defaultDialogOptions = {
   backdropClose: true, // set to true to close the dialog when clicking outside of the dialog window, i.e. click landing on the mask
   customClass: '' // Custom class to be injected into the parent node for the current dialog instance
 }
+
+TimeAgo.addDefaultLocale(pt)
+export const timeAgo = new TimeAgo('pt') // Create formatter (pt-BR).
