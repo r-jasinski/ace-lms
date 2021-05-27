@@ -312,15 +312,15 @@ export default {
     },
 
     initializeArticle() {
-      this.loading = true
       this.commitShowScrollPercentage(true)
+      this.loading = true
       this.unsubscribe = articlesCollection
         .doc(this.$route.params.id)
         .onSnapshot(doc => {
           this.article = { ...doc.data() }
           this.article.id = doc.id
-          this.loading = false
         })
+      this.loading = false
     },
 
     async openArticleDeleteConfirm() {
