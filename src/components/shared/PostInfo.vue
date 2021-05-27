@@ -1,5 +1,5 @@
 <template>
-  <div class="post-info">
+  <div class="post-info" v-if="postInfo.creationTime">
     <div
       class="post-info__avatar"
       :style="{ backgroundImage: `url(${postInfo.photoURL})` }"
@@ -9,7 +9,7 @@
         <small>{{ postInfo.displayName }}</small>
       </li>
       <li>
-        <small>{{ postInfo.creationTime }}</small>
+        <small>Postado {{ postInfo.creationTime | elapsedTime }}</small>
       </li>
     </ul>
   </div>
