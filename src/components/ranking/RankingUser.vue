@@ -1,8 +1,11 @@
 <template>
   <div :class="['ranking-user', { 'ranking-user--current': currentUser }]">
-    <span class="ranking-user__position">
-      <slot name="ranking-user-position" />
-    </span>
+    <div class="ranking-user__wrapper">
+      <span class="ranking-user__position">
+        <slot name="ranking-user-position" />
+      </span>
+      <small>xp</small>
+    </div>
     <div
       class="ranking-user__avatar"
       :style="{ backgroundImage: `url(${user.photoURL})` }"
@@ -14,7 +17,6 @@
           <slot name="ranking-user-indicator" />
         </span>
       </li>
-      <li>{{ userRankingPoints }}</li>
     </ul>
   </div>
 </template>
@@ -26,14 +28,6 @@ export default {
   props: {
     currentUser: { type: Boolean, required: false },
     user: { type: Object, required: true }
-  },
-
-  computed: {
-    userRankingPoints() {
-      return this.user.rankingPoints
-        ? `${this.user.rankingPoints} pontos`
-        : 'sem pontuação'
-    }
   }
 }
 </script>
@@ -48,15 +42,26 @@ export default {
   padding: 5px 15px;
 }
 
+.ranking-user__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-shadow: 0 0 5px var(--light);
+}
+
 .ranking-user--current {
   background-color: var(--primary);
   border-radius: 5px;
 }
 
 .ranking-user__position {
-  min-width: 85px;
-  font-size: 3em;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 2.5em;
   font-weight: 900;
+  min-width: 85px;
+  text-shadow: 0 0 5px var(--light);
 }
 
 .ranking-user__avatar {
