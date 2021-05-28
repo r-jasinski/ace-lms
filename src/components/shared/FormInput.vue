@@ -53,16 +53,6 @@ export default {
   color: var(--danger);
 }
 
-.form-error,
-.is-visible {
-  display: flex;
-  flex-direction: column;
-  color: var(--danger);
-  font-size: 0.8em;
-  margin-left: 16px;
-  max-width: 268px;
-}
-
 .form-input input {
   width: 100%;
   min-height: 50px;
