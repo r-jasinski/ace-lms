@@ -1,9 +1,19 @@
 <template>
   <div class="questions-list">
     <div class="questions-list__filters">
-      <a href="#">data de postagem</a>
-      <a href="#">respostas</a>
-      <filter-input />
+      <sort-button
+        label="respostas"
+        :isSortedUp="isAnswersCountAscending"
+        :disabled="disabled"
+        @clicked="handleAnswersCountSorting"
+      />
+      <sort-button
+        label="data de postagem"
+        :isSortedUp="isCreationTimeAscendinjg"
+        :disabled="disabled"
+        @clicked="handleCreationTimeSorting"
+      />
+      <filter-input v-model="filter" />
       <add-button @clicked="addQuestion" />
     </div>
     <router-link
@@ -17,8 +27,8 @@
       <questions-list-link :question="question" />
     </router-link>
     <div class="questions-list__loader">
-      <small v-if="noMoreQuestions && !loading"
-        >Não há mais perguntas publicadas. :(
+      <small v-if="noMoreQuestions.showMessage && !loading"
+        >{{ noMoreQuestions.message }}
         <p @click="addQuestion">Que tal publicar a sua!?</p>
       </small>
       <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
@@ -29,21 +39,34 @@
 <script>
 import AddButton from '@/components/shared/AddButton'
 import FilterInput from '@/components/shared/FilterInput'
+import SortButton from '@/components/shared/SortButton.vue'
 import QuestionsListLink from './QuestionsListLink.vue'
-import { getNextQuestions, getQuestions } from '@/services/questionsService'
+import {
+  filterQuestionsBy,
+  getNextQuestions,
+  getQuestions
+} from '@/services/questionsService'
 import { mapGetters } from 'vuex'
 import { slugify } from '@/services/slugsService'
 
 export default {
   name: 'QuestionsList',
 
-  components: { AddButton, FilterInput, QuestionsListLink },
+  components: { AddButton, FilterInput, SortButton, QuestionsListLink },
 
   data() {
     return {
-      itemsPerPage: 4,
+      filter: '',
+      itemsPerPage: 2,
       loading: false,
-      noMoreQuestions: false,
+      noMoreQuestions: {
+        showMessage: false,
+        message: ''
+      },
+      orderBy: {
+        field: 'creationTime',
+        asc: false
+      },
       questions: []
     }
   },
@@ -51,7 +74,19 @@ export default {
   computed: {
     ...mapGetters({
       isEndOfScroll: 'miscellaneous/isEndOfScroll'
-    })
+    }),
+
+    disabled() {
+      return !this.questions?.length || !!this.filter
+    },
+
+    isAnswersCountAscending() {
+      return this.orderBy.field === 'answersCount' && this.orderBy.asc
+    },
+
+    isCreationTimeAscendinjg() {
+      return this.orderBy.field === 'creationTime' && this.orderBy.asc
+    }
   },
 
   watch: {
@@ -59,6 +94,10 @@ export default {
       if (this.isEndOfScroll) {
         this.getNextQuestions()
       }
+    },
+
+    async filter() {
+      await this.filterQuestionsBy()
     }
   },
 
@@ -71,22 +110,74 @@ export default {
       this.$router.push({ name: 'QuestionCreate' })
     },
 
+    async filterQuestionsBy() {
+      if (this.filter.length) {
+        const arrayFilter = this.filter.toLowerCase().split(' ')
+        this.loading = true
+        this.questions = await filterQuestionsBy('keywords', arrayFilter)
+        this.loading = false
+        if (this.questions?.length) {
+          this.noMoreQuestions = {
+            showMessage: true,
+            message: 'Não há mais perguntas com os critérios fornecidos!'
+          }
+          return
+        }
+        this.noMoreQuestions = {
+          showMessage: true,
+          message:
+            'Não foram encontrados perguntas com os critérios fornecidos!'
+        }
+        return
+      }
+      await this.initializeQuestions()
+    },
+
     async initializeQuestions() {
       this.loading = true
-      this.questions = await getQuestions('creationTime', this.itemsPerPage)
+      this.questions = await getQuestions(
+        this.orderBy.field,
+        this.orderBy.asc ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
+      this.noMoreQuestions.showMessage = false
     },
 
     async getNextQuestions() {
       this.loading = true
-      const moreData = await getNextQuestions('creationTime', this.itemsPerPage)
+      const moreData = await getNextQuestions(
+        this.orderBy.field,
+        this.orderBy.asc ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
       if (!moreData.length) {
-        this.noMoreQuestions = true
+        this.noMoreQuestions = {
+          showMessage: true,
+          message: 'Não há mais perguntas!'
+        }
         return
       }
       this.questions.push(...moreData)
-      this.noMoreQuestions = false
+    },
+
+    async handleAnswersCountSorting() {
+      if (!this.questions?.length || !!this.filter) {
+        return
+      }
+      this.orderBy.field = 'answersCount'
+      this.orderBy.asc = !this.orderBy.asc
+      await this.initializeQuestions()
+    },
+
+    async handleCreationTimeSorting() {
+      if (!this.questions?.length || !!this.filter) {
+        return
+      }
+      this.orderBy.field = 'creationTime'
+      this.orderBy.asc = !this.orderBy.asc
+      await this.initializeQuestions()
     },
 
     slugifyQuestionTitle(questionTitle) {
