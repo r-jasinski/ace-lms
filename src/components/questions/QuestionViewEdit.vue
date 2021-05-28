@@ -27,6 +27,13 @@
         @input="question.content = $event"
         @body-has-error="questionHasError = $event"
       />
+      <keyword-input
+        class="question-view-edit__keyword-input"
+        v-if="questionIsEditable"
+        :v="$v.keywords"
+        name="keywords"
+        v-model="keywords"
+      />
       <div v-if="!questionIsEditable" class="question-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="question-view-edit__buttons">
           <edit-button @clicked="editQuestion" />
@@ -42,15 +49,15 @@
         />
       </div>
       <div v-else>
-        <small class="question-view-edit__label">
-          *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-          política de privacidade e política de Cookies</small
-        >
+        <small class="article-view-edit__label" v-if="!disableQuestionsEdit">
+          *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+          política de privacidade.
+        </small>
         <div class="question-view-edit__buttons">
           <confirm-button
             :label="'Publicar'"
             @clicked="updateQuestion"
-            :disabled="questionHasError"
+            :disabled="disableQuestionsEdit"
           />
           <cancel-button :label="'Cancelar'" @clicked="cancelQuestionEdit" />
         </div>
@@ -83,9 +90,9 @@
           <remove-button @clicked="openAnswerDeleteConfirm(answer)" />
         </div>
         <div v-if="answerIsEditabled(index)">
-          <small class="question-view-edit__label">
-            *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-            política de privacidade e política de Cookies
+          <small class="article-view-edit__label" v-if="!answerHasError">
+            *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+            política de privacidade.
           </small>
           <div class="question-view-edit__buttons">
             <confirm-button
@@ -108,16 +115,15 @@
       @body-has-error="newAnswerHasError = $event"
       @body-is-empty="isEmpty = $event"
     />
-
-    <small class="question-view-edit__label">
-      *Ao clicar em “Publicar”, você concorda com os termos de serviço, política
-      de privacidade e política de Cookies
+    <small class="question-view-edit__label" v-if="!disableNewAnswerCreate">
+      *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+      política de privacidade.
     </small>
     <div class="question-view-edit__buttons">
       <confirm-button
         :label="'Publicar'"
         @clicked="createAnswer"
-        :disabled="newAnswerHasError || isEmpty"
+        :disabled="disableNewAnswerCreate"
       />
     </div>
   </div>
@@ -130,6 +136,7 @@ import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '@/components/shared/EditorTitle.vue'
+import KeywordInput from '@/components/shared/KeywordInput.vue'
 import PostInfo from '@/components/shared/PostInfo'
 import RemoveButton from '@/components/shared/RemoveButton'
 import { htmlToText } from 'html-to-text'
@@ -141,6 +148,8 @@ import {
   deleteAnswer,
   updateQuestion
 } from '@/services/questionsService'
+import { isKeywordValid } from '@/services/validatorsService'
+import { maxLength, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'QuestionViewEdit',
@@ -152,6 +161,7 @@ export default {
     EditButton,
     EditorBody,
     EditorTitle,
+    KeywordInput,
     PostInfo,
     RemoveButton
   },
@@ -166,6 +176,7 @@ export default {
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
+      keywords: '',
       loading: false,
       newAnswer: {},
       newAnswerHasError: false,
@@ -180,6 +191,14 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
     }),
+
+    disableQuestionsEdit() {
+      return this.$v.keywords.$invalid || this.questionHasError
+    },
+
+    disableNewAnswerCreate() {
+      return this.newAnswerHasError || this.isEmpty
+    },
 
     isAdmin() {
       return this.user(this.authenticatedUser.uid)?.isAdmin
@@ -220,6 +239,15 @@ export default {
     this.commitShowScrollPercentage(false)
   },
 
+  validations: {
+    keywords: {
+      required,
+      isKeywordValid,
+      minLength: minLength(6),
+      maxLength: maxLength(72)
+    }
+  },
+
   methods: {
     ...mapActions({
       commitShowScrollPercentage: 'miscellaneous/commitShowScrollPercentage',
@@ -251,6 +279,9 @@ export default {
     editQuestion() {
       this.questionIsEditable = true
       this.editableQuestion = { ...this.question }
+      this.keywords = this.question.keywords
+        ? this.question.keywords.join(' ')
+        : ''
     },
 
     editAnswer(answer, answerIndex) {
@@ -259,13 +290,13 @@ export default {
     },
 
     ellipsizeHTML(text, length) {
-      let commentText = htmlToText(text, {
+      let answerText = htmlToText(text, {
         tags: { h1: { options: { uppercase: false } } }
       })
-      if (commentText.length > length) {
-        commentText = `${commentText.slice(0, 90)}...`
+      if (answerText.length > length) {
+        answerText = `${answerText.slice(0, 90)}...`
       }
-      return commentText
+      return answerText
     },
 
     getAnswerInfo(answer) {
@@ -278,8 +309,8 @@ export default {
     },
 
     initializeQuestion() {
-      this.loading = true
       this.commitShowScrollPercentage(true)
+      this.loading = true
       this.unsubscribe = questionsCollection
         .doc(this.$route.params.id)
         .onSnapshot(doc => {
@@ -328,7 +359,10 @@ export default {
     },
 
     async updateQuestion() {
-      this.question.author = this.authenticatedUser.uid
+      this.question.keywords = this.keywords
+        .toLowerCase()
+        .split(' ')
+        .filter(item => item)
       const responseError = await updateQuestion(
         this.question.id,
         this.question
@@ -341,6 +375,10 @@ export default {
     },
 
     async updateAnswer() {
+      this.question.keywords = this.keywords
+        .toLowerCase()
+        .split(' ')
+        .filter(item => item)
       const responseError = await updateQuestion(this.question.id, {
         answers: this.question.answers
       })
@@ -369,11 +407,14 @@ export default {
 
 .question-view-edit__label {
   font-size: 0.75em;
-  opacity: 0.7;
+}
+
+.question-view-edit__keyword-input {
+  margin: 25px 0;
 }
 
 .question-view-edit__buttons {
-  align-items: baseline;
+  align-items: center;
   display: flex;
   gap: 10px;
   justify-content: flex-end;
