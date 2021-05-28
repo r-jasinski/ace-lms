@@ -1,6 +1,7 @@
 import { helpers } from 'vuelidate/lib/validators'
 
 export const noSpaces = helpers.regex('noSpaces', /^\S*$/)
+export const isKeywordValid = helpers.regex('isKeywordValid', /^[a-z0-9_ ]*$/i)
 
 export const isTrueImage = file => {
   if (!file) {
@@ -19,7 +20,10 @@ export const isLessThan2MB = file => {
 export const vuelidateErrorExtractorOptions = {
   i18n: false,
   messages: {
+    alphaNum: '{attribute} deve conter apenas espaços, letras ou números!',
     email: '{attribute} não é válido!',
+    isKeywordValid:
+      '{attribute} deve conter apenas espaços, letras ou números!',
     isLessThan2MB: '{attribute} deve ser menor que 2MB!',
     isTrueImage: '{attribute} deve ser uma imagem!',
     maxLength: '{attribute} deve ter no máximo {max} caracteres!',
@@ -33,6 +37,7 @@ export const vuelidateErrorExtractorOptions = {
     body: 'Conteúdo',
     email: 'Email',
     file: 'Arquivo',
+    keywords: 'Palavras-chave',
     password: 'Senha',
     passwordConfirm: 'Confirme a senha',
     title: 'Título',
