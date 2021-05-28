@@ -2,7 +2,7 @@
   <div class="ranking-page">
     <div class="ranking-page__filters">
       <sort-button
-        label="Pontuação"
+        label="pontuação"
         :isSortedUp="ascending"
         :disabled="disabled"
         @clicked="handleSorting"
@@ -74,7 +74,7 @@ export default {
     },
 
     async filter() {
-      await this.filterUserBy()
+      await this.filterUsersBy()
     }
   },
 
@@ -83,7 +83,7 @@ export default {
   },
 
   methods: {
-    async filterUserBy() {
+    async filterUsersBy() {
       if (this.filter.length) {
         this.loading = true
         this.users = await filterUsersBy(
