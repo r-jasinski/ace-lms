@@ -33,12 +33,31 @@ export const getArticle = async articleId => {
   }
 }
 
-let lastVisible
-
-export const getArticles = async (orderBy = 'creationTime', limit = 1000) => {
+export const filterArticlesBy = async (field, arrayFilter) => {
   try {
     const articles = await articlesCollection
-      .orderBy(orderBy, 'desc')
+      .where(field, 'array-contains-any', [...arrayFilter])
+      .get()
+    return articles.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+let lastVisible
+
+export const getArticles = async (
+  orderBy = 'creationTime',
+  sort = 'desc',
+  limit = 1000
+) => {
+  try {
+    const articles = await articlesCollection
+      .orderBy(orderBy, sort)
       .limit(limit)
       .get()
     lastVisible = articles.docs[articles.size - 1]
@@ -54,16 +73,16 @@ export const getArticles = async (orderBy = 'creationTime', limit = 1000) => {
 
 export const getNextArticles = async (
   orderBy = 'creationTime',
+  sort = 'desc',
   limit = 1000
 ) => {
   try {
     const nextArticles = await articlesCollection
-      .orderBy(orderBy, 'desc')
+      .orderBy(orderBy, sort)
       .startAfter(lastVisible)
       .limit(limit)
       .get()
     lastVisible = nextArticles.docs[nextArticles.size - 1] || lastVisible
-
     return nextArticles.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -124,7 +143,8 @@ export const deleteComment = async (articleId, comment) => {
 export const like = async (article, userId) => {
   try {
     await articlesCollection.doc(article.id).update({
-      likes: firebase.firestore.FieldValue.arrayUnion(userId)
+      likes: firebase.firestore.FieldValue.arrayUnion(userId),
+      likesCount: firebase.firestore.FieldValue.increment(1)
     })
     await incrementArticleAuthorRanking(article.author, 'like')
   } catch (error) {
@@ -136,7 +156,8 @@ export const like = async (article, userId) => {
 export const dislike = async (article, userId) => {
   try {
     await articlesCollection.doc(article.id).update({
-      likes: firebase.firestore.FieldValue.arrayRemove(userId)
+      likes: firebase.firestore.FieldValue.arrayRemove(userId),
+      likesCount: firebase.firestore.FieldValue.increment(-1)
     })
     await decrementArticleAuthorRanking(article.author, 'like')
   } catch (error) {
