@@ -31,12 +31,31 @@ export const getQuestion = async questionId => {
   }
 }
 
-let lastVisible
-
-export const getQuestions = async (orderBy = 'creationTime', limit = 1000) => {
+export const filterQuestionsBy = async (field, arrayFilter) => {
   try {
     const questions = await questionsCollection
-      .orderBy(orderBy, 'desc')
+      .where(field, 'array-contains-any', [...arrayFilter])
+      .get()
+    return questions.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
+  }
+}
+
+let lastVisible
+
+export const getQuestions = async (
+  orderBy = 'creationTime',
+  sort = 'desc',
+  limit = 1000
+) => {
+  try {
+    const questions = await questionsCollection
+      .orderBy(orderBy, sort)
       .limit(limit)
       .get()
     lastVisible = questions.docs[questions.size - 1]
@@ -52,16 +71,16 @@ export const getQuestions = async (orderBy = 'creationTime', limit = 1000) => {
 
 export const getNextQuestions = async (
   orderBy = 'creationTime',
+  sort = 'desc',
   limit = 1000
 ) => {
   try {
     const nextQuestions = await questionsCollection
-      .orderBy(orderBy, 'desc')
+      .orderBy(orderBy, sort)
       .startAfter(lastVisible)
       .limit(limit)
       .get()
     lastVisible = nextQuestions.docs[nextQuestions.size - 1] || lastVisible
-
     return nextQuestions.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -98,7 +117,8 @@ export const createAnswer = async (questionId, answer) => {
       answers: firebase.firestore.FieldValue.arrayUnion({
         ...answer,
         creationTime
-      })
+      }),
+      answersCount: firebase.firestore.FieldValue.increment(1)
     })
     await incrementAuthenticatedUserRanking('answer')
   } catch (error) {
@@ -110,7 +130,8 @@ export const createAnswer = async (questionId, answer) => {
 export const deleteAnswer = async (questionId, answer) => {
   try {
     await questionsCollection.doc(questionId).update({
-      answers: firebase.firestore.FieldValue.arrayRemove(answer)
+      answers: firebase.firestore.FieldValue.arrayRemove(answer),
+      answersCount: firebase.firestore.FieldValue.increment(-1)
     })
     await decrementAuthorRanking(answer.author, 'answer')
   } catch (error) {
