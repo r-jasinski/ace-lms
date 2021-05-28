@@ -2,7 +2,7 @@
   <div class="admin-user">
     <form class="admin-user__filters" @submit.prevent>
       <sort-button
-        label="Data de cadastro"
+        label="data de cadastro"
         :isSortedUp="ascending"
         :disabled="sortDisabled"
         @clicked="handleSorting"
