@@ -19,7 +19,6 @@
         >
       </div>
       <post-info :post-info="postInfo" />
-
       <editor-body
         class="article-view-edit__body"
         :placeholder="editorBodyPlaceholder"
@@ -28,10 +27,13 @@
         @input="article.content = $event"
         @body-has-error="articleHasError = $event"
       />
-      <div class="article-view-edit__likes" @click="toggleLike">
-        <like-button :active="liked" v-tooltip.top-start="whoLiked" />
-        <small>{{ likesCount }}</small>
-      </div>
+      <keyword-input
+        class="article-view-edit__keyword-input"
+        v-if="articleIsEditable"
+        :v="$v.keywords"
+        name="keywords"
+        v-model="keywords"
+      />
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
           <edit-button @clicked="editArticle" />
@@ -47,19 +49,23 @@
         />
       </div>
       <div v-else>
-        <small class="article-view-edit__label">
-          *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-          política de privacidade e política de Cookies</small
-        >
+        <small class="article-view-edit__label" v-if="!disableArticlesEdit">
+          *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+          política de privacidade.
+        </small>
         <div class="article-view-edit__buttons">
           <confirm-button
             :label="'Publicar'"
             @clicked="updateArticle"
-            :disabled="articleHasError"
+            :disabled="disableArticlesEdit"
           />
           <cancel-button :label="'Cancelar'" @clicked="cancelArticleEdit" />
         </div>
       </div>
+    </div>
+    <div class="article-view-edit__likes" @click="toggleLike">
+      <like-button :active="liked" v-tooltip.top-start="whoLiked" />
+      <small>{{ likesCount }}</small>
     </div>
     <hr />
     Comentários:
@@ -88,9 +94,9 @@
           <remove-button @clicked="openCommentDeleteConfirm(comment)" />
         </div>
         <div v-if="commentIsEditabled(index)">
-          <small class="article-view-edit__label">
-            *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-            política de privacidade e política de Cookies
+          <small class="article-view-edit__label" v-if="!commentHasError">
+            *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+            política de privacidade.
           </small>
           <div class="article-view-edit__buttons">
             <confirm-button
@@ -113,15 +119,15 @@
       @body-has-error="newCommentHasError = $event"
       @body-is-empty="isEmpty = $event"
     />
-    <small class="article-view-edit__label">
-      *Ao clicar em “Publicar”, você concorda com os termos de serviço, política
-      de privacidade e política de Cookies
+    <small class="article-view-edit__label" v-if="!disableNewCommentCreate">
+      *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+      política de privacidade.
     </small>
     <div class="article-view-edit__buttons">
       <confirm-button
         :label="'Publicar'"
         @clicked="createComment"
-        :disabled="newCommentHasError || isEmpty"
+        :disabled="disableNewCommentCreate"
       />
     </div>
   </div>
@@ -134,6 +140,7 @@ import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import EditorTitle from '@/components/shared/EditorTitle.vue'
+import KeywordInput from '@/components/shared/KeywordInput.vue'
 import LikeButton from '@/components/shared/LikeButton'
 import PostInfo from '@/components/shared/PostInfo'
 import RemoveButton from '@/components/shared/RemoveButton'
@@ -148,6 +155,8 @@ import {
   dislike,
   updateArticle
 } from '@/services/articlesService'
+import { isKeywordValid } from '@/services/validatorsService'
+import { maxLength, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ArticleViewEdit',
@@ -159,6 +168,7 @@ export default {
     EditButton,
     EditorBody,
     EditorTitle,
+    KeywordInput,
     LikeButton,
     PostInfo,
     RemoveButton
@@ -177,6 +187,7 @@ export default {
       editorCommentPlaceholder: 'Escreva aqui o seu comentário...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
+      keywords: '',
       loading: false,
       maxNamesToShow: 5,
       newComment: {},
@@ -189,6 +200,13 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
     }),
+
+    disableArticlesEdit() {
+      return this.$v.keywords.$invalid || this.articleHasError
+    },
+    disableNewCommentCreate() {
+      return this.newCommentHasError || this.isEmpty
+    },
 
     isAdmin() {
       return this.user(this.authenticatedUser.uid)?.isAdmin
@@ -251,6 +269,15 @@ export default {
     this.commitShowScrollPercentage(false)
   },
 
+  validations: {
+    keywords: {
+      required,
+      isKeywordValid,
+      minLength: minLength(6),
+      maxLength: maxLength(72)
+    }
+  },
+
   methods: {
     ...mapActions({
       commitShowScrollPercentage: 'miscellaneous/commitShowScrollPercentage',
@@ -285,6 +312,9 @@ export default {
     editArticle() {
       this.articleIsEditable = true
       this.editableArticle = { ...this.article }
+      this.keywords = this.article.keywords
+        ? this.article.keywords.join(' ')
+        : ''
     },
 
     editComment(comment, commentIndex) {
@@ -319,8 +349,8 @@ export default {
         .onSnapshot(doc => {
           this.article = { ...doc.data() }
           this.article.id = doc.id
+          this.loading = false
         })
-      this.loading = false
     },
 
     async openArticleDeleteConfirm() {
@@ -372,7 +402,10 @@ export default {
     },
 
     async updateArticle() {
-      this.article.author = this.authenticatedUser.uid
+      this.article.keywords = this.keywords
+        .toLowerCase()
+        .split(' ')
+        .filter(item => item)
       const responseError = await updateArticle(this.article.id, this.article)
       if (!responseError) {
         const message = `Artigo atualizado com sucesso!`
@@ -411,18 +444,17 @@ export default {
 
 .article-view-edit__label {
   font-size: 0.75em;
-  opacity: 0.7;
+}
+
+.article-view-edit__keyword-input {
+  margin: 25px 0;
 }
 
 .article-view-edit__buttons {
-  align-items: baseline;
+  align-items: center;
   display: flex;
   gap: 10px;
   justify-content: flex-end;
-  margin: 5px 0;
-}
-
-.article-view-edit__confirm-button {
   margin: 25px 0;
 }
 
