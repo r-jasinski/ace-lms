@@ -32,6 +32,7 @@ export const filterUsersBy = async (field, value) => {
   try {
     const users = await usersCollection
       .orderBy(field)
+      .orderBy('rankingPoints', 'desc')
       .where(field, '>=', value)
       .where(field, '<=', value + '\uf8ff')
       .get()
