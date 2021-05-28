@@ -142,7 +142,6 @@ export default {
     },
 
     async updateAbout() {
-      this.about.author = this.authenticatedUser.uid
       const errorResponse = await updateAbout(this.about.id, this.about)
       if (!errorResponse) {
         const message = `Sobre salvo com sucesso!`
@@ -174,7 +173,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   font-size: 0.75em;
-  opacity: 0.7;
 }
 
 .admin-about__buttons {
