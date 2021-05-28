@@ -1,7 +1,8 @@
 import DotSpinner from '@/components/shared/DotSpinner'
 import {
   defaultDialogOptions,
-  defaultToastOptions
+  defaultToastOptions,
+  timeAgo
 } from '@/services/miscellaneousService'
 import { vuelidateErrorExtractorOptions } from '@/services/validatorsService'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -32,6 +33,8 @@ import {
   faQuoteRight,
   faRedo,
   faSearch,
+  faSortDown,
+  faSortUp,
   faStrikethrough,
   faTerminal,
   faThumbsUp,
@@ -58,7 +61,6 @@ import VuelidateErrorExtractor, { templates } from 'vuelidate-error-extractor'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 Vue.use(Toast, defaultToastOptions)
 Vue.use(Vuelidate)
 Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
@@ -67,6 +69,24 @@ VTooltip.enabled = window.innerWidth > 768
 Vue.use(VuejsDialog, defaultDialogOptions)
 Vue.component('form-group', templates.singleErrorExtractor.foundation6)
 Vue.component('dot-spinner', DotSpinner)
+
+Vue.filter('toBRDate', function(timestamp) {
+  if (timestamp) {
+    const date = timestamp.toDate()
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    return `${day}/${month}/${year}`
+  }
+})
+Vue.filter('elapsedTime', function(timestamp) {
+  if (timestamp) {
+    const dateInMs = Date.now().valueOf()
+    const timestampInMs = timestamp.seconds * 1000
+    const elapsedTimeInMs = dateInMs - timestampInMs
+    return timeAgo.format(Date.now() - elapsedTimeInMs)
+  }
+})
 
 Vue.config.productionTip = false
 
@@ -97,6 +117,8 @@ library.add(
   faQuestion,
   faQuoteRight,
   faSearch,
+  faSortDown,
+  faSortUp,
   faRedo,
   faStrikethrough,
   faTerminal,

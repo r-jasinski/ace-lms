@@ -142,7 +142,7 @@ a {
 
 @media only screen and (max-width: 368px) {
   article {
-    padding: 0 1%;
+    padding: 0 1% 20% 1%;
   }
 }
 </style>

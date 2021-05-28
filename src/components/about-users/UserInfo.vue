@@ -11,8 +11,10 @@
       <ul :class="{ 'user-info__indicator--inactive': !!user.deletedAt }">
         <li class="user-info__name">{{ user.displayName }}</li>
         <li>email: {{ user.email }}</li>
-        <li>data de cadastro: {{ user.creationTime }}</li>
-        <li v-if="user.deletedAt">data de exclusão: {{ user.deletedAt }}</li>
+        <li>data de cadastro: {{ user.creationTime | toBRDate }}</li>
+        <li v-if="user.deletedAt">
+          data de exclusão: {{ user.deletedAt | toBRDate }}
+        </li>
         <li>
           <form-checkbox
             :disabled="!!user.deletedAt"
@@ -46,7 +48,7 @@ export default {
 <style scoped>
 .user-info {
   align-items: center;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   border-radius: 5px;
   display: flex;
   flex-wrap: wrap;

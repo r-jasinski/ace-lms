@@ -1,13 +1,33 @@
 <template>
   <div class="filter-input">
     <font-awesome-icon class="filter-input__icon" icon="search" />
-    <input class="filter-input__field" type="text" placeholder="Pesquisar" />
+    <input
+      class="filter-input__field"
+      type="text"
+      placeholder="Pesquisar"
+      v-model.trim="inputModel"
+    />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FilterInput'
+  name: 'FilterInput',
+
+  props: {
+    value: { type: [String, Number, Date], default: '' }
+  },
+
+  computed: {
+    inputModel: {
+      get() {
+        return this.value
+      },
+      set(value) {
+        this.$emit('input', value)
+      }
+    }
+  }
 }
 </script>
 

@@ -96,6 +96,15 @@ body {
   background: fixed url('./assets/stars.svg') center center;
 }
 
+.form-error,
+.is-visible {
+  display: flex;
+  flex-direction: column;
+  color: var(--danger);
+  font-size: 0.8em;
+  margin-left: 16px;
+}
+
 .Vue-Toastification__toast--default {
   background-color: #1976d2;
   color: var(--dark);

@@ -22,11 +22,17 @@
       @body-has-error="bodyHasError = $event"
       @body-is-empty="isEmpty = $event"
     />
+    <keyword-input
+      class="article-create__keyword-input"
+      :v="$v.keywords"
+      name="keywords"
+      v-model="keywords"
+    />
     <div>
-      <small class="article-create__label">
-        *Ao clicar em “Publicar”, você concorda com os termos de serviço,
-        política de privacidade e política de Cookies</small
-      >
+      <small class="article-create__label" v-if="!hasError">
+        *Ao clicar em “Publicar”, você concorda com os termos de serviço e
+        política de privacidade.
+      </small>
       <div class="article-create__buttons">
         <confirm-button
           :label="'Publicar'"
@@ -46,24 +52,34 @@
 import CancelButton from '@/components/shared/CancelButton'
 import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditorBody from '@/components/shared/EditorBody'
-import EditorTitle from '../shared/EditorTitle.vue'
+import EditorTitle from '@/components/shared/EditorTitle.vue'
+import KeywordInput from '@/components/shared/KeywordInput.vue'
 import { createArticle } from '@/services/articlesService'
 import { mapGetters } from 'vuex'
+import { isKeywordValid } from '@/services/validatorsService'
+import { maxLength, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ArticleCreate',
 
-  components: { CancelButton, EditorBody, EditorTitle, ConfirmButton },
+  components: {
+    CancelButton,
+    ConfirmButton,
+    EditorBody,
+    EditorTitle,
+    KeywordInput
+  },
 
   data() {
     return {
-      article: {},
-      bodyHasError: true,
+      article: { keywords: [] },
+      bodyHasError: false,
       editable: true,
       editorBodyPlaceholder: 'Escreva aqui o conteúdo do artigo...',
       editorTitlePlaceholder: 'Escreva aqui o título do artigo...',
       isEmpty: false,
-      titleHasError: true
+      keywords: '',
+      titleHasError: false
     }
   },
 
@@ -72,14 +88,34 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       user: 'users/user'
     }),
+
     hasError() {
-      return this.bodyHasError || this.titleHasError || this.isEmpty
+      return (
+        this.bodyHasError ||
+        this.titleHasError ||
+        this.isEmpty ||
+        this.$v.keywords.$invalid
+      )
+    }
+  },
+
+  validations: {
+    keywords: {
+      required,
+      isKeywordValid,
+      minLength: minLength(6),
+      maxLength: maxLength(72)
     }
   },
 
   methods: {
     async createArticle() {
       this.article.author = this.authenticatedUser.uid
+      this.article.keywords = this.keywords
+        .toLowerCase()
+        .split(' ')
+        .filter(item => item)
+
       this.article.comments = []
       const responseError = await createArticle(this.article)
       if (!responseError) {
@@ -93,20 +129,19 @@ export default {
 </script>
 
 <style scoped>
-.article-create__editor-body {
-  min-height: 40vh;
-}
-
 .article-create__label {
   font-size: 0.75em;
-  opacity: 0.7;
+}
+
+.article-create__keyword-input {
+  margin: 25px 0;
 }
 
 .article-create__buttons {
-  display: flex;
   align-items: center;
+  display: flex;
+  gap: 10px;
   justify-content: flex-end;
   margin: 25px 0;
-  gap: 10px;
 }
 </style>

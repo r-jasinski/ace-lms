@@ -6,19 +6,26 @@ const db = firebase.firestore()
 
 export const aboutCollection = db.collection('about')
 
-export const createAbout = async (id, data) => {
+export const createAbout = async about => {
   try {
-    await aboutCollection.doc(id).set(data)
+    const creationTime = firebase.firestore.FieldValue.serverTimestamp()
+    await aboutCollection.doc().set({ ...about, creationTime })
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error
   }
 }
 
-export const getAbout = async user => {
+export const getAbout = async () => {
   try {
-    const about = await aboutCollection.doc(user).get()
-    return about.data()
+    const about = await aboutCollection
+      .orderBy('creationTime', 'desc')
+      .limit(1)
+      .get()
+    return about.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }))
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error
@@ -38,9 +45,9 @@ export const getAbouts = async () => {
   }
 }
 
-export const updateAbout = async (about, data) => {
+export const updateAbout = async (aboutId, about) => {
   try {
-    await aboutCollection.doc(about).update(data)
+    await aboutCollection.doc(aboutId).update(about)
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error

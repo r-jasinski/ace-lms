@@ -1,7 +1,13 @@
 <template>
   <div class="admin-user">
     <form class="admin-user__filters" @submit.prevent>
-      <filter-input />
+      <sort-button
+        label="data de cadastro"
+        :isSortedUp="ascending"
+        :disabled="sortDisabled"
+        @clicked="handleSorting"
+      />
+      <filter-input v-model="filter" />
       <form-input
         type="email"
         placeholder="E-mail do usuário"
@@ -11,7 +17,10 @@
         :v="$v.newUser.email"
         name="email"
       />
-      <add-button @clicked="addUserWithLinkToEmail" :disabled="disabled" />
+      <add-button
+        @clicked="addUserWithLinkToEmail"
+        :disabled="addButtonDisabled"
+      />
     </form>
     <div v-for="user in users" :key="user.id">
       <user-info :user="user" @changed="toggleAdminRole(user, $event)">
@@ -25,7 +34,9 @@
       </user-info>
     </div>
     <div class="admin-user__loader">
-      <small v-if="noMoreUsers && !loading">Não há mais usuários. </small>
+      <small v-if="noMoreUsers.showMessage && !loading"
+        >{{ noMoreUsers.message }}
+      </small>
       <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
     </div>
   </div>
@@ -37,9 +48,15 @@ import FilterInput from '@/components/shared/FilterInput'
 import FormInput from '@/components/shared/FormInput'
 import ReactivateButton from '@/components/shared/ReactivateButton'
 import RemoveButton from '@/components/shared/RemoveButton'
+import SortButton from '@/components/shared/SortButton.vue'
 import UserInfo from '@/components/about-users/UserInfo'
 import { addUserWithLinkToEmail } from '@/services/firebaseService'
-import { getUser, getUsers, getNextUsers } from '@/services/usersService'
+import {
+  filterUsersBy,
+  getUser,
+  getUsers,
+  getNextUsers
+} from '@/services/usersService'
 import { mapGetters } from 'vuex'
 import { updateUser } from '@/services/usersService'
 import { email, required } from 'vuelidate/lib/validators'
@@ -53,16 +70,22 @@ export default {
     FormInput,
     ReactivateButton,
     RemoveButton,
+    SortButton,
     UserInfo
   },
 
   data() {
     return {
-      newUser: {},
-      users: [],
+      ascending: false,
+      filter: '',
       itemsPerPage: 4,
       loading: false,
-      noMoreUsers: false
+      newUser: {},
+      noMoreUsers: {
+        showMessage: false,
+        message: ''
+      },
+      users: []
     }
   },
 
@@ -79,16 +102,24 @@ export default {
       user: 'users/user'
     }),
 
-    disabled() {
+    sortDisabled() {
+      return !this.users.length || !!this.filter
+    },
+
+    addButtonDisabled() {
       return this.$v.newUser.$anyError || !this.$v.newUser.$anyDirty
     }
   },
 
   watch: {
     async isEndOfScroll() {
-      if (this.isEndOfScroll) {
+      if (this.isEndOfScroll && !this.filter) {
         this.getNextUsers()
       }
+    },
+
+    async filter() {
+      await this.filterUserBy()
     }
   },
 
@@ -120,10 +151,39 @@ export default {
       }
     },
 
+    async filterUserBy() {
+      if (this.filter.length) {
+        this.loading = true
+        this.users = await filterUsersBy(
+          'displayName',
+          this.filter.toLowerCase()
+        )
+        this.loading = false
+        if (this.users.length) {
+          this.noMoreUsers = {
+            showMessage: true,
+            message: 'Não há mais usuários com os critérios fornecidos!'
+          }
+          return
+        }
+        this.noMoreUsers = {
+          showMessage: true,
+          message: 'Não foram encontrados usuários com os critérios fornecidos!'
+        }
+        return
+      }
+      await this.initializeUsers()
+    },
+
     async initializeUsers() {
       this.loading = true
-      this.users = await getUsers('creationTime', this.itemsPerPage)
+      this.users = await getUsers(
+        'creationTime',
+        this.ascending ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
+      this.noMoreUsers.showMessage = false
     },
 
     async reloadData(id) {
@@ -136,14 +196,28 @@ export default {
 
     async getNextUsers() {
       this.loading = true
-      const moreData = await getNextUsers('creationTime', this.itemsPerPage)
+      const moreData = await getNextUsers(
+        'creationTime',
+        this.ascending ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
       if (!moreData.length) {
-        this.noMoreUsers = true
+        this.noMoreUsers = {
+          showMessage: true,
+          message: 'Não há mais usuários!'
+        }
         return
       }
       this.users.push(...moreData)
-      this.noMoreUsers = false
+    },
+
+    async handleSorting() {
+      if (!this.users.length || !!this.filter) {
+        return
+      }
+      this.ascending = !this.ascending
+      await this.initializeUsers()
     },
 
     async openDeactivateUserConfirm(user) {
@@ -196,6 +270,10 @@ export default {
   height: 100px;
   justify-content: center;
   width: 100%;
+}
+
+.admin-user__loader small {
+  text-align: center;
 }
 
 .admin-user__filters {

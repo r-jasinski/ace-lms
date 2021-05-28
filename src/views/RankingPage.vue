@@ -1,20 +1,28 @@
 <template>
   <div class="ranking-page">
     <div class="ranking-page__filters">
-      <a href="#">mensal</a>
-      <a href="#">anual</a>
-      <filter-input />
+      <sort-button
+        label="pontuação"
+        :isSortedUp="ascending"
+        :disabled="disabled"
+        @clicked="handleSorting"
+      />
+      <filter-input v-model="filter" />
     </div>
-    <div v-for="(user, index) in users" :key="user.id">
+    <div v-for="user in users" :key="user.id">
       <ranking-user :user="user" :currentUser="isCurrentUser(user.id)">
-        <template slot="ranking-user-position">#{{ index + 1 }}</template>
+        <template slot="ranking-user-position">{{
+          user.rankingPoints
+        }}</template>
         <template v-if="isCurrentUser(user.id)" slot="ranking-user-indicator">{{
           '(você)'
         }}</template>
       </ranking-user>
     </div>
     <div class="ranking-page__loader">
-      <small v-if="noMoreUsers && !loading">Não há mais usuários. </small>
+      <small v-if="noMoreUsers.showMessage && !loading"
+        >{{ noMoreUsers.message }}
+      </small>
       <dot-spinner :size="'40px'" :opacity="0.5" v-if="loading" />
     </div>
   </div>
@@ -23,19 +31,25 @@
 <script>
 import FilterInput from '@/components/shared/FilterInput'
 import RankingUser from '@/components/ranking/RankingUser'
-import { getUsers, getNextUsers } from '@/services/usersService'
+import SortButton from '@/components/shared/SortButton.vue'
+import { filterUsersBy, getUsers, getNextUsers } from '@/services/usersService'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'RankingPage',
 
-  components: { FilterInput, RankingUser },
+  components: { FilterInput, RankingUser, SortButton },
 
   data() {
     return {
+      ascending: false,
+      filter: '',
       itemsPerPage: 4,
       loading: false,
-      noMoreUsers: false,
+      noMoreUsers: {
+        showMessage: false,
+        message: ''
+      },
       users: []
     }
   },
@@ -45,14 +59,22 @@ export default {
       authenticatedUser: 'authenticatedUser/authenticatedUser',
       isEndOfScroll: 'miscellaneous/isEndOfScroll',
       user: 'users/user'
-    })
+    }),
+
+    disabled() {
+      return !this.users.length || !!this.filter
+    }
   },
 
   watch: {
     async isEndOfScroll() {
-      if (this.isEndOfScroll) {
+      if (this.isEndOfScroll && !this.filter) {
         this.getNextUsers()
       }
+    },
+
+    async filter() {
+      await this.filterUsersBy()
     }
   },
 
@@ -61,10 +83,39 @@ export default {
   },
 
   methods: {
+    async filterUsersBy() {
+      if (this.filter.length) {
+        this.loading = true
+        this.users = await filterUsersBy(
+          'displayName',
+          this.filter.toLowerCase()
+        )
+        this.loading = false
+        if (this.users.length) {
+          this.noMoreUsers = {
+            showMessage: true,
+            message: 'Não há mais usuários com os critérios fornecidos!'
+          }
+          return
+        }
+        this.noMoreUsers = {
+          showMessage: true,
+          message: 'Não foram encontrados usuários com os critérios fornecidos!'
+        }
+        return
+      }
+      await this.initializeUsers()
+    },
+
     async initializeUsers() {
       this.loading = true
-      this.users = await getUsers('rankingPoints', this.itemsPerPage)
+      this.users = await getUsers(
+        'rankingPoints',
+        this.ascending ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
+      this.noMoreUsers.showMessage = false
     },
 
     isCurrentUser(userId) {
@@ -73,14 +124,28 @@ export default {
 
     async getNextUsers() {
       this.loading = true
-      const moreData = await getNextUsers('rankingPoints', this.itemsPerPage)
+      const moreData = await getNextUsers(
+        'rankingPoints',
+        this.ascending ? 'asc' : 'desc',
+        this.itemsPerPage
+      )
       this.loading = false
       if (!moreData.length) {
-        this.noMoreUsers = true
+        this.noMoreUsers = {
+          showMessage: true,
+          message: 'Não há mais usuários!'
+        }
         return
       }
       this.users.push(...moreData)
-      this.noMoreUsers = false
+    },
+
+    async handleSorting() {
+      if (!this.users.length || !!this.filter) {
+        return
+      }
+      this.ascending = !this.ascending
+      await this.initializeUsers()
     }
   }
 }
@@ -90,6 +155,7 @@ export default {
 .ranking-page {
   margin: 0 20px 0 0;
   width: 100%;
+  z-index: inherit;
 }
 
 .ranking-page__loader {
@@ -98,6 +164,10 @@ export default {
   height: 100px;
   justify-content: center;
   width: 100%;
+}
+
+.ranking-page__loader small {
+  text-align: center;
 }
 
 .ranking-page__filters {

@@ -114,6 +114,7 @@ export default {
         return
       }
       let { email, displayName, password, passwordConfirm } = this.user
+      displayName = displayName.toLowerCase()
       if (password !== passwordConfirm) {
         return
       }

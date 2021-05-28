@@ -28,7 +28,7 @@
         <div class="admin-about__buttons">
           <confirm-button
             :label="'Publicar'"
-            @clicked="createAbout"
+            @clicked="handleConfirmButtonClick"
             :disabled="aboutHasError"
           />
           <cancel-button :label="'Cancelar'" @clicked="cancelAboutEdit" />
@@ -45,7 +45,11 @@ import ConfirmButton from '@/components/shared/ConfirmButton'
 import EditButton from '@/components/shared/EditButton'
 import EditorBody from '@/components/shared/EditorBody'
 import PostInfo from '@/components/shared/PostInfo'
-import { aboutCollection, createAbout } from '@/services/aboutService'
+import {
+  aboutCollection,
+  createAbout,
+  updateAbout
+} from '@/services/aboutService'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -60,7 +64,6 @@ export default {
       aboutIsEditable: false,
       editableAbout: {},
       editorBodyPlaceholder: 'Escreva aqui algo sobre o projeto...',
-      fixedID: 'NPtCmqzUQrL32G7kEHnT',
       loading: false,
       unsubscribe: null
     }
@@ -86,8 +89,8 @@ export default {
     }
   },
 
-  created() {
-    this.initializeAbout()
+  async created() {
+    await this.initializeAbout()
   },
 
   destroyed() {
@@ -101,16 +104,10 @@ export default {
     },
 
     async createAbout() {
-      if (this.about.length < 1) {
-        this.aboutIsEditable = false
-        return
-      }
-      const UTCStringCreationTime = new Date().toUTCString()
       this.about.author = this.authenticatedUser.uid
-      this.about.creationTime = UTCStringCreationTime
-      const errorResponse = await createAbout(this.fixedID, this.about)
+      const errorResponse = await createAbout(this.about)
       if (!errorResponse) {
-        const message = `Sobre salvo com sucesso!`
+        const message = `Sobre criado com sucesso!`
         this.$toast(message, { type: 'info' })
         this.aboutIsEditable = false
       }
@@ -121,15 +118,36 @@ export default {
       this.editableAbout = { ...this.about }
     },
 
-    initializeAbout() {
+    async initializeAbout() {
       this.loading = true
-      this.unsubscribe = aboutCollection.doc(this.fixedID).onSnapshot(doc => {
-        this.about = { ...doc.data() }
-        this.loading = false
-        if (!this.about.content) {
-          this.aboutIsEditable = true
+      this.unsubscribe = await aboutCollection.limit(1).onSnapshot(snapshot => {
+        if (snapshot.docs[0]) {
+          this.about = {
+            id: snapshot.docs[0].id,
+            ...snapshot.docs[0].data()
+          }
+          return
         }
+        this.aboutIsEditable = true
       })
+      this.loading = false
+    },
+
+    handleConfirmButtonClick() {
+      if (this.about.creationTime) {
+        this.updateAbout()
+        return
+      }
+      this.createAbout()
+    },
+
+    async updateAbout() {
+      const errorResponse = await updateAbout(this.about.id, this.about)
+      if (!errorResponse) {
+        const message = `Sobre salvo com sucesso!`
+        this.$toast(message, { type: 'info' })
+        this.aboutIsEditable = false
+      }
     }
   }
 }
@@ -137,7 +155,7 @@ export default {
 
 <style>
 .admin-about {
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
   margin: 0 20px 0 0;
 }
 
@@ -155,7 +173,6 @@ export default {
   display: flex;
   justify-content: flex-start;
   font-size: 0.75em;
-  opacity: 0.7;
 }
 
 .admin-about__buttons {

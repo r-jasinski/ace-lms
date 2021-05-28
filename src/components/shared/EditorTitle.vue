@@ -121,16 +121,6 @@ export default {
   border: 1px solid var(--danger) !important;
 }
 
-.form-error,
-.is-visible {
-  display: flex;
-  flex-direction: column;
-  color: var(--danger);
-  font-size: 0.8em;
-  margin-left: 16px;
-  max-width: 268px;
-}
-
 .editor-title--editable {
   border: 1px solid var(--dark-50);
 }

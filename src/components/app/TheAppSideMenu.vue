@@ -99,13 +99,17 @@ export default {
 
     showScrollToBottomButton() {
       return this.scrollBoddyPercent < 0.9
+    },
+
+    IsEndOfScroll() {
+      return this.scrollBoddyPercent < 0.7
     }
   },
 
   watch: {
-    showScrollToBottomButton() {
+    IsEndOfScroll() {
       let isEndOfScroll
-      if (this.showScrollToBottomButton) {
+      if (this.IsEndOfScroll) {
         isEndOfScroll = false
         this.commitIsEndOfScroll(isEndOfScroll)
         return
