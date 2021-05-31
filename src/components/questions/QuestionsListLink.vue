@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 .question-list-link {
-  padding: 0px 15px;
+  padding: 0 0 0 15px;
   transition: all 0.03s;
   word-wrap: break-word;
 }
@@ -59,7 +59,7 @@ export default {
   border-left: 5px solid var(--primary);
   border-radius: 9px;
   transition: all 0.03s;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .question-list-link__title {
@@ -68,17 +68,17 @@ export default {
 }
 
 .question-list-link__summary {
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  display: -webkit-box;
   overflow: hidden;
   text-align: justify;
   text-justify: inter-word;
 }
 
 .question-list-link hr {
-  border: none;
   border-top: 1px dotted var(--primary);
+  border: none;
   opacity: 0.5;
 }
 
@@ -91,6 +91,9 @@ export default {
 @media only screen and (max-width: 480px) {
   .question-list-link__summary {
     -webkit-line-clamp: 4;
+  }
+  .question-list-link {
+    padding: 0;
   }
 }
 
