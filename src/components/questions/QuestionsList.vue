@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       filter: '',
-      itemsPerPage: 2,
+      itemsPerPage: 5,
       loading: false,
       noMoreQuestions: {
         showMessage: false,

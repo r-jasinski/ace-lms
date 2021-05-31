@@ -58,7 +58,7 @@ export default {
     return {
       articles: [],
       filter: '',
-      itemsPerPage: 4,
+      itemsPerPage: 5,
       loading: false,
       noMoreArticles: {
         showMessage: false,
