@@ -224,11 +224,11 @@ export default {
 
 <style>
 .editor {
-  min-height: 300px;
   border-radius: 18px;
   border: none;
   margin-top: 25px;
-  padding: 10px;
+  min-height: 300px;
+  padding: 0 10px;
   user-select: text;
 }
 
@@ -293,8 +293,8 @@ export default {
 
 .editor__content pre {
   background-color: var(--primary);
-  color: #2c3e50;
   border-radius: 5px;
+  color: #2c3e50;
   padding: 1%;
 }
 
@@ -309,5 +309,11 @@ export default {
   font-style: italic;
   height: 0;
   pointer-events: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .editor {
+    padding: 0;
+  }
 }
 </style>

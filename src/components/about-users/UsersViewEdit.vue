@@ -78,7 +78,7 @@ export default {
     return {
       ascending: false,
       filter: '',
-      itemsPerPage: 4,
+      itemsPerPage: 5,
       loading: false,
       newUser: {},
       noMoreUsers: {

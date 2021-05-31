@@ -1,23 +1,25 @@
 <template>
   <div class="post-info" v-if="postInfo.creationTime">
-    <div
-      class="post-info__avatar"
-      :style="{ backgroundImage: `url(${postInfo.photoURL})` }"
+    <user-avatar
+      :avatarHeigth="90"
+      :inactive="!!postInfo.deletedAt"
+      :userPhotoURL="postInfo.photoURL"
+      :userRankingPoints="postInfo.rankingPoints"
     />
-    <ul class="post-info__text">
-      <li>
-        <small>{{ postInfo.displayName }}</small>
-      </li>
-      <li>
-        <small>Postado {{ postInfo.creationTime | elapsedTime }}</small>
-      </li>
-    </ul>
+    <div class="post-info__text">
+      <small>{{ postInfo.displayName }}</small>
+      <small>Postado {{ postInfo.creationTime | elapsedTime }}</small>
+    </div>
   </div>
 </template>
 
 <script>
+import UserAvatar from '@/components/shared/UserAvatar'
+
 export default {
   name: 'PostInfo',
+
+  components: { UserAvatar },
 
   props: {
     postInfo: { type: Object, default: () => {} }
@@ -26,20 +28,18 @@ export default {
 </script>
 
 <style scoped>
-.post-info__avatar {
-  float: left;
-  margin-right: 20px;
-  height: 50px;
-  min-width: 50px;
-  background-position: center;
-  background-size: cover;
-  border-radius: 999px;
+.post-info {
+  align-items: center;
+  display: flex;
+  height: 80px;
+  justify-content: flex-start;
 }
 
 .post-info__text {
-  margin-top: 0;
-  margin-bottom: 25px;
-  opacity: 0.75;
+  display: flex;
+  flex-direction: column;
   list-style: none;
+  margin-top: 0;
+  opacity: 0.75;
 }
 </style>

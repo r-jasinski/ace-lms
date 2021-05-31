@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 .article-list-link {
-  padding: 0px 15px;
+  padding: 0 0 0 15px;
   transition: all 0.03s;
   word-wrap: break-word;
 }
@@ -67,17 +67,17 @@ export default {
 }
 
 .article-list-link__summary {
-  display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;
+  display: -webkit-box;
   overflow: hidden;
   text-align: justify;
   text-justify: inter-word;
 }
 
 .article-list-link hr {
-  border: none;
   border-top: 1px dotted var(--primary);
+  border: none;
   opacity: 0.5;
 }
 
@@ -90,6 +90,9 @@ export default {
 @media only screen and (max-width: 480px) {
   .article-list-link__summary {
     -webkit-line-clamp: 6;
+  }
+  .article-list-link {
+    padding: 0;
   }
 }
 

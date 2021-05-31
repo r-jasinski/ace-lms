@@ -75,6 +75,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 #app {
   color: var(--dark);
   background-color: var(--light);

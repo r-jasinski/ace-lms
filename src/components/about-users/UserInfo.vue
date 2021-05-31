@@ -1,12 +1,6 @@
 <template>
   <div class="user-info">
-    <div
-      :class="[
-        'user-info__avatar',
-        { 'user-info__avatar--inactive': user.deletedAt }
-      ]"
-      :style="{ backgroundImage: `url(${user.photoURL})` }"
-    />
+    <user-avatar :userPhotoURL="user.photoURL" :inactive="!!user.deletedAt" />
     <div class="user-info__indicator">
       <ul :class="{ 'user-info__indicator--inactive': !!user.deletedAt }">
         <li class="user-info__name">{{ user.displayName }}</li>
@@ -33,11 +27,12 @@
 
 <script>
 import FormCheckbox from '@/components/shared/FormCheckbox'
+import UserAvatar from '@/components/shared/UserAvatar'
 
 export default {
   name: 'UserInfo',
 
-  components: { FormCheckbox },
+  components: { FormCheckbox, UserAvatar },
 
   props: {
     user: { type: Object, default: () => {} }
@@ -60,21 +55,6 @@ export default {
 .user-info:hover {
   background-color: var(--primary);
   transition: all 0.02s;
-}
-
-.user-info__avatar {
-  min-width: 100px;
-  height: 100px;
-  border-radius: 999px;
-  margin-left: 20px;
-  margin-right: 20px;
-  background-position: center;
-  background-size: cover;
-}
-
-.user-info__avatar--inactive {
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
 }
 
 .user-info__name {

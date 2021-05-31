@@ -6,9 +6,10 @@
       </span>
       <small>xp</small>
     </div>
-    <div
-      class="ranking-user__avatar"
-      :style="{ backgroundImage: `url(${user.photoURL})` }"
+    <user-avatar
+      :inactive="!!user.deletedAt"
+      :userPhotoURL="user.photoURL"
+      :userRankingPoints="user.rankingPoints"
     />
     <ul>
       <li class="ranking-user__name">
@@ -22,8 +23,12 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/shared/UserAvatar'
+
 export default {
   name: 'RankingUser',
+
+  components: { UserAvatar },
 
   props: {
     currentUser: { type: Boolean, required: false },
@@ -62,14 +67,6 @@ export default {
   font-weight: 900;
   min-width: 85px;
   text-shadow: 0 0 5px var(--light);
-}
-
-.ranking-user__avatar {
-  min-width: 100px;
-  height: 100px;
-  border-radius: 999px;
-  background-position: center;
-  background-size: cover;
 }
 
 .ranking-user__name {

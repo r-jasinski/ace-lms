@@ -438,10 +438,6 @@ export default {
   justify-content: center;
 }
 
-.article-view-edit__title {
-  margin-bottom: 10px;
-}
-
 .article-view-edit__label {
   font-size: 0.75em;
 }

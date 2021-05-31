@@ -5,8 +5,13 @@
       id="app-menu__button"
       aria-label="Toggle Main Menu"
       @click="menuHandler"
-      :style="{ backgroundImage: `url(${displayImage})` }"
-    />
+    >
+      <user-avatar
+        :userPhotoURL="displayImage"
+        :userRankingPoints="userRankingPoints"
+        class="app-menu__avatar"
+      />
+    </button>
     <div
       :class="['app-menu__wrapper', { 'app-menu__wrapper--opened': opened }]"
       id="app-menu__wrapper"
@@ -76,11 +81,14 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/shared/UserAvatar'
 import { mapGetters } from 'vuex'
 import { signOut } from '@/services/firebaseService'
 
 export default {
   name: 'TheAppMenu',
+
+  components: { UserAvatar },
 
   data() {
     return {
@@ -91,8 +99,13 @@ export default {
   computed: {
     ...mapGetters({
       authenticatedUser: 'authenticatedUser/authenticatedUser',
-      displayImage: 'authenticatedUser/displayImage'
-    })
+      displayImage: 'authenticatedUser/displayImage',
+      user: 'users/user'
+    }),
+
+    userRankingPoints() {
+      return this.user(this.authenticatedUser.uid)?.rankingPoints
+    }
   },
 
   mounted() {
@@ -170,6 +183,14 @@ export default {
 
 .app-menu__button:hover::before {
   opacity: 1;
+}
+
+.app-menu__avatar {
+  position: relative;
+  top: -5px;
+  left: -16.5px;
+  /* top: 100%;
+  left: 50%; */
 }
 
 .app-menu__wrapper {
