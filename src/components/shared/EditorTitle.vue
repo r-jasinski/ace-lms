@@ -113,7 +113,7 @@ export default {
 .editor-title {
   border-radius: 18px;
   border: none;
-  padding: 10px;
+  padding: 0 10px;
   user-select: text;
 }
 
@@ -145,5 +145,11 @@ export default {
   font-style: italic;
   height: 0;
   pointer-events: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .editor-title {
+    padding: 0;
+  }
 }
 </style>
