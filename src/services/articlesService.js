@@ -1,3 +1,7 @@
+import {
+  addRecommendedArticle,
+  removeRecommendedArticle
+} from '@/services/contentRecommendationService'
 import { handleFirebaseErrors } from '@/services/errorsService'
 import {
   decrementArticleAuthorRanking,
@@ -15,7 +19,8 @@ export const articlesCollection = db.collection('articles')
 export const createArticle = async article => {
   try {
     const creationTime = firebase.firestore.FieldValue.serverTimestamp()
-    await articlesCollection.doc().set({ ...article, creationTime })
+    const response = await articlesCollection.add({ ...article, creationTime })
+    await addRecommendedArticle(response.id)
     await incrementAuthenticatedUserRanking('article')
   } catch (error) {
     handleFirebaseErrors(error.code)
@@ -96,6 +101,7 @@ export const getNextArticles = async (
 export const deleteArticle = async (articleId, authorId) => {
   try {
     await articlesCollection.doc(articleId).delete()
+    await removeRecommendedArticle(articleId)
     await decrementAuthorRanking(authorId, 'article')
   } catch (error) {
     handleFirebaseErrors(error.code)
