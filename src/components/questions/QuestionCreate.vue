@@ -9,8 +9,10 @@
         @title-has-error="titleHasError = $event"
       />
       <small class="question-create__label"
-        >O título aparecerá na página inicial, portanto seja claro e
-        objetivo"</small
+        >O título aparecerá na listagem principal, portanto seja claro e
+        objetivo. Lembre-se: se você fizer uma pergunta vaga, terá uma resposta
+        vaga. Porém, se você der detalhes e contexto, certamente encontrará uma
+        resposta útil.</small
       >
     </div>
     <editor-body
