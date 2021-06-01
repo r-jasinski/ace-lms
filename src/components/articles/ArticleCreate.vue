@@ -9,8 +9,9 @@
         @title-has-error="titleHasError = $event"
       />
       <small class="article-create__label"
-        >O título aparecerá na página inicial, portanto inclua um texto que
-        possa ser utilizado logo após a sentença "Você sabia que..."</small
+        >O título poderá aparecer na página inicial, portanto seja claro e
+        objetivo. Procure expressar as suas ideias principais e resumir, em
+        poucas palavras, o conteúdo do seu texto.</small
       >
     </div>
     <editor-body
