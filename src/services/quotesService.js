@@ -55,6 +55,6 @@ const quotes = [
   }
 ]
 
-let index = Math.floor(Math.random() * (quotes.length - 1 - 0 + 1)) + 0
+let index = Math.floor(Math.random() * (quotes.length - 1))
 
 export const getQuote = () => quotes[index]
