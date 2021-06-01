@@ -97,13 +97,12 @@ export default {
 <style scoped>
 .app-nav-bar {
   background-color: var(--light);
-  box-shadow: 0 10px 10px var(--light);
+  border-bottom: 5px solid var(--light);
   color: var(--dark-75) !important;
   display: flex;
   height: 60px;
   justify-content: space-around;
   left: 0;
-  opacity: 0.97;
   padding-bottom: 10px;
   padding: 0 20%;
   position: fixed;
@@ -133,6 +132,7 @@ export default {
   border-bottom: 3px solid var(--primary);
   border-radius: 3px;
   color: var(--primary);
+  pointer-events: none;
 }
 
 .app-nav-bar__link:hover {
