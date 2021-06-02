@@ -18,6 +18,7 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button"
       @click="toggleDarkMode"
+      v-once
     >
       <font-awesome-icon
         icon="lightbulb"
@@ -25,10 +26,10 @@
         size="2x"
       />
     </div>
-
     <div
       class="app-side-menu__wrapper app-side-menu__button app-side-menu__button--center"
       @click="commitArticleFontSizeIncrease"
+      v-once
     >
       <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
       <font-awesome-icon
@@ -40,6 +41,7 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button--center app-side-menu__button"
       @click="commitArticleFontSizeDecrease"
+      v-once
     >
       <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
       <font-awesome-icon
@@ -50,6 +52,7 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button"
       @click="callNotifications"
+      v-once
     >
       <font-awesome-icon icon="bell" class="app-side-menu__icon" size="2x" />
     </div>
@@ -189,30 +192,30 @@ export default {
 
 <style scoped>
 .app-side-menu {
-  width: 30px;
-  height: 100%;
-  position: fixed;
-  right: 20px;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   font-size: 18px;
+  height: 100%;
+  justify-content: flex-end;
+  padding-bottom: 20vh;
+  position: fixed;
+  right: 20px;
+  width: 30px;
   z-index: 3;
 }
 
 .app-side-menu__wrapper {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  border-radius: 100vh;
+  display: flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
 }
 
 .app-side-menu__icon {
-  max-width: 24px;
   cursor: pointer;
+  max-width: 24px;
   padding: 3px;
 }
 
@@ -222,22 +225,22 @@ export default {
 
 .app-side-menu__scroll-bottom-button {
   fill: var(--dark);
-  width: 28px;
   height: 36px;
   padding: 3px;
   transform: rotate(180deg);
+  width: 28px;
 }
 
 .app-side-menu__scroll-top-button {
   fill: var(--dark);
-  width: 28px;
   height: 36px;
   padding: 3px;
+  width: 28px;
 }
 
 .app-side-menu__button--sup {
-  position: relative;
   bottom: 7px;
+  position: relative;
   right: 10px;
 }
 
@@ -256,18 +259,18 @@ export default {
 }
 
 .app-side-menu__icon {
-  max-width: 24px;
   cursor: pointer;
+  max-width: 24px;
   padding: 3px;
 }
 
 .app-side-menu small {
-  width: 42px;
   font-size: 10px;
-  text-align: center;
   opacity: 0.4;
+  text-align: center;
   text-shadow: -1px 0 var(--light), 0 1px var(--light), 1px 0 var(--light),
     0 -1px var(--light);
+  width: 42px;
 }
 
 @media only screen and (max-width: 768px) {

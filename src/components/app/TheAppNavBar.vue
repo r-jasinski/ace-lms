@@ -1,6 +1,7 @@
 <template>
   <div class="app-nav-bar">
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       exact-active-class="app-nav-bar__link--active"
@@ -10,6 +11,7 @@
       <font-awesome-icon icon="home" />
     </router-link>
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
@@ -18,6 +20,7 @@
       <font-awesome-icon icon="trophy" />
     </router-link>
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
@@ -26,6 +29,7 @@
       <font-awesome-icon icon="graduation-cap" />
     </router-link>
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
@@ -34,6 +38,7 @@
       <font-awesome-icon icon="question" />
     </router-link>
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
@@ -42,6 +47,7 @@
       <font-awesome-icon icon="user-edit" />
     </router-link>
     <router-link
+      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
@@ -54,6 +60,7 @@
       @click="signOut"
     >
       <router-link
+        v-once
         tag="div"
         to="exit"
         class="app-nav-bar__exit-link-wrapper"
@@ -98,6 +105,7 @@ export default {
 .app-nav-bar {
   background-color: var(--light);
   border-bottom: 5px solid var(--light);
+  box-shadow: 0 5px 5px var(--light);
   color: var(--dark-75) !important;
   display: flex;
   height: 60px;
