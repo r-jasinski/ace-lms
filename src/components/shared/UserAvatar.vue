@@ -5,7 +5,7 @@
         :src="userPhotoURL"
         alt="imagem do usuário"
         class="user-avatar__image"
-        :style="`height: ${avatarHeigth}px`"
+        :style="`height: ${avatarSize}px; width: ${avatarSize}px`"
       />
     </div>
     <div :class="['user-avatar__badge', { 'user-avatar--inactive': inactive }]">
@@ -31,7 +31,7 @@ export default {
   components: { OneStar, TwoStar, ThreeStar, FourStar, FiveStar },
 
   props: {
-    avatarHeigth: { type: Number, default: 110 },
+    avatarSize: { type: Number, default: 110 },
     inactive: { type: Boolean, default: false },
     userRankingPoints: { type: Number, default: 0 },
     userPhotoURL: { type: String, required: true }
@@ -77,7 +77,8 @@ export default {
 
 .user-avatar__image {
   display: block;
-  height: 110px;
+  /* height: 110px;
+  width: 110px; */
 }
 
 .user-avatar__mask {

@@ -1,7 +1,7 @@
 <template>
   <div class="post-info" v-if="postInfo.creationTime">
     <user-avatar
-      :avatarHeigth="90"
+      :avatarSize="85"
       :inactive="!!postInfo.deletedAt"
       :userPhotoURL="postInfo.photoURL"
       :userRankingPoints="postInfo.rankingPoints"

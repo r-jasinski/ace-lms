@@ -19,6 +19,7 @@
       <ul>
         <li>
           <router-link
+            v-once
             exact-active-class="app-menu__link--active"
             :to="{ name: 'HomePage', params: { savedPosition: true } }"
           >
@@ -28,6 +29,7 @@
         </li>
         <li>
           <router-link
+            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'RankingPage', params: { savedPosition: true } }"
             ><span>Ranking</span>
@@ -36,6 +38,7 @@
         </li>
         <li>
           <router-link
+            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'ArticlesList', params: { savedPosition: true } }"
             ><span>Artigos</span>
@@ -47,6 +50,7 @@
         </li>
         <li>
           <router-link
+            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'QuestionsList', params: { savedPosition: true } }"
             ><span>Perguntas</span>
@@ -55,6 +59,7 @@
         </li>
         <li>
           <router-link
+            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'ProfilePage', params: { savedPosition: true } }"
             ><span>Perfil</span>
@@ -63,6 +68,7 @@
         </li>
         <li>
           <router-link
+            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'AboutUsersPage', params: { savedPosition: true } }"
             ><span>Sobre</span>
@@ -70,7 +76,7 @@
           </router-link>
         </li>
         <li @click="signOut">
-          <router-link to="exit"
+          <router-link to="exit" v-once
             ><span>Sair</span>
             <font-awesome-icon icon="times" class="app-menu__button-icon" />
           </router-link>
