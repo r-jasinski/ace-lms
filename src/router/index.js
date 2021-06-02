@@ -51,6 +51,15 @@ const router = new VueRouter({
 router.afterEach(to => {
   if (to.meta.title) {
     store.dispatch('documentTitle/commitDocumentTitle', to.meta.title)
+    var link = document.querySelector("link[rel='canonical']")
+      ? document.querySelector("link[rel='canonical']")
+      : document.createElement('link')
+    link.setAttribute('rel', 'canonical')
+    link.setAttribute(
+      'href',
+      `${location.protocol}//${location.host}${location.pathname}`
+    )
+    document.head.appendChild(link)
   }
 })
 
