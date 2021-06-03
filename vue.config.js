@@ -1,12 +1,6 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
-
 module.exports = {
   devServer: {
     port: 1337
-  },
-  configureWebpack: {
-    plugins: [new BundleAnalyzerPlugin()]
   },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
