@@ -9,6 +9,7 @@
       <small>
         <a
           href="https://github.com/r-jasinski"
+          rel="noopener"
           target="_blank"
           aria-label="GitHub"
         >
@@ -16,6 +17,7 @@
         </a>
         <a
           href="https://www.linkedin.com/in/roberto-jasinski"
+          rel="noopener"
           target="_blank"
           aria-label="Linkedin"
         >
