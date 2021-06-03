@@ -32,13 +32,13 @@ export default {
 :root {
   --primary: #81bfe2;
   --primary-plus: #3c83ac;
-  --dark: #2c3e50;
+  --dark: #192734;
   --light: #ffffff;
-  --dark-20: #2c3e5010;
+  --dark-20: #19273410;
   --light-20: #ffffff25;
-  --dark-50: #2c3e5050;
+  --dark-50: #19273450;
   --light-50: #ffffff50;
-  --dark-75: #2c3e5075;
+  --dark-75: #19273475;
   --light-75: #ffffffad;
   --success: #90c916;
   --success-plus: #75ac10;
@@ -89,13 +89,13 @@ body {
 }
 
 .app--dark-mode {
-  --light: #2c3e50;
+  --light: #192734;
   --dark: #ffffff;
-  --light-20: #2c3e5010;
+  --light-20: #19273410;
   --dark-20: #ffffff0c;
-  --light-50: #2c3e5050;
+  --light-50: #19273450;
   --dark-50: #ffffff50;
-  --light-75: #2c3e5075;
+  --light-75: #19273475;
   --dark-75: #ffffffad;
   background: fixed url('./assets/stars.svg') center center;
 }
