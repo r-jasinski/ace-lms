@@ -21,6 +21,7 @@
         v-model="user.email"
         :v="$v.user.email"
         name="email"
+        :autofocus="true"
       />
       <form-input
         v-show="!forgotPasswordMode"

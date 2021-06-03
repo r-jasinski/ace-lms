@@ -5,7 +5,7 @@
       tag="div"
       class="app-nav-bar__link"
       exact-active-class="app-nav-bar__link--active"
-      :to="{ name: 'HomePage' }"
+      :to="{ name: 'HomePage', params: { fromNav: true } }"
     >
       <span>Home</span>
       <font-awesome-icon icon="home" />
@@ -15,7 +15,7 @@
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
-      :to="{ name: 'RankingPage' }"
+      :to="{ name: 'RankingPage', params: { fromNav: true } }"
       ><span>Ranking</span>
       <font-awesome-icon icon="trophy" />
     </router-link>
@@ -24,7 +24,7 @@
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
-      :to="{ name: 'ArticlesList' }"
+      :to="{ name: 'ArticlesList', params: { fromNav: true } }"
       ><span>Artigos</span>
       <font-awesome-icon icon="graduation-cap" />
     </router-link>
@@ -33,7 +33,7 @@
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
-      :to="{ name: 'QuestionsList' }"
+      :to="{ name: 'QuestionsList', params: { fromNav: true } }"
       ><span>Perguntas</span>
       <font-awesome-icon icon="question" />
     </router-link>
@@ -42,7 +42,7 @@
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
-      :to="{ name: 'ProfilePage' }"
+      :to="{ name: 'ProfilePage', params: { fromNav: true } }"
       ><span>Perfil</span>
       <font-awesome-icon icon="user-edit" />
     </router-link>
@@ -51,7 +51,7 @@
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
-      :to="{ name: 'AboutUsersPage' }"
+      :to="{ name: 'AboutUsersPage', params: { fromNav: true } }"
       ><span>Sobre</span>
       <font-awesome-icon icon="info" />
     </router-link>

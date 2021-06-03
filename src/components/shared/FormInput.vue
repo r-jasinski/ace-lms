@@ -9,6 +9,7 @@
         v-model.trim="inputModel"
         @input="v.$touch()"
         :autocomplete="autocomplete"
+        :autofocus="autofocus"
       />
     </div>
   </form-group>
@@ -20,6 +21,7 @@ export default {
 
   props: {
     autocomplete: { type: String, default: 'off' },
+    autofocus: { type: Boolean, default: false },
     icon: { type: String, default: 'meh-blank' },
     name: { type: String, default: '' },
     placeholder: { type: String, default: '' },

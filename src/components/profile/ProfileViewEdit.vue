@@ -1,10 +1,17 @@
 <template>
   <div class="profile-view-edit">
     <dot-loader :loading="loading" />
-    <div
-      class="profile-view-edit__avatar"
-      :style="{ backgroundImage: `url(${displayImage})` }"
-    >
+    <div class="profile-view-edit__avatar">
+      <image-picker
+        v-model="file"
+        :v="$v.file"
+        :displayImage="displayImage"
+        name="file"
+        @input="$v.file.$touch()"
+        @picked="HTMLInputElement = $event"
+      />
+      <small v-if="file">{{ file.name }}</small>
+
       <remove-button
         v-if="userHasPhoto"
         @clicked="openPhotoDeleteConfirm()"
@@ -32,15 +39,14 @@
         :name="name"
         v-model="user[meta]"
       />
-      <file-picker
+      <!-- <image-picker
         v-model="file"
-        icon="image"
-        placeholder="Selecione uma imagem"
         :v="$v.file"
+        :displayImage="displayImage"
         name="file"
         @input="$v.file.$touch()"
         @picked="HTMLInputElement = $event"
-      />
+      /> -->
       <confirm-button
         class="profile-view-edit__save-button"
         label="Salvar"
@@ -52,7 +58,7 @@
 </template>
 
 <script>
-import FilePicker from '@/components/shared/FilePicker'
+import ImagePicker from '@/components/shared/ImagePicker'
 import FormInput from '@/components/shared/FormInput'
 import RemoveButton from '@/components/shared/RemoveButton'
 import ConfirmButton from '@/components/shared/ConfirmButton'
@@ -90,7 +96,13 @@ import {
 export default {
   name: 'ProfileViewEdit',
 
-  components: { FilePicker, ConfirmButton, DotLoader, FormInput, RemoveButton },
+  components: {
+    ImagePicker,
+    ConfirmButton,
+    DotLoader,
+    FormInput,
+    RemoveButton
+  },
 
   mixins: [profileFormInputsMixin],
 
@@ -175,6 +187,8 @@ export default {
       const defaultPhotoURL = `https://robohash.org/${user.uid}.png`
       await user.updateProfile({ photoURL: defaultPhotoURL })
       await updateUser(user.uid, { photoURL: defaultPhotoURL })
+      this.file = null
+      this.$v.$reset()
       this.reloadData()
     },
 
@@ -266,13 +280,16 @@ export default {
   border-radius: 100vh;
   box-shadow: #24292e2a 0px 0px 2px 2px;
   height: 275px;
+  margin-bottom: 25px;
   width: 275px;
+  z-index: 999;
 }
 
 .profile-view-edit__form {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  margin-top: 25px;
   max-width: 300px;
 }
 
@@ -284,6 +301,11 @@ export default {
 .profile-view-edit__remove-button {
   left: 240px;
   position: relative;
-  top: 50px;
+  top: -240px;
+}
+
+small {
+  margin-left: 16px;
+  margin-bottom: 250px;
 }
 </style>
