@@ -38,6 +38,7 @@ const router = new VueRouter({
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     if (to.params.savedPosition) return {}
+    if (to.params.fromNav) return { x: 0, y: 267 }
     if (to.hash) {
       let position = { selector: to.hash }
       return position
