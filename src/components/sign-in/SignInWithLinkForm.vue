@@ -14,7 +14,8 @@
           icon,
           meta,
           validator,
-          name
+          name,
+          autofocus
         },
         index) in inputs"
         :key="index"
@@ -24,6 +25,7 @@
         :icon="icon"
         :v="$v.user[validator]"
         :name="name"
+        :autofocus="autofocus"
         v-model="user[meta]"
       />
       <confirm-button

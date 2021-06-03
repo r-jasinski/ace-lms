@@ -9,7 +9,8 @@ export default {
           icon: 'user',
           meta: 'displayName',
           validator: 'displayName',
-          name: 'user'
+          name: 'user',
+          autofocus: true
         },
         {
           type: 'email',
