@@ -1,7 +1,9 @@
 <template>
   <div class="app-page">
     <nav>
-      <the-app-nav-bar v-if="showTopMenu" />
+      <transition name="slide">
+        <the-app-nav-bar v-if="showTopMenu" />
+      </transition>
     </nav>
     <the-app-side-menu />
     <header v-once>
@@ -124,6 +126,15 @@ a {
   color: var(--primary);
 }
 
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-10px);
+}
+
 @media only screen and (max-width: 768px) {
   article {
     padding: 0 10%;
@@ -131,10 +142,6 @@ a {
 }
 
 @media only screen and (max-width: 550px) {
-  header {
-    min-height: 300px;
-    height: 300px;
-  }
   article {
     padding: 0 1%;
   }
