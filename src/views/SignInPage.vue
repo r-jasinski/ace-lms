@@ -1,9 +1,12 @@
 <template>
   <div class="sign-in-page">
+    <a class="skip-link" href="#maincontent">Skip to main</a>
     <sign-in-header />
-    <keep-alive>
-      <component :is="component" @submited="component = 'sign-in-form'" />
-    </keep-alive>
+    <main id="maincontent">
+      <keep-alive>
+        <component :is="component" @submited="component = 'sign-in-form'" />
+      </keep-alive>
+    </main>
   </div>
 </template>
 
@@ -50,6 +53,20 @@ export default {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: 'image form';
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 @media only screen and (max-width: 768px) {
