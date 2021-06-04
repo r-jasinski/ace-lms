@@ -3,6 +3,10 @@
     class="reactivate-button"
     @click.prevent="$emit('clicked')"
     aria-label="Reativar"
+    v-tooltip.bottom="{
+      content: `Reativar ${tooltipContent}`,
+      delay: { show: 500 }
+    }"
   >
     <font-awesome-icon icon="redo" />
   </button>
@@ -10,7 +14,11 @@
 
 <script>
 export default {
-  name: 'ReactivateButton'
+  name: 'ReactivateButton',
+
+  props: {
+    tooltipContent: { type: String, default: 'conteúdo' }
+  }
 }
 </script>
 

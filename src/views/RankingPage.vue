@@ -153,6 +153,7 @@ export default {
 
 <style scoped>
 .ranking-page {
+  padding: 0 20%;
   margin: 0 20px 0 0;
   width: 100%;
   z-index: inherit;

@@ -70,26 +70,38 @@
           <span>Sair</span>
           <font-awesome-icon icon="times" />
         </div>
-        <div
-          class="app-nav-bar__avatar"
-          :style="{ backgroundImage: `url(${displayImage})` }"
-        />
+        <div class="app-nav-bar__avatar">
+          <user-avatar
+            :avatarSize="50"
+            :userPhotoURL="displayImage"
+            :userRankingPoints="userRankingPoints"
+          />
+        </div>
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import UserAvatar from '@/components/shared/UserAvatar'
 import { mapGetters } from 'vuex'
 import { signOut } from '@/services/firebaseService'
 
 export default {
   name: 'TheAppNavBar',
 
+  components: { UserAvatar },
+
   computed: {
     ...mapGetters({
-      displayImage: 'authenticatedUser/displayImage'
-    })
+      authenticatedUser: 'authenticatedUser/authenticatedUser',
+      displayImage: 'authenticatedUser/displayImage',
+      user: 'users/user'
+    }),
+
+    userRankingPoints() {
+      return this.user(this.authenticatedUser.uid)?.rankingPoints
+    }
   },
 
   methods: {
@@ -149,12 +161,7 @@ export default {
 }
 
 .app-nav-bar__avatar {
-  background-position: center;
-  background-size: cover;
-  border-radius: 999px;
-  height: 40px;
-  margin-left: 10px;
-  min-width: 40px;
+  margin-top: 30px;
 }
 
 .app-nav-bar__exit-link-wrapper {

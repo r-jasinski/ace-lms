@@ -3,6 +3,10 @@
     <label
       :class="['image-picker', { 'image-picker__error': v.$error }]"
       :style="{ backgroundImage: `url(${displayImage})` }"
+      v-tooltip.bottom="{
+        content: 'Editar imagem',
+        delay: { show: 500 }
+      }"
     >
       <input
         type="file"

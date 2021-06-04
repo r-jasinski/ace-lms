@@ -36,8 +36,11 @@
       />
       <div v-if="!questionIsEditable" class="question-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="question-view-edit__buttons">
-          <edit-button @clicked="editQuestion" />
-          <remove-button @clicked="openQuestionDeleteConfirm" />
+          <edit-button @clicked="editQuestion" tooltipContent="pergunta" />
+          <remove-button
+            @clicked="openQuestionDeleteConfirm"
+            tooltipContent="pergunta"
+          />
         </div>
         <back-button
           @clicked="

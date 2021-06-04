@@ -36,8 +36,11 @@
       />
       <div v-if="!articleIsEditable" class="article-view-edit__buttons">
         <div v-if="isAdmin || isAuthor" class="article-view-edit__buttons">
-          <edit-button @clicked="editArticle" />
-          <remove-button @clicked="openArticleDeleteConfirm" />
+          <edit-button @clicked="editArticle" tooltipContent="artigo" />
+          <remove-button
+            @clicked="openArticleDeleteConfirm"
+            tooltipContent="artigo"
+          />
         </div>
         <back-button
           @clicked="

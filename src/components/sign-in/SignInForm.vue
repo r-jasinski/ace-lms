@@ -23,17 +23,26 @@
         name="email"
         :autofocus="true"
       />
-      <form-input
-        v-show="!forgotPasswordMode"
-        class="sign-in-form__input"
-        type="password"
-        placeholder="Informe sua senha"
-        autocomplete="current-password"
-        icon="key"
-        v-model="user.password"
-        :v="$v.user.password"
-        name="password"
-      />
+      <div class="sign-in-form__input-wrapper">
+        <input
+          type="text"
+          name="email"
+          value="..."
+          autocomplete="username email"
+          style="display: none;"
+        />
+        <form-input
+          v-show="!forgotPasswordMode"
+          class="sign-in-form__input"
+          type="password"
+          placeholder="Informe sua senha"
+          autocomplete="current-password"
+          icon="key"
+          v-model="user.password"
+          :v="$v.user.password"
+          name="password"
+        />
+      </div>
       <confirm-button
         class="sign-in-form__submit-button"
         :label="submitButtonLabel"
@@ -175,6 +184,10 @@ p {
 .sign-in-form__input {
   min-width: 300px;
   margin-bottom: 5px;
+}
+
+.sign-in-form__input-wrapper {
+  height: 50px;
 }
 
 .sign-in-form a {

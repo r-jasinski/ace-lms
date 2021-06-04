@@ -12,6 +12,7 @@ export default {
 
 <style scoped>
 .articles-page {
+  padding: 0 20%;
   width: 100%;
 }
 </style>

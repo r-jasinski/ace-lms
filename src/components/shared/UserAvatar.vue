@@ -85,6 +85,8 @@ export default {
 }
 
 .user-avatar__badge {
+  -webkit-filter: drop-shadow(0px 3px 1px var(--light));
+  filter: drop-shadow(0px 3px 1px var(--light));
   margin-top: -10px;
   z-index: 1;
 }

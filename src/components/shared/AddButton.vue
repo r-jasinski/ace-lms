@@ -2,7 +2,10 @@
   <button
     :class="['add-button', { 'add-button--disabled': disabled }]"
     @click.prevent="$emit('clicked')"
-    aria-label="Adicionar"
+    v-tooltip.bottom="{
+      content: `Criar ${tooltipContent}`,
+      delay: { show: 500 }
+    }"
   >
     <font-awesome-icon icon="plus" />
   </button>
@@ -13,24 +16,25 @@ export default {
   name: 'AddButton',
 
   props: {
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
+    tooltipContent: { type: String, default: 'conteúdo' }
   }
 }
 </script>
 
 <style scoped>
 .add-button {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  min-width: 50px;
-  min-height: 50px;
-  color: #fff;
   background-color: var(--primary);
   border-radius: 100vh;
   border: none;
-  outline: none;
+  color: #fff;
+  display: flex;
   font-weight: 900;
+  justify-content: center;
+  min-height: 50px;
+  min-width: 50px;
+  outline: none;
   transform: scale(1);
   transition: all 0.05s;
 }
@@ -49,9 +53,9 @@ export default {
 }
 
 .add-button--disabled {
-  opacity: 0.5;
-  cursor: default !important;
-  transform: scale(1) !important;
   background-color: var(--primary) !important;
+  cursor: default !important;
+  opacity: 0.5;
+  transform: scale(1) !important;
 }
 </style>

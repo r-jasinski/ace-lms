@@ -8,19 +8,22 @@
         @clicked="handleSorting"
       />
       <filter-input v-model="filter" />
-      <form-input
-        type="email"
-        placeholder="E-mail do usuário"
-        autocomplete="email"
-        icon="at"
-        v-model="newUser.email"
-        :v="$v.newUser.email"
-        name="email"
-      />
-      <add-button
-        @clicked="addUserWithLinkToEmail"
-        :disabled="addButtonDisabled"
-      />
+      <div class="admin-user__filters-wrap">
+        <form-input
+          type="email"
+          placeholder="E-mail do usuário"
+          autocomplete="email"
+          icon="at"
+          v-model="newUser.email"
+          :v="$v.newUser.email"
+          name="email"
+        />
+        <add-button
+          @clicked="addUserWithLinkToEmail"
+          :disabled="addButtonDisabled"
+          tooltipContent="usuário"
+        />
+      </div>
     </form>
     <div v-for="user in users" :key="user.id">
       <user-info :user="user" @changed="toggleAdminRole(user, $event)">
@@ -28,8 +31,13 @@
           <reactivate-button
             v-if="user.deletedAt"
             @clicked="openReactivateUserConfirm(user)"
+            tooltipContent="usuário"
           />
-          <remove-button v-else @clicked="openDeactivateUserConfirm(user)" />
+          <remove-button
+            v-else
+            @clicked="openDeactivateUserConfirm(user)"
+            tooltipContent="usuário"
+          />
         </template>
       </user-info>
     </div>
@@ -277,11 +285,23 @@ export default {
 }
 
 .admin-user__filters {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 20px;
+  justify-content: flex-end;
+}
+
+.admin-user__filters-wrap {
   display: flex;
   align-items: baseline;
-  justify-content: flex-end;
   gap: 5px;
-  margin: 25px 25px 0 0;
+}
+
+.admin-user__filters a {
+  text-decoration: none;
+  color: var(--dark);
+  margin-right: 20px;
 }
 
 .inactive {
@@ -289,9 +309,10 @@ export default {
   filter: grayscale(100%);
 }
 
-.admin-user__filters a {
-  text-decoration: none;
-  color: var(--dark);
-  margin-right: 20px;
+@media only screen and (max-width: 556px) {
+  .admin-user__filters {
+    justify-content: center;
+    gap: 10px 20px;
+  }
 }
 </style>

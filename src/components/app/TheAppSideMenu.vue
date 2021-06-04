@@ -4,6 +4,10 @@
       class="app-side-menu__wrapper app-side-menu__button"
       v-if="showScrollToTopButton"
       @click="scrollToTop"
+      v-tooltip.left="{
+        content: `Ir para o início`,
+        delay: { show: 800 }
+      }"
     >
       <arrow-icon class="app-side-menu__scroll-top-button " />
     </div>
@@ -12,12 +16,20 @@
       class="app-side-menu__wrapper app-side-menu__button"
       v-if="showScrollToBottomButton"
       @click="scrollToBottom"
+      v-tooltip.left="{
+        content: `Ir para o fim`,
+        delay: { show: 800 }
+      }"
     >
       <arrow-icon class="app-side-menu__scroll-bottom-button" />
     </div>
     <div
       class="app-side-menu__wrapper app-side-menu__button"
       @click="toggleDarkMode"
+      v-tooltip.left="{
+        content: `Trocar tema`,
+        delay: { show: 800 }
+      }"
       v-once
     >
       <font-awesome-icon
@@ -29,6 +41,10 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button app-side-menu__button--center"
       @click="commitArticleFontSizeIncrease"
+      v-tooltip.left="{
+        content: `Aumentar fonte`,
+        delay: { show: 800 }
+      }"
       v-once
     >
       <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
@@ -41,6 +57,10 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button--center app-side-menu__button"
       @click="commitArticleFontSizeDecrease"
+      v-tooltip.left="{
+        content: `Diminuir fonte`,
+        delay: { show: 800 }
+      }"
       v-once
     >
       <font-awesome-icon icon="font" class="app-side-menu__icon" size="2x" />
@@ -52,6 +72,10 @@
     <div
       class="app-side-menu__wrapper app-side-menu__button"
       @click="callNotifications"
+      v-tooltip.left="{
+        content: `Exibir notificações`,
+        delay: { show: 800 }
+      }"
       v-once
     >
       <font-awesome-icon icon="bell" class="app-side-menu__icon" size="2x" />
