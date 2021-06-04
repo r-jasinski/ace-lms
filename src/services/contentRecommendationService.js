@@ -1,6 +1,7 @@
 import { getArticle } from '@/services/articlesService'
 import { handleFirebaseErrors } from '@/services/errorsService'
 import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 const db = firebase.firestore()
 const recommendedArticlesDoc = 'apNGYtNw1lqnDgdxvStA'
