@@ -7,20 +7,6 @@ module.exports = {
       args[0].title = 'ACE LMS'
       return args
     })
-    /*
-       Disable (or customize) prefetch, see:
-       https://cli.vuejs.org/guide/html-and-static-assets.html#prefetch
-    */
-    config.plugins.delete('prefetch')
-
-    /*
-          Configure preload to load all chunks
-          NOTE: use `allChunks` instead of `all` (deprecated)
-       */
-    config.plugin('preload').tap(options => {
-      options[0].include = 'allChunks'
-      return options
-    })
 
     const svgRule = config.module.rule('svg')
 
