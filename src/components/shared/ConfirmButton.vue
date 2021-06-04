@@ -7,6 +7,7 @@
     ]"
     @click.prevent="$emit('clicked')"
     :disabled="disabled"
+    aria-label="Confirmar"
   >
     <div class="confirm-button__label">
       {{ label }}

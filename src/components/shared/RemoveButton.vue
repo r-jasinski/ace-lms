@@ -1,5 +1,9 @@
 <template>
-  <button class="remove-button" @click.prevent="$emit('clicked')">
+  <button
+    class="remove-button"
+    @click.prevent="$emit('clicked')"
+    aria-label="Remover"
+  >
     <font-awesome-icon icon="trash" />
   </button>
 </template>

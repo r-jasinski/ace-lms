@@ -2,6 +2,7 @@
   <button
     :class="['add-button', { 'add-button--disabled': disabled }]"
     @click.prevent="$emit('clicked')"
+    aria-label="Adicionar"
   >
     <font-awesome-icon icon="plus" />
   </button>

@@ -1,5 +1,9 @@
 <template>
-  <button class="reactivate-button" @click.prevent="$emit('clicked')">
+  <button
+    class="reactivate-button"
+    @click.prevent="$emit('clicked')"
+    aria-label="Reativar"
+  >
     <font-awesome-icon icon="redo" />
   </button>
 </template>

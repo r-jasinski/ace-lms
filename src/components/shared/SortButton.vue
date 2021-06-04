@@ -2,6 +2,7 @@
   <div
     :class="['sort-button', { 'sort-button--disabled': disabled }]"
     @click.prevent="$emit('clicked')"
+    aria-label="Ordenar"
   >
     {{ label }}
     <font-awesome-icon v-if="isSortedUp" icon="sort-up" />

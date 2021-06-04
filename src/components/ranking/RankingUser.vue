@@ -74,16 +74,20 @@ export default {
   font-weight: 900;
 }
 
+.ranking-user__indicator {
+  font-size: 1em;
+  color: var(--light);
+  text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
 .ranking-user ul {
   list-style: none;
   margin-top: 0;
   text-shadow: 0 0 5px var(--light);
 }
 
-.ranking-user__indicator {
+.ranking-user small {
   font-size: 1em;
-  opacity: 0.4;
-  color: var(--light);
-  text-shadow: 0 0 0 var(--dark);
+  font-weight: 600;
 }
 </style>

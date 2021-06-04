@@ -2,6 +2,7 @@
   <button
     :class="['like-button', { 'like-button--active': active }]"
     @click.prevent="$emit('clicked')"
+    aria-label="Curtir"
   >
     <font-awesome-icon icon="thumbs-up" size="2x" />
   </button>

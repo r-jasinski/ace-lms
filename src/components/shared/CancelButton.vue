@@ -2,6 +2,7 @@
   <button
     :class="['cancel-button', { 'cancel-button--active': active }]"
     @click.prevent="$emit('clicked')"
+    aria-label="Cancelar"
   >
     <div class="cancel-button__label">
       {{ label }}
