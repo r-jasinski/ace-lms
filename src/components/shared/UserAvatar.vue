@@ -5,7 +5,8 @@
         :src="userPhotoURL"
         alt="imagem do usuário"
         class="user-avatar__image"
-        :style="`height: ${avatarSize}px; width: ${avatarSize}px`"
+        :width="avatarSize"
+        :height="avatarSize"
       />
     </div>
     <div :class="['user-avatar__badge', { 'user-avatar--inactive': inactive }]">
@@ -77,8 +78,6 @@ export default {
 
 .user-avatar__image {
   display: block;
-  /* height: 110px;
-  width: 110px; */
 }
 
 .user-avatar__mask {
