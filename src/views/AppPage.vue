@@ -1,5 +1,6 @@
 <template>
   <div class="app-page">
+    <a class="skip-link" href="#maincontent">Skip to main</a>
     <nav>
       <transition name="slide">
         <the-app-nav-bar v-if="showTopMenu" />
@@ -12,11 +13,11 @@
         <the-app-menu />
       </nav>
     </header>
-
-    <article role="main" :style="{ 'font-size': `${articleFontSize}em` }">
-      <router-view />
-    </article>
-
+    <main id="maincontent">
+      <article role="main" :style="{ 'font-size': `${articleFontSize}em` }">
+        <router-view />
+      </article>
+    </main>
     <footer v-once>
       <the-app-footer />
     </footer>
@@ -124,6 +125,20 @@ textarea {
 
 a {
   color: var(--primary);
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 .slide-enter-active,
