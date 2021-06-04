@@ -149,22 +149,4 @@ a {
 .slide-leave-to {
   transform: translateY(-10px);
 }
-
-@media only screen and (max-width: 768px) {
-  article {
-    padding: 0 10%;
-  }
-}
-
-@media only screen and (max-width: 550px) {
-  article {
-    padding: 0 1%;
-  }
-}
-
-@media only screen and (max-width: 368px) {
-  article {
-    padding: 0 3% 20% 1%;
-  }
-}
 </style>

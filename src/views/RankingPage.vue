@@ -182,4 +182,22 @@ export default {
   color: var(--dark);
   margin-right: 20px;
 }
+
+@media only screen and (max-width: 768px) {
+  .ranking-page {
+    padding: 0 10%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .ranking-page {
+    padding: 0 1%;
+  }
+}
+
+@media only screen and (max-width: 368px) {
+  .ranking-page {
+    padding: 0 3% 20% 1%;
+  }
+}
 </style>

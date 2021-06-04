@@ -69,4 +69,22 @@ export default {
   gap: 10px;
   margin-bottom: 50px;
 }
+
+@media only screen and (max-width: 768px) {
+  .about-users-page {
+    padding: 0 10%;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .about-users-page {
+    padding: 0 1%;
+  }
+}
+
+@media only screen and (max-width: 368px) {
+  .about-users-page {
+    padding: 0 3% 20% 1%;
+  }
+}
 </style>
