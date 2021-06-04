@@ -15,11 +15,13 @@
           <button
             @click="showImagePrompt(commands.image)"
             :class="['editor__button', { 'is-active': isActive.image() }]"
+            aria-label="Imagem"
           >
             <font-awesome-icon icon="image" />
           </button>
           <button
-            v-for="({ active, command, icon, level }, index) in menuBarButtons"
+            v-for="({ active, ariaLabel, command, icon, level },
+            index) in menuBarButtons"
             :key="`${index}-${icon}`"
             :class="[
               'editor__button',
@@ -28,6 +30,7 @@
               }
             ]"
             @click="commands[command]({ level })"
+            :aria-label="ariaLabel"
           >
             <font-awesome-icon :icon="icon" />
           </button>

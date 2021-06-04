@@ -1,5 +1,9 @@
 <template>
-  <button class="back-button" @click.prevent="$emit('clicked')">
+  <button
+    class="back-button"
+    @click.prevent="$emit('clicked')"
+    aria-label="Voltar"
+  >
     <font-awesome-icon icon="arrow-left" />
   </button>
 </template>

@@ -1,5 +1,9 @@
 <template>
-  <button class="edit-button" @click.prevent="$emit('clicked')">
+  <button
+    class="edit-button"
+    @click.prevent="$emit('clicked')"
+    aria-label="Editar"
+  >
     <font-awesome-icon icon="edit" />
   </button>
 </template>
