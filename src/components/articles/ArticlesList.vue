@@ -195,7 +195,8 @@ export default {
 .articles-list__filters {
   align-items: center;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 5px 20px;
   justify-content: flex-end;
 }
 
@@ -244,5 +245,12 @@ export default {
   -webkit-line-clamp: 1;
   display: -webkit-box;
   overflow: hidden;
+}
+
+@media only screen and (max-width: 423px) {
+  .articles-list__filters {
+    justify-content: center;
+    gap: 0 20px;
+  }
 }
 </style>

@@ -296,7 +296,7 @@ export default {
 .profile-view-edit__remove-button {
   left: 240px;
   position: relative;
-  top: -530px;
+  top: -480px;
 }
 
 .teste {

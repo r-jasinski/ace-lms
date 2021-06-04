@@ -106,7 +106,7 @@ header {
 article {
   display: flex;
   min-height: 55vh;
-  padding: 0 20%;
+
   z-index: 1;
 }
 
@@ -164,7 +164,7 @@ a {
 
 @media only screen and (max-width: 368px) {
   article {
-    padding: 0 1% 20% 1%;
+    padding: 0 3% 20% 1%;
   }
 }
 </style>

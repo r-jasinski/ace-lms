@@ -10,6 +10,7 @@ export default { name: 'QuestionsPage' }
 
 <style scoped>
 .questions-page {
+  padding: 0 20%;
   width: 100%;
 }
 </style>

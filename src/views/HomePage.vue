@@ -81,7 +81,6 @@ export default {
 }
 
 .home-page p {
-  margin-top: 110px;
   text-align: center;
 }
 </style>

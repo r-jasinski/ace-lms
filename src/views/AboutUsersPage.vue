@@ -58,6 +58,7 @@ export default {
 
 <style scoped>
 .about-users-page {
+  padding: 0 20%;
   width: 100%;
 }
 
