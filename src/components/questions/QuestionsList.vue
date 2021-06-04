@@ -14,7 +14,7 @@
         @clicked="handleCreationTimeSorting"
       />
       <filter-input v-model="filter" />
-      <add-button @clicked="addQuestion" />
+      <add-button @clicked="addQuestion" tooltipContent="pergunta" />
     </div>
     <router-link
       v-for="question in questions"

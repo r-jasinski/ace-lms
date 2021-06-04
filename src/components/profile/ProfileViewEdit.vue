@@ -10,12 +10,15 @@
         @input="$v.file.$touch()"
         @picked="HTMLInputElement = $event"
       />
-      <small v-if="file">{{ file.name }}</small>
+      <div class="teste">
+        <small v-if="file">{{ file.name }}</small>
+      </div>
 
       <remove-button
         v-if="userHasPhoto"
         @clicked="openPhotoDeleteConfirm()"
         class="profile-view-edit__remove-button"
+        tooltipContent="imagem"
       />
     </div>
     <form class="profile-view-edit__form" @submit.prevent>
@@ -39,14 +42,6 @@
         :name="name"
         v-model="user[meta]"
       />
-      <!-- <image-picker
-        v-model="file"
-        :v="$v.file"
-        :displayImage="displayImage"
-        name="file"
-        @input="$v.file.$touch()"
-        @picked="HTMLInputElement = $event"
-      /> -->
       <confirm-button
         class="profile-view-edit__save-button"
         label="Salvar"
@@ -301,11 +296,14 @@ export default {
 .profile-view-edit__remove-button {
   left: 240px;
   position: relative;
-  top: -240px;
+  top: -530px;
 }
 
-small {
-  margin-left: 16px;
+.teste {
   margin-bottom: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 275px !important;
 }
 </style>

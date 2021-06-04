@@ -20,6 +20,7 @@
       <add-button
         @clicked="addUserWithLinkToEmail"
         :disabled="addButtonDisabled"
+        tooltipContent="usuário"
       />
     </form>
     <div v-for="user in users" :key="user.id">
@@ -28,8 +29,13 @@
           <reactivate-button
             v-if="user.deletedAt"
             @clicked="openReactivateUserConfirm(user)"
+            tooltipContent="usuário"
           />
-          <remove-button v-else @clicked="openDeactivateUserConfirm(user)" />
+          <remove-button
+            v-else
+            @clicked="openDeactivateUserConfirm(user)"
+            tooltipContent="usuário"
+          />
         </template>
       </user-info>
     </div>

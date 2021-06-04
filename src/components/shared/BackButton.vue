@@ -3,6 +3,10 @@
     class="back-button"
     @click.prevent="$emit('clicked')"
     aria-label="Voltar"
+    v-tooltip.bottom="{
+      content: 'Voltar',
+      delay: { show: 500 }
+    }"
   >
     <font-awesome-icon icon="arrow-left" />
   </button>

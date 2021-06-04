@@ -14,7 +14,7 @@
         @clicked="handleCreationTimeSorting"
       />
       <filter-input v-model="filter" />
-      <add-button @clicked="addArticle" />
+      <add-button @clicked="addArticle" tooltipContent="artigo" />
     </div>
     <router-link
       v-for="article in articles"
