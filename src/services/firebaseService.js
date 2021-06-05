@@ -4,7 +4,7 @@ import 'firebase/auth'
 import 'firebase/storage'
 import Vue from 'vue'
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
   authDomain: process.env.VUE_APP_FIREBASE_DOMAIN,
   projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
@@ -12,8 +12,6 @@ const firebaseConfig = {
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.VUE_APP_FIREBASE_API_ID
 }
-
-firebase.initializeApp(firebaseConfig)
 
 export const getAuthenticatedUser = () => firebase.auth().currentUser
 

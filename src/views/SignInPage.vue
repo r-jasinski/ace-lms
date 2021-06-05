@@ -2,11 +2,10 @@
   <div class="sign-in-page">
     <a class="skip-link" href="#maincontent">Skip to main</a>
     <sign-in-header />
-    <main id="maincontent">
-      <keep-alive>
-        <component :is="component" @submited="component = 'sign-in-form'" />
-      </keep-alive>
-    </main>
+    <main id="maincontent"></main>
+    <keep-alive>
+      <component :is="component" @submited="component = 'sign-in-form'" />
+    </keep-alive>
   </div>
 </template>
 

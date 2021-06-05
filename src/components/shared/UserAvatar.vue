@@ -35,7 +35,7 @@ export default {
     avatarSize: { type: Number, default: 110 },
     inactive: { type: Boolean, default: false },
     userRankingPoints: { type: Number, default: 0 },
-    userPhotoURL: { type: String, required: true }
+    userPhotoURL: { type: String, default: '' }
   },
 
   computed: {

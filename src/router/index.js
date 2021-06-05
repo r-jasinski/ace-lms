@@ -1,4 +1,6 @@
 import { getAuthenticatedUser } from '@/services/firebaseService'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js'
@@ -67,6 +69,10 @@ router.afterEach(to => {
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const authenticatedUser = getAuthenticatedUser()
+  if (requiresAuth && authenticatedUser && authenticatedUser?.deletedAt) {
+    firebase.auth().signOut()
+    return
+  }
   if (requiresAuth && !authenticatedUser) {
     const loginPath = window.location.pathname
     const query = loginPath === '/' ? {} : { to: loginPath }

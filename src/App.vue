@@ -132,7 +132,7 @@ body {
 
 .tooltip {
   display: block !important;
-  z-index: 999;
+  z-index: 9999;
   font-size: 0.8em;
   opacity: 0.9 !important;
 }
