@@ -65,6 +65,10 @@
         to="exit"
         class="app-nav-bar__exit-link-wrapper"
         @click="signOut"
+        v-tooltip.right="{
+          content: `Sair`,
+          delay: { show: 800 }
+        }"
       >
         <div class="app-nav-bar__exit-link">
           <span>Sair</span>
