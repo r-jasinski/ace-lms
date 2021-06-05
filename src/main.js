@@ -4,6 +4,7 @@ import {
   defaultToastOptions,
   timeAgo
 } from '@/services/miscellaneousService'
+import { getUser } from '@/services/usersService'
 import { vuelidateErrorExtractorOptions } from '@/services/validatorsService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub'
@@ -49,6 +50,7 @@ import { faWindowMinimize } from '@fortawesome/free-solid-svg-icons/faWindowMini
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 import VTooltip from 'v-tooltip'
 import Vue from 'vue'
 import Toast from 'vue-toastification'
@@ -137,9 +139,21 @@ Vue.config.productionTip = false
 
 let app
 
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(async user => {
   if (user) {
+    const authenticatedUser = await getUser(user.uid)
+    user.deletedAt = authenticatedUser.deletedAt
     store.dispatch('authenticatedUser/commitAuthenticatedUser', user)
+  }
+  if (user?.deletedAt) {
+    await firebase.auth().signOut()
+    router.replace({ name: 'SignInPage' })
+    Vue.$toast(`Usuário ${user.displayName} desativado.`, {
+      type: 'error'
+    })
+  }
+  if (!user) {
+    store.dispatch('authenticatedUser/commitAuthenticatedUser', {})
   }
   if (!app) {
     app = new Vue({
