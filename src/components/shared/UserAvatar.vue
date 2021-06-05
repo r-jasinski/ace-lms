@@ -3,7 +3,7 @@
     <div :class="['user-avatar__mask', { 'user-avatar--inactive': inactive }]">
       <img
         :src="userPhotoURL"
-        alt="imagem do usuário"
+        alt=""
         class="user-avatar__image"
         :width="avatarSize"
         :height="avatarSize"
@@ -82,6 +82,7 @@ export default {
 
 .user-avatar__mask {
   clip-path: circle();
+  background-color: white;
 }
 
 .user-avatar__badge {
