@@ -5,12 +5,14 @@
       <span>COMPARTILHE</span>
       <span>EVOLUA</span>
     </div>
-    <p class="sign-in-form__quote">
-      {{ quote.message }}
-      <small
-        ><i>{{ quote.author }}</i></small
-      >
-    </p>
+    <transition appear name="slide">
+      <p class="sign-in-form__quote">
+        {{ quote.message }}
+        <small>
+          <i>{{ quote.author }}</i>
+        </small>
+      </p>
+    </transition>
     <div>
       <form-input
         class="sign-in-form__input"
@@ -188,6 +190,15 @@ p {
 
 .sign-in-form__input-wrapper {
   height: 50px;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-enter,
+.slide-leave-to {
+  transform: translateY(-10px);
 }
 
 .sign-in-form a {
