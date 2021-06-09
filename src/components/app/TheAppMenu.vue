@@ -1,17 +1,19 @@
 <template>
   <div class="app-menu">
-    <button
-      class="app-menu__button"
-      id="app-menu__button"
-      aria-label="Toggle Main Menu"
-      @click="menuHandler"
-    >
-      <user-avatar
-        :userPhotoURL="displayImage"
-        :userRankingPoints="userRankingPoints"
-        class="app-menu__avatar"
-      />
-    </button>
+    <transition appear name="fade">
+      <button
+        class="app-menu__button"
+        id="app-menu__button"
+        aria-label="Toggle Main Menu"
+        @click="menuHandler"
+      >
+        <user-avatar
+          :userPhotoURL="displayImage"
+          :userRankingPoints="userRankingPoints"
+          class="app-menu__avatar"
+        />
+      </button>
+    </transition>
     <div
       :class="['app-menu__wrapper', { 'app-menu__wrapper--opened': opened }]"
       id="app-menu__wrapper"
@@ -399,6 +401,15 @@ export default {
   width: 25px;
   height: 25px;
   opacity: 0.5;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter,
+.fade-leave-to {
+  transform: scale(0.1);
 }
 
 @media only screen and (max-width: 550px) {
