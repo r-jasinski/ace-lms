@@ -1,8 +1,10 @@
 <template>
   <div class="filter-input">
     <font-awesome-icon class="filter-input__icon" icon="search" />
+    <label :for="id">Pesquisar</label>
     <input
       class="filter-input__field"
+      :id="id"
       type="text"
       placeholder="Pesquisar"
       v-model.trim="inputModel"
@@ -15,6 +17,7 @@ export default {
   name: 'FilterInput',
 
   props: {
+    id: { type: String, default: '' },
     value: { type: [String, Number, Date], default: '' }
   },
 
@@ -55,5 +58,9 @@ export default {
   position: relative;
   left: 25px;
   opacity: 0.5;
+}
+
+.filter-input label {
+  display: none;
 }
 </style>

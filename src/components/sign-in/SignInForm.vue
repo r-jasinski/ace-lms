@@ -16,6 +16,7 @@
     <div>
       <form-input
         class="sign-in-form__input"
+        id="user-email"
         type="text"
         placeholder="Informe seu email"
         autocomplete="email"
@@ -36,6 +37,7 @@
         <form-input
           v-show="!forgotPasswordMode"
           class="sign-in-form__input"
+          id="user-password"
           type="password"
           placeholder="Informe sua senha"
           autocomplete="current-password"

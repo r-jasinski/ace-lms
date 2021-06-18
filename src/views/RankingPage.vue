@@ -7,7 +7,7 @@
         :disabled="disabled"
         @clicked="handleSorting"
       />
-      <filter-input v-model="filter" />
+      <filter-input v-model="filter" id="ranking-filter" />
     </div>
     <div v-for="user in users" :key="user.id">
       <ranking-user :user="user" :currentUser="isCurrentUser(user.id)">

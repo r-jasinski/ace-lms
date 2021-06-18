@@ -13,7 +13,7 @@
         :disabled="disabled"
         @clicked="handleCreationTimeSorting"
       />
-      <filter-input v-model="filter" />
+      <filter-input v-model="filter" id="questions-filter" />
       <add-button @clicked="addQuestion" tooltipContent="pergunta" />
     </div>
     <router-link
