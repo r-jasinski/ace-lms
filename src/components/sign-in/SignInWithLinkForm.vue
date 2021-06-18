@@ -8,14 +8,15 @@
       <form-input
         class="sign-in-with-link-form__input"
         v-for="({
-          type,
-          placeholder,
           autocomplete,
+          autofocus,
           icon,
+          id,
           meta,
-          validator,
           name,
-          autofocus
+          placeholder,
+          type,
+          validator
         },
         index) in inputs"
         :key="index"
@@ -23,6 +24,7 @@
         :placeholder="placeholder"
         :autocomplete="autocomplete"
         :icon="icon"
+        :id="id"
         :v="$v.user[validator]"
         :name="name"
         :autofocus="autofocus"
@@ -127,11 +129,10 @@ export default {
       )
       if (!confirmAccountError) {
         const user = getAuthenticatedUser()
-        const { metadata, uid } = user
+        const { uid } = user
         const photoURL = user.photoURL || `https://robohash.org/${uid}.png`
         const updateUserError = await updateUser(user, { photoURL: photoURL })
         const createUserError = await createUser(uid, {
-          creationTime: metadata.creationTime,
           deletedAt: null,
           displayName,
           email,

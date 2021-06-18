@@ -11,7 +11,8 @@ export const usersCollection = db.collection('users')
 
 export const createUser = async (userId, user) => {
   try {
-    await usersCollection.doc(userId).set(user)
+    const creationTime = firebase.firestore.FieldValue.serverTimestamp()
+    await usersCollection.doc(userId).set({ ...user, creationTime })
   } catch (error) {
     handleFirebaseErrors(error.code)
     return error
