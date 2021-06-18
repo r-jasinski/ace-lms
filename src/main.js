@@ -40,6 +40,7 @@ import { faStrikethrough } from '@fortawesome/free-solid-svg-icons/faStrikethrou
 import { faTerminal } from '@fortawesome/free-solid-svg-icons/faTerminal'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons/faThumbsUp'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+import { faTools } from '@fortawesome/free-solid-svg-icons/faTools'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
 import { faTrophy } from '@fortawesome/free-solid-svg-icons/faTrophy'
 import { faUnderline } from '@fortawesome/free-solid-svg-icons/faUnderline'
@@ -97,6 +98,7 @@ library.add(
   faTerminal,
   faThumbsUp,
   faTimes,
+  faTools,
   faTrash,
   faTrophy,
   faQuestion,
@@ -110,12 +112,13 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('form-group', templates.singleErrorExtractor.foundation6)
 Vue.component('dot-spinner', DotSpinner)
+
 Vue.use(Toast, defaultToastOptions)
-Vue.use(Vuelidate)
-Vue.use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
-Vue.use(VTooltip)
+  .use(Vuelidate)
+  .use(VuelidateErrorExtractor, vuelidateErrorExtractorOptions)
+  .use(VTooltip)
+  .use(VuejsDialog, defaultDialogOptions)
 VTooltip.enabled = window.innerWidth > 768
-Vue.use(VuejsDialog, defaultDialogOptions)
 
 Vue.filter('toBRDate', function(timestamp) {
   if (timestamp) {

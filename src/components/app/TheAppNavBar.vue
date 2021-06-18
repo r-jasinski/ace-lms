@@ -47,13 +47,16 @@
       <font-awesome-icon icon="user-edit" />
     </router-link>
     <router-link
-      v-once
       tag="div"
       class="app-nav-bar__link"
       active-class="app-nav-bar__link--active"
       :to="{ name: 'AboutUsersPage', params: { fromNav: true } }"
-      ><span>Sobre</span>
-      <font-awesome-icon icon="info" />
+    >
+      <span>{{ isAdmin ? 'Painel' : 'Sobre' }}</span>
+      <font-awesome-icon
+        :icon="isAdmin ? 'tools' : 'info'"
+        class="app-menu__button-icon"
+      />
     </router-link>
     <div
       class="app-nav-bar__link app-nav-bar__exit-link-wrapper"
@@ -102,6 +105,10 @@ export default {
       displayImage: 'authenticatedUser/displayImage',
       user: 'users/user'
     }),
+
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid)?.isAdmin
+    },
 
     userRankingPoints() {
       return this.user(this.authenticatedUser.uid)?.rankingPoints
@@ -165,12 +172,12 @@ export default {
 }
 
 .app-nav-bar__avatar {
-  margin-top: 30px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-nav-bar__exit-link-wrapper {
-  align-content: center;
-  align-items: center;
   display: flex;
   text-decoration: none;
   height: 100%;

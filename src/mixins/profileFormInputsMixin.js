@@ -3,41 +3,45 @@ export default {
     return {
       inputs: [
         {
-          type: 'text',
-          placeholder: 'Usuário',
           autocomplete: 'given-name',
+          autofocus: true,
           icon: 'user',
+          id: 'user-name',
           meta: 'displayName',
-          validator: 'displayName',
           name: 'user',
-          autofocus: true
+          placeholder: 'Usuário',
+          type: 'text',
+          validator: 'displayName'
         },
         {
-          type: 'email',
-          placeholder: 'E-mail',
           autocomplete: 'email',
           icon: 'at',
+          id: 'user-email',
           meta: 'email',
-          validator: 'email',
-          name: 'email'
+          name: 'email',
+          placeholder: 'E-mail',
+          type: 'email',
+          validator: 'email'
         },
         {
-          type: 'password',
-          placeholder: 'Senha',
           autocomplete: 'new-password',
           icon: 'key',
+          id: 'user-new-password',
           meta: 'password',
-          validator: 'password',
-          name: 'password'
+          name: 'password',
+          placeholder: 'Senha',
+          type: 'password',
+          validator: 'password'
         },
         {
-          type: 'password',
-          placeholder: 'Confirmar Senha',
           autocomplete: 'new-password',
           icon: 'key',
+          id: 'user-new-password-confirm',
           meta: 'passwordConfirm',
-          validator: 'passwordConfirm',
-          name: 'password'
+          name: 'password',
+          placeholder: 'Confirmar Senha',
+          type: 'password',
+          validator: 'passwordConfirm'
         }
       ]
     }

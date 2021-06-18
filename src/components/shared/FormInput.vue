@@ -2,7 +2,9 @@
   <form-group :validator="v" :name="name">
     <div class="form-input">
       <font-awesome-icon class="form-input__icon" :icon="icon" />
+      <label :for="id">{{ placeholder }}</label>
       <input
+        :id="id"
         :class="{ 'form-input__error': v.$error }"
         :type="type"
         :placeholder="placeholder"
@@ -23,6 +25,7 @@ export default {
     autocomplete: { type: String, default: 'off' },
     autofocus: { type: Boolean, default: false },
     icon: { type: String, default: 'meh-blank' },
+    id: { type: String, default: '' },
     name: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     type: { type: String, default: 'text' },
@@ -81,6 +84,10 @@ export default {
   position: relative;
   left: 18px;
   opacity: 0.5;
+}
+
+.form-input label {
+  display: none;
 }
 
 input:-webkit-autofill,

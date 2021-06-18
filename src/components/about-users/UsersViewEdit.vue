@@ -7,13 +7,14 @@
         :disabled="sortDisabled"
         @clicked="handleSorting"
       />
-      <filter-input v-model="filter" />
+      <filter-input v-model="filter" id="users-filter" />
       <div class="admin-user__filters-wrap">
         <form-input
           type="email"
           placeholder="E-mail do usuário"
           autocomplete="email"
           icon="at"
+          id="new-user-email"
           v-model="newUser.email"
           :v="$v.newUser.email"
           name="email"

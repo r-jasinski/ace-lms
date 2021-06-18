@@ -10,10 +10,6 @@
         @input="$v.file.$touch()"
         @picked="HTMLInputElement = $event"
       />
-      <div class="teste">
-        <small v-if="file">{{ file.name }}</small>
-      </div>
-
       <remove-button
         v-if="userHasPhoto"
         @clicked="openPhotoDeleteConfirm()"
@@ -21,16 +17,20 @@
         tooltipContent="imagem"
       />
     </div>
+    <div class="profile-view-edit__file-label">
+      <small v-if="file">{{ file.name }}</small>
+    </div>
     <form class="profile-view-edit__form" @submit.prevent>
       <form-input
         v-for="({
-          type,
-          placeholder,
           autocomplete,
           icon,
+          id,
           meta,
-          validator,
-          name
+          name,
+          placeholder,
+          type,
+          validator
         },
         index) in inputs"
         :key="index"
@@ -38,6 +38,7 @@
         :placeholder="placeholder"
         :autocomplete="autocomplete"
         :icon="icon"
+        :id="id"
         :v="$v.user[validator]"
         :name="name"
         v-model="user[meta]"
@@ -270,6 +271,7 @@ export default {
 }
 
 .profile-view-edit__avatar {
+  display: block;
   background-position: center;
   background-size: cover;
   border-radius: 100vh;
@@ -284,7 +286,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-top: 25px;
+  /* margin-top: 25px; */
   max-width: 300px;
 }
 
@@ -294,13 +296,13 @@ export default {
 }
 
 .profile-view-edit__remove-button {
-  left: 240px;
+  left: 230px;
   position: relative;
-  top: -480px;
+  bottom: 230px;
 }
 
-.teste {
-  margin-bottom: 250px;
+.profile-view-edit__file-label {
+  height: 25px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -82,7 +82,7 @@ export default {
 
 .user-avatar__mask {
   clip-path: circle();
-  background-color: white;
+  background-color: transparent;
 }
 
 .user-avatar__badge {
