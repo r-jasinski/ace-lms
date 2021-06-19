@@ -70,11 +70,14 @@
         </li>
         <li>
           <router-link
-            v-once
             active-class="app-menu__link--active"
             :to="{ name: 'AboutUsersPage', params: { savedPosition: true } }"
-            ><span>Sobre</span>
-            <font-awesome-icon icon="info" class="app-menu__button-icon" />
+          >
+            <span>{{ isAdmin ? 'Painel' : 'Sobre' }}</span>
+            <font-awesome-icon
+              :icon="isAdmin ? 'tools' : 'info'"
+              class="app-menu__button-icon"
+            />
           </router-link>
         </li>
         <li @click="signOut">
@@ -110,6 +113,10 @@ export default {
       displayImage: 'authenticatedUser/displayImage',
       user: 'users/user'
     }),
+
+    isAdmin() {
+      return this.user(this.authenticatedUser.uid)?.isAdmin
+    },
 
     userRankingPoints() {
       return this.user(this.authenticatedUser.uid)?.rankingPoints
