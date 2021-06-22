@@ -94,16 +94,18 @@ export default {
     }),
 
     async submitUserPassword() {
-      const { password, passwordConfirm } = this.user
-      if (password !== passwordConfirm) {
-        //TODO: Remove alert and set info system
-        alert('Senhas não conferem!')
+      const { password } = this.user
+      if (this.disabled) {
         return
       }
       const oobCode = this.$route.query.oobCode
-      await resetPassword(oobCode, password)
-      this.$router.replace({ name: 'SignInPage' })
-      this.$emit('submited')
+      const submitUserPasswordError = await resetPassword(oobCode, password)
+      if (!submitUserPasswordError) {
+        this.$router.replace({ name: 'SignInPage' })
+        this.$emit('submited')
+        const message = `Senha atualizada com sucesso!`
+        this.$toast(message, { type: 'info' })
+      }
     }
   }
 }
@@ -111,23 +113,22 @@ export default {
 
 <style scoped>
 .sign-in-with-link-form {
+  align-items: center;
+  background: url('../../assets/clouds.svg') no-repeat;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  /* padding: 0 500px; */
-  margin-top: 25px;
   grid-area: form;
-  background: url('../../assets/clouds.svg') no-repeat;
+  justify-content: center;
+  margin-top: 25px;
 }
 
 .sign-in-with-link-form__title {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  font-weight: 900;
   font-size: 3.5em;
+  font-weight: 900;
+  text-align: center;
 }
 
 .sign-in-with-link-form span,
@@ -136,14 +137,14 @@ p {
 }
 
 .sign-in-with-link-form__quote {
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 
 .sign-in-with-link-form__submit-button {
-  width: 300px;
   margin: 25px 0;
+  width: 300px;
 }
 
 .sign-in-with-link-form__input {
