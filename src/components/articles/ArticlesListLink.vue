@@ -56,6 +56,7 @@ export default {
 }
 
 .article-list-link:hover {
+  background-color: #81bee22a;
   border-radius: 9px;
   box-shadow: -8px 0 0 -2px var(--primary);
   transition: all 0.03s;

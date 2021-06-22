@@ -191,7 +191,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  box-shadow: var(--primary) 0px 0px 0px 10px;
+  box-shadow: #81bee28a 0px 0px 0px 10px;
   opacity: 0;
   transition: opacity 200ms;
 }
@@ -204,8 +204,6 @@ export default {
   position: relative;
   top: -5px;
   left: -16.5px;
-  /* top: 100%;
-  left: 50%; */
 }
 
 .app-menu__wrapper {
