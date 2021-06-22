@@ -4,7 +4,10 @@ In this project, were used differents techniques contained multidisciplinary are
 The technologies used were HTML, CSS and Javascript(Vue.js). As back-end was used a BaaS (Firebase).
 
 ## Project setup
+Rename the .env.local.example to .env.local
+Set your Firebase credentials
 ```
+cp .env.local.example .env.local
 npm install
 ```
 
