@@ -45,8 +45,13 @@ export const sendPasswordResetEmail = async email => {
 }
 
 export const resetPassword = async (oobCode, password) => {
-  if (await firebase.auth().verifyPasswordResetCode(oobCode)) {
-    await firebase.auth().confirmPasswordReset(oobCode, password)
+  try {
+    if (await firebase.auth().verifyPasswordResetCode(oobCode)) {
+      await firebase.auth().confirmPasswordReset(oobCode, password)
+    }
+  } catch (error) {
+    handleFirebaseErrors(error.code)
+    return error
   }
 }
 
