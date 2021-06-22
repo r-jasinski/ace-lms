@@ -53,7 +53,7 @@ export default {
 }
 
 .user-info:hover {
-  background-color: var(--primary);
+  background-color: #81bee22a;
   transition: all 0.02s;
 }
 

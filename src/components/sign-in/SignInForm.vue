@@ -149,23 +149,22 @@ export default {
 
 <style scoped>
 .sign-in-form {
-  width: 95%;
+  align-items: center;
+  background: url('../../assets/clouds.svg') no-repeat right top;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  margin-top: 25px;
   grid-area: form;
-  background: url('../../assets/clouds.svg') no-repeat;
+  justify-content: center;
+  width: 95%;
 }
 
 .sign-in-form__title {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  font-weight: 900;
   font-size: 3em;
+  font-weight: 900;
+  text-align: center;
 }
 
 .sign-in-form span,
@@ -174,20 +173,20 @@ p {
 }
 
 .sign-in-form__quote {
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 
 .sign-in-form__submit-button {
-  width: 100%;
-  min-width: 300px;
   margin: 25px 0;
+  min-width: 300px;
+  width: 100%;
 }
 
 .sign-in-form__input {
-  min-width: 300px;
   margin-bottom: 5px;
+  min-width: 300px;
 }
 
 .sign-in-form__input-wrapper {
