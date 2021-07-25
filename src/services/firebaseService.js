@@ -96,6 +96,9 @@ export const signIn = async (email, password) => {
 export const signOut = async () => {
   try {
     const authenticatedUser = firebase.auth().currentUser
+    if (!authenticatedUser) {
+      return
+    }
     await firebase.auth().signOut()
     Vue.$toast(`Até mais, ${authenticatedUser.displayName}`, {
       type: 'info'

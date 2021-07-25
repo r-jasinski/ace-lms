@@ -76,7 +76,10 @@ export default {
   data() {
     return {
       forgotPasswordMode: false,
-      user: {}
+      user: {
+        email: 'acelms.user@gmail.com',
+        password: 'aceuser2021'
+      }
     }
   },
 

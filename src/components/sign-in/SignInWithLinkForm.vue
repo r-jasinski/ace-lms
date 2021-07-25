@@ -59,6 +59,7 @@ import {
   required,
   sameAs
 } from 'vuelidate/lib/validators'
+import { signOut } from '@/services/firebaseService'
 
 export default {
   name: 'SignInWithLinkForm',
@@ -106,6 +107,7 @@ export default {
 
   activated() {
     this.commitDocumentTitle('Finalizar Cadastro')
+    signOut()
   },
 
   methods: {
