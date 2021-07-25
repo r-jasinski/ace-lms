@@ -77,8 +77,8 @@ export default {
     return {
       forgotPasswordMode: false,
       user: {
-        email: 'acelms.user@gmail.com',
-        password: 'aceuser2021'
+        email: process.env.VUE_APP_DEFAULT_USER_LOGIN,
+        password: process.env.VUE_APP_DEFAULT_USER_PASSWORD
       }
     }
   },
