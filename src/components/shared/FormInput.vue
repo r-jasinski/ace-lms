@@ -12,6 +12,7 @@
         @input="v.$touch()"
         :autocomplete="autocomplete"
         :autofocus="autofocus"
+        :disabled="disabled"
       />
     </div>
   </form-group>
@@ -25,6 +26,7 @@ export default {
     autocomplete: { type: String, default: 'off' },
     autofocus: { type: Boolean, default: false },
     icon: { type: String, default: 'meh-blank' },
+    disabled: { type: Boolean, default: false },
     id: { type: String, default: '' },
     name: { type: String, default: '' },
     placeholder: { type: String, default: '' },
@@ -51,6 +53,10 @@ export default {
   display: flex;
   align-items: center;
   max-width: 300px;
+}
+
+.form-input :disabled {
+  cursor: not-allowed;
 }
 
 .form-input__error {

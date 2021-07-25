@@ -24,6 +24,7 @@
       <form-input
         v-for="({
           autocomplete,
+          disabled,
           icon,
           id,
           meta,
@@ -41,6 +42,7 @@
         :id="id"
         :v="$v.user[validator]"
         :name="name"
+        :disabled="disabled"
         v-model="user[meta]"
       />
       <confirm-button
@@ -224,14 +226,14 @@ export default {
           updatesArray.push('Avatar')
         }
       }
-      if (emailIsReady) {
+      if (emailIsReady && !emailIsReady) {
         const responseError = await updateUserEmail(user, this.user.email)
         this.$v.$reset()
         if (!responseError) {
           updatesArray.push('Email')
         }
       }
-      if (passwordIsReady) {
+      if (passwordIsReady && !passwordIsReady) {
         const responseError = await updateUserPassword(user, this.user.password)
         this.$v.$reset()
         if (!responseError) {

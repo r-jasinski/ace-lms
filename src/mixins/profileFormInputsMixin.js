@@ -15,6 +15,7 @@ export default {
         },
         {
           autocomplete: 'email',
+          disabled: true,
           icon: 'at',
           id: 'user-email',
           meta: 'email',
@@ -25,6 +26,7 @@ export default {
         },
         {
           autocomplete: 'new-password',
+          disabled: true,
           icon: 'key',
           id: 'user-new-password',
           meta: 'password',
@@ -35,6 +37,7 @@ export default {
         },
         {
           autocomplete: 'new-password',
+          disabled: true,
           icon: 'key',
           id: 'user-new-password-confirm',
           meta: 'passwordConfirm',
